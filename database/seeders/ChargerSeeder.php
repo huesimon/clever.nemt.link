@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Company;
+use App\Models\Charger;
 use App\Models\Location;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class LocationSeeder extends Seeder
+class ChargerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,9 +16,11 @@ class LocationSeeder extends Seeder
      */
     public function run()
     {
-        // Create 10 locations for each companies
-        Company::all()->each(function ($company) {
-            Location::factory()->count(100)->create(['company_id' => $company->id]);
+        //create chargers for locations
+        Location::all()->each(function ($location) {
+            Charger::factory()->count(2)->create([
+                'location_id' => $location->id,
+            ]);
         });
     }
 }
