@@ -37,9 +37,21 @@ Company:
 Location:
     attributes:
         id: int
-        provider: [clever, eon]
+        address_id: int [address, city, countryCode, postalCode]
+        coordinates: point
+        uuid: string
+        name: string
+        origin: string
+        #directions: [da, en]
+        operator: [clever, eon]
+        is_roaming_allowed: bool
+        is_public_visiable: bool
     relationships:
         chargers: hasMany
+        address: hasOne
+        images: hasMany
+        operator: belongsTo
+        openingTimes: hasMany
 
 Charger:
     attributes:

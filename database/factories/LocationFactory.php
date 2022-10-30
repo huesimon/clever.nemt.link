@@ -18,7 +18,11 @@ class LocationFactory extends Factory
     {
         return [
             'external_id' => $this->faker->uuid,
-            'position' => $this->faker->latitude . ', ' . $this->faker->longitude,
+            'name' => $this->faker->name,
+            'origin' => $this->faker->name,
+            'is_roaming_allowed' => $this->faker->boolean,
+            'is_public_visable' => $this->faker->boolean,
+            'coordinates' => $this->faker->latitude . ', ' . $this->faker->longitude,
         ];
     }
 }

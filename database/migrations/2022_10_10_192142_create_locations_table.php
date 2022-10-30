@@ -16,8 +16,12 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->string('external_id');
-            $table->foreignId('company_id')->constrained();
-            $table->point('position');// name feels wrong :D
+            $table->foreignId('company_id')->constrained(); //operator
+            $table->string('name');
+            $table->string('origin');
+            $table->boolean('is_roaming_allowed');
+            $table->boolean('is_public_visable');
+            $table->point('coordinates');
             $table->timestamps();
         });
     }
