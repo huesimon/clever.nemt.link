@@ -18,15 +18,12 @@ class ChargerFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->name,
-            'type' => fake()->randomElement(
-                            [ChargerTypes::SHUKO,
-                            ChargerTypes::TYPE2,
-                            ChargerTypes::CCS,
-                            ChargerTypes::CHADEMO]),
-            'available' => fake()->numberBetween(0, 2),
-            'faulty' => fake()->numberBetween(0, 2),
-            'total' => fake()->numberBetween(4, 6),
+            'evse_id' => $this->faker->uuid,
+            'status' => $this->faker->randomElement([
+                'Available',
+                'Occupied',
+                'Unknown',
+            ]),
         ];
     }
 }

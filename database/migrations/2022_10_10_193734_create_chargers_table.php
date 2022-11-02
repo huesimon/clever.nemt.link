@@ -16,11 +16,15 @@ return new class extends Migration
         Schema::create('chargers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('location_id')->constrained();
-            $table->string('name');
-            $table->string('type');
-            $table->integer('available');
-            $table->integer('faulty');
-            $table->integer('total');
+            $table->string('evse_id')->nullable();
+            $table->string('status')->nullable();
+            $table->string('balance')->nullable();
+            $table->string('connector_id')->nullable();
+            $table->integer('max_current_amp')->nullable();
+            $table->double('max_power_kw')->nullable();
+            $table->string('plug_type')->nullable();
+            $table->string('power_type')->nullable();
+            $table->string('speed')->nullable();
             $table->timestamps();
         });
     }

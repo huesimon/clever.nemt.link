@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Charger;
 use App\Models\Company;
 use App\Models\Location;
 use Illuminate\Console\Command;
@@ -56,19 +57,54 @@ class LoadCleverLocationsCommand extends Command
 
     }
 
-    private function handleLocation(string $uuid, Object $location, Company $company): void
+    private function handleLocation(string $uuid, Object $data, Company $company): void
     {
-        // find or create location based on external_id
         $location = $company->locations()->firstOrCreate([
             'external_id' => $uuid,
         ], [
-            'name' => $location->name,
-            'origin' => $location->origin,
-            'is_roaming_allowed' => $location->publicAccess->isRoamingAllowed,
-            'is_public_visable' => $location->publicAccess->visibility,
-            'coordinates' => $location->coordinates->lat . ', ' . $location->coordinates->lng,
+            'name' => $data->name,
+            'origin' => $data->origin,
+            'is_roaming_allowed' => $data->publicAccess->isRoamingAllowed,
+            'is_public_visable' => $data->publicAccess->visibility,
+            'coordinates' => $data->coordinates->lat . ', ' . $data->coordinates->lng,
         ]);
 
-        $this->info('Loaded location: ' . $location->name);
+        if (! $location->wasRecentlyCreated) {
+            $this->handleEvses($data->evses);
+        }
+    }
+
+    private function handleEvses($evses): void
+    {
+        foreach ($evses as $evse) {
+            $connectors = collect($evse->connectors);
+            $isComboCharger = $connectors->count() > 1;
+            if($isComboCharger){
+                foreach($connectors as $connector){
+                    $this->updateCharger($evse, $connector);
+                }
+            } else {
+                // We can only get the charger status of a public charger, all private / InProximity will not be found
+                $this->updateCharger($evse, $connectors->first());
+            }
+        }
+    }
+
+    private function updateCharger($evse, $connector)
+    {
+        try {
+            Charger::where('evse_id', $evse->evseId)->firstOrFail()->update([
+                'balance' => $connector->balance,
+                'connector_id' => $connector->connectorId,
+                'max_current_amp' => $connector->maxCurrentAmp,
+                'max_power_kw' => $connector->maxPowerKw,
+                'plug_type' => $connector->plugType,
+                'power_type' => $connector->powerType,
+                'speed' => $connector->speed,
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Charger;
+use App\Models\Location;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+
+    $location = Location::find(51);
+
+    dd($location->chargers()->available()->get());
+
     return view('welcome');
 });
