@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\LocationUser;
+use App\Notifications\ChargingSpotsChangedNotification;
 
 class LocationUserObserver
 {
@@ -25,7 +26,9 @@ class LocationUserObserver
      */
     public function updated(LocationUser $locationUser)
     {
-        //
+        $availablesSpotsBefore = $locationUser->getOriginal('last_available');
+        $availablesSpotsNow = $locationUser->last_available;
+        $locationUser->user->notify(new ChargingSpotsChangedNotification($locationUser->location, $availablesSpotsNow < $availablesSpotsBefore));
     }
 
     /**
