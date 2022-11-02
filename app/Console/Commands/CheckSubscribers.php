@@ -54,8 +54,7 @@ class CheckSubscribers extends Command
 
         if ($subscriber->last_available != $subscriber->location->chargers->count()) {
             $this->info('Last available has changed!');
-            $subscriber->last_available = $subscriber->location->chargers->count();
-            $subscriber->save();
+            $subscriber->update(['last_available' => $subscriber->location->chargers->count()]);
         } else {
             $this->info('Last available has not changed!');
         }
