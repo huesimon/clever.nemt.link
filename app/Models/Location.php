@@ -13,4 +13,9 @@ class Location extends Model
     {
         return $this->hasMany(Charger::class);
     }
+
+    public function subscribers()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
