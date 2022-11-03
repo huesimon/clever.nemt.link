@@ -51,10 +51,14 @@ class LoadCleverLocationsCommand extends Command
 
         $this->info('Loaded locations from Clever endpoint');
         $cleverOperator = Company::firstOrCreate(['name' => 'Clever']);
+
+
+        $bar = $this->output->createProgressBar(sizeof($response->json()['clever']));
         foreach ($response->object()->clever as $uuid => $location) {
             $this->handleLocation($uuid, $location, $cleverOperator);
+            $bar->advance();
         }
-
+        $bar->finish();
     }
 
     private function handleLocation(string $uuid, Object $data, Company $company): void

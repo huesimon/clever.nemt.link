@@ -49,12 +49,12 @@ class CheckSubscribers extends Command
         $this->info('Subscriber: ' . $subscriber->user->name);
         $this->info('Location: ' . $subscriber->location->name);
         $this->info('Last available: ' . $subscriber->last_available);
-        $this->info('Chargers count: ' . $subscriber->location->chargers->count());
+        $this->info('Chargers count: ' . $subscriber->location->chargers()->available()->count());
 
 
-        if ($subscriber->last_available != $subscriber->location->chargers->count()) {
+        if ($subscriber->last_available != $subscriber->location->chargers()->available()->count()) {
             $this->info('Last available has changed!');
-            $subscriber->update(['last_available' => $subscriber->location->chargers->count()]);
+            $subscriber->update(['last_available' => $subscriber->location->chargers()->available()->count()]);
         } else {
             $this->info('Last available has not changed!');
         }

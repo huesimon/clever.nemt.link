@@ -59,9 +59,12 @@ class LoadCleverChargersCommand extends Command
         }
 
         $this->info('Loaded chargers from Clever endpoint');
+        $bar = $this->output->createProgressBar(sizeof($response->json()['clever']));
         foreach ($response->object()->clever as $evseId => $charger) {
             $this->handleCharger($evseId, $charger);
+            $bar->advance();
         }
+        $bar->finish();
     }
 
     private function handleCharger(string $evseId, Object $charger): void
