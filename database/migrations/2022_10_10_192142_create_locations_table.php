@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('origin');
             $table->boolean('is_roaming_allowed');
-            $table->boolean('is_public_visable');
+            $table->string('is_public_visable');
             $table->point('coordinates');
             $table->timestamps();
         });
