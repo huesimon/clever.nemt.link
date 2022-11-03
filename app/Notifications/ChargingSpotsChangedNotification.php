@@ -36,7 +36,8 @@ class ChargingSpotsChangedNotification extends Notification
 
     public function toTelegram($notifiable)
     {
-        $message = $this->spotTaken ? 'Spot taken at ' : 'A spot has been freed at ';
+        $spotsAvailableCount = $this->location->chargers()->available()->count();
+        $message = $this->spotTaken ? "Spot taken ($spotsAvailableCount) at " : "New spot ($spotsAvailableCount) at";
         return TelegramMessage::create()
             ->to($notifiable->telegram_id)
             ->content($message . $this->location->name);
