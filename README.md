@@ -32,34 +32,50 @@ Company:
         name: varchar
     relationships:
         locations: hasMany
-        chargers: hasManyThroguh Location
+        #chargers: hasManyThroguh Location
 
 Location:
     attributes:
         id: int
-        address_id: int [address, city, countryCode, postalCode]
-        coordinates: point
-        uuid: string
+        external_id: string
+        # TODO: address_id: int [address, city, countryCode, postalCode]
         name: string
         origin: string
-        #directions: [da, en]
-        operator: [clever, eon]
+        coordinates: 
+        company_id: [clever, eon]
         is_roaming_allowed: bool
         is_public_visiable: bool
     relationships:
         chargers: hasMany
-        address: hasOne
-        images: hasMany
-        operator: belongsTo
-        openingTimes: hasMany
+        subscribers: belongsToMany(User)
+        #address: hasOne
+        #images: hasMany
+        #operator: belongsTo
+        #openingTimes: hasMany
 
 Charger:
     attributes:
         id: int
-        type: [type_2, CHAdeMO, CCS]
-        available: int
-        faulty: int
-        total: int
+        location_id: fk
+        evse_id: string
+        status: string
+        balance: string
+        connector_id: string
+        max_current_amp: int
+        plug_type: string
+        power_type: string
+        speed: string
     relationships:
+        location: belongsTo
+    scopes:
+        available: status=Available && connector_id != null
+        plugType($type): plug_type=$type
+        
+LocationUser (subscribtions to a location)
+    attributes: 
+        location_id: fk
+        user_id: fk
+    relationships
+        user: belongsTo
         location: belongsTo
 ```
