@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('origin');
             $table->boolean('is_roaming_allowed');
             $table->string('is_public_visable');
-            $table->point('coordinates');
+            // $table->point('coordinates');
+            $table->string('coordinates');
             $table->timestamps();
         });
     }
