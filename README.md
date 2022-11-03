@@ -14,18 +14,7 @@ User:
         telegram_chat_id: string
     relationships:
         subscriptions: hasMany
-
-Subscription:
-    attributes:
-        id: int
-        # location_id: int FK
-        charger_id: int FK
-        user_id: int FK
-    relationships:
-        # location: belongsTo
-        charger: belongsTo
-        user:  belongsTo
-
+        
 Company:
     attributes:
         id: int
@@ -71,11 +60,11 @@ Charger:
         available: status=Available && connector_id != null
         plugType($type): plug_type=$type
         
-LocationUser (subscribtions to a location)
+LocationUser (subscribtions to a location):
     attributes: 
         location_id: fk
         user_id: fk
-    relationships
+    relationships:
         user: belongsTo
         location: belongsTo
 ```
