@@ -15,7 +15,7 @@
                 @endif
 
             </div>
-            <p class="mt-1 truncate text-sm text-gray-500"> {{$location->total_chargers_count}} / {{$location->available_chargers_count}} </p>
+            <p class="mt-1 truncate text-sm text-gray-500"> {{$location->available_chargers_count}} / {{$location->total_chargers_count}} </p>
         </div>
         <img class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
             src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
