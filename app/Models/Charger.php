@@ -27,6 +27,10 @@ class Charger extends Model
         self::CHADEMO,
     ];
 
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
 
     public function scopeAvailable($query)
     {
