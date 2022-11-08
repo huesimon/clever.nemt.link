@@ -27,7 +27,7 @@ class Index extends Component
 
         // limit locations to 10
         return view('components.location.index', [
-            'locations' => Location::paginate(100)->sortBy('updated_at'),
+            'locations' => Location::recent()->limit(10)->paginate(),
         ]);
     }
 }

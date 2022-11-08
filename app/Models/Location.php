@@ -36,4 +36,9 @@ class Location extends Model
     {
         return $this->chargers()->where('status', '!=', Charger::AVAILABLE)->count() >= $this->chargers()->count();
     }
+
+    public function scopeRecent($query)
+    {
+        return $query->orderBy('updated_at', 'desc');
+    }
 }
