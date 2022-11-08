@@ -29,7 +29,7 @@ class Location extends Model
 
     public function getTotalChargersCountAttribute()
     {
-        return $this->chargers()->count();
+        return $this->chargers()->available()->count();
     }
 
     public function getIsOccupiedAttribute()
