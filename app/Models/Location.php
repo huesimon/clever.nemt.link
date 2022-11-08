@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
+
+    protected $with = ['chargers'];
+
     use HasFactory;
 
     public function chargers()
@@ -17,5 +20,20 @@ class Location extends Model
     public function subscribers()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function getAvailableChargersCountAttribute()
+    {
+        return $this->chargers()->available()->count();
+    }
+
+    public function getTotalChargersCountAttribute()
+    {
+        return $this->chargers()->count();
+    }
+
+    public function getIsOccupiedAttribute()
+    {
+        return $this->chargers()->where('status', '!=', Charger::AVAILABLE)->count() >= $this->chargers()->count();
     }
 }

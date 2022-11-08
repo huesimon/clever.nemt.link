@@ -18,9 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
 
 
-    $location = Location::find(51);
+    $location = Location::find(3);
 
-    dd($location->chargers()->available()->get());
+
+    // dd($location->chargers()->available()->get());
 
     return view('welcome');
 });

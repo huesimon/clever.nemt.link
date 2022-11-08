@@ -9,6 +9,8 @@ class Charger extends Model
 {
     use HasFactory;
 
+    protected $touches = ['location'];
+
     const AVAILABLE = 'Available';
     const OCCUPIED = 'Occupied';
     const OUT_OF_ORDER = 'OutOfOrder';
