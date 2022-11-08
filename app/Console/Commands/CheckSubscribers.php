@@ -36,7 +36,7 @@ class CheckSubscribers extends Command
 
     private function handleSubscribers(): void
     {
-        $subscribers = LocationUser::all();
+        $subscribers = LocationUser::with(['user, location'])->all();
 
         foreach ($subscribers as $subscriber) {
             $this->handleSubscriber($subscriber);
