@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('telegram_id')->nullable();
             $table->string('telegram_validation_code')->nullable();
             $table->string('telegram_verified_at')->nullable();
+            $table->bool('subscribes_to_new_chargers')->default(false);
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();

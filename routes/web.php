@@ -1,6 +1,7 @@
 <?php
 
 use App\Jobs\SleepJob;
+use App\Notifications\NewestLocationsNotification;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    SleepJob::dispatch();
+    //notify NewestLocationsNotification
 
     return view('welcome');
 });
