@@ -24,6 +24,8 @@ return new class extends Migration
             // $table->point('coordinates');
             $table->string('coordinates');
             $table->timestamps();
+
+            $table->unique(['external_id', 'company_id']);
         });
     }
 

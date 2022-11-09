@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('power_type')->nullable();
             $table->string('speed')->nullable();
             $table->timestamps();
+
+            $table->unique(['evse_id', 'location_id']);
         });
     }
 

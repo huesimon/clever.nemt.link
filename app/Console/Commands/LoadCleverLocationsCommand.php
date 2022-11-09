@@ -7,6 +7,7 @@ use App\Models\Charger;
 use App\Models\Company;
 use App\Models\Location;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -56,42 +57,70 @@ class LoadCleverLocationsCommand extends Command
         $this->info('Loaded locations from Clever endpoint');
         $cleverOperator = Company::firstOrCreate(['name' => 'Clever']);
 
-
+        /**************************************************************************
+         *  Load locations
+         *************************************************************************/
+        $insert = [];
         $bar = $this->output->createProgressBar(sizeof($response->json()['clever']));
         foreach ($response->object()->clever as $uuid => $location) {
-            $this->handleLocation($uuid, $location, $cleverOperator);
+            $this->handleLocation($uuid, $location, $cleverOperator, $insert);
+            if (sizeof($insert) >= 300) {
+                Location::upsert($insert, ['external_id', 'company_id'], ['name', 'origin', 'is_roaming_allowed', 'is_public_visable', 'coordinates']);
+                $insert = [];
+            }
             $bar->advance();
         }
+        Location::upsert($insert, ['external_id', 'company_id'], ['name', 'origin', 'is_roaming_allowed', 'is_public_visable', 'coordinates']);
+        $bar->finish();
+        /**************************************************************************
+         *  Load chargers
+         *************************************************************************/
+        $bar = $this->output->createProgressBar(sizeof($response->json()['clever']));
+
+        $insert = [];
+        foreach ($response->object()->clever as $uuid => $location) {
+            $this->handleEvses($uuid, $location->evses, $insert);
+            if (sizeof($insert) >= 300) {
+                Charger::upsert($insert, ['location_id', 'evse_id',], ['connector_id', 'balance', 'max_current_amp', 'max_power_kw', 'plug_type', 'power_type', 'speed']);
+                $insert = [];
+            }
+            $bar->advance();
+        }
+        Charger::upsert($insert, ['location_id', 'evse_id',], ['connector_id', 'balance', 'max_current_amp', 'max_power_kw', 'plug_type', 'power_type', 'speed']);
+
         $bar->finish();
     }
 
-    private function handleLocation(string $uuid, Object $data, Company $company): void
+    private function handleLocation(string $uuid, Object $data, Company $company, array &$insert): void
     {
-        $location = $company->locations()->updateOrCreate([
+        $insert[] = [
+            'company_id' => $company->id,
             'external_id' => $uuid,
-        ], [
             'name' => $data->name,
             'origin' => $data->origin,
             'is_roaming_allowed' => $data->publicAccess->isRoamingAllowed,
             'is_public_visable' => $data->publicAccess->visibility,
             'coordinates' => $data->coordinates->lat . ', ' . $data->coordinates->lng,
-        ]);
-
-        $this->handleEvses($data->evses, $location);
+        ];
     }
 
-    private function handleEvses($evses, Location $location): void
+    private function handleEvses($uuid, $evses, &$insert): void
     {
         foreach ($evses as $evse) {
             $connectors = collect($evse->connectors);
             foreach($connectors as $connector){
-                $this->updateCharger($evse, $connector, $location);
+                $insert[] = [
+                    'location_id' => Location::where('external_id', $uuid)->first()->id,
+                    'evse_id' => $evse->evseId,
+                    'balance' => $connector->balance,
+                    'connector_id' => $connector->connectorId,
+                    'max_current_amp' => $connector?->maxCurrentAmp ?? null,
+                    'max_power_kw' => $connector->maxPowerKw,
+                    'plug_type' => $connector->plugType,
+                    'power_type' => $connector?->powerType ?? null,
+                    'speed' => $connector->speed,
+                ];
             }
         }
-    }
-
-    private function updateCharger($evse, $connector, Location $location)
-    {
-        UpdateOrCreateCharger::dispatch($evse->evseId, $connector, $location->id);
     }
 }
