@@ -31,12 +31,12 @@ class ChargerObserver
      */
     public function updated(Charger $charger)
     {
-        Log::info('Charger updated', [
-            'id' => $charger->id,
-            'location_id' => $charger->location_id,
-            'evse_id' => $charger->evse_id,
-            'status' => $charger->status,
-        ]);
+        // Log::info('Charger updated', [
+        //     'id' => $charger->id,
+        //     'location_id' => $charger->location_id,
+        //     'evse_id' => $charger->evse_id,
+        //     'status' => $charger->status,
+        // ]);
     }
 
     /**

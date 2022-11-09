@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('location_id')->constrained();
             $table->string('evse_id')->nullable();
+            $table->string('evse_connector_id')->nullable();
             $table->string('status')->nullable();
             $table->string('balance')->nullable();
             $table->string('connector_id')->nullable();

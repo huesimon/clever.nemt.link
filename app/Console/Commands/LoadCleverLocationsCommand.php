@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Location;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class LoadCleverLocationsCommand extends Command
 {
@@ -15,7 +16,7 @@ class LoadCleverLocationsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'load:clever';
+    protected $signature = 'clever:load';
 
     /**
      * The console command description.
@@ -73,42 +74,31 @@ class LoadCleverLocationsCommand extends Command
             'coordinates' => $data->coordinates->lat . ', ' . $data->coordinates->lng,
         ]);
 
-        if (! $location->wasRecentlyCreated) {
-            $this->handleEvses($data->evses);
-        }
+        $this->handleEvses($data->evses, $location);
     }
 
-    private function handleEvses($evses): void
+    private function handleEvses($evses, Location $location): void
     {
         foreach ($evses as $evse) {
             $connectors = collect($evse->connectors);
-            $isComboCharger = $connectors->count() > 1;
-            if($isComboCharger){
-                foreach($connectors as $connector){
-                    $this->updateCharger($evse, $connector);
-                }
-            } else {
-                // We can only get the charger status of a public charger, all private / InProximity will not be found
-                $this->updateCharger($evse, $connectors->first());
+            foreach($connectors as $connector){
+                $this->updateCharger($evse, $connector, $location);
             }
         }
     }
 
-    private function updateCharger($evse, $connector)
+    private function updateCharger($evse, $connector, Location $location)
     {
-        try {
-            Charger::where('evse_id', $evse->evseId)->firstOrFail()->update([
-                'balance' => $connector->balance,
-                'connector_id' => $connector->connectorId,
-                'max_current_amp' => $connector->maxCurrentAmp,
-                'max_power_kw' => $connector->maxPowerKw,
-                'plug_type' => $connector->plugType,
-                'power_type' => $connector->powerType,
-                'speed' => $connector->speed,
-            ]);
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-
+        Charger::updateOrCreate(['evse_connector_id' => $connector->evseConnectorId], [
+            'location_id' => $location->id,
+            'evse_id' => $evse->evseId,
+            'balance' => $connector->balance,
+            'connector_id' => $connector->connectorId,
+            'max_current_amp' => $connector?->maxCurrentAmp ?? null,
+            'max_power_kw' => $connector->maxPowerKw,
+            'plug_type' => $connector->plugType,
+            'power_type' => $connector?->powerType ?? null,
+            'speed' => $connector->speed,
+        ]);
     }
 }
