@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\UpdateOrCreateCharger;
 use App\Models\Charger;
 use App\Models\Company;
 use App\Models\Location;
@@ -32,10 +33,12 @@ class LoadCleverLocationsCommand extends Command
      */
     public function handle()
     {
+        $start = microtime(true);
         $this->info('Loading locations from Clever endpoint...');
         $this->handleEndpoint();
 
         $this->info('Done!');
+        Log::info('LoadCleverLocationsCommand took ' . (microtime(true) - $start) . ' seconds');
         return Command::SUCCESS;
     }
 
@@ -64,7 +67,7 @@ class LoadCleverLocationsCommand extends Command
 
     private function handleLocation(string $uuid, Object $data, Company $company): void
     {
-        $location = $company->locations()->firstOrCreate([
+        $location = $company->locations()->updateOrCreate([
             'external_id' => $uuid,
         ], [
             'name' => $data->name,
@@ -89,16 +92,6 @@ class LoadCleverLocationsCommand extends Command
 
     private function updateCharger($evse, $connector, Location $location)
     {
-        Charger::updateOrCreate(['evse_connector_id' => $connector->evseConnectorId], [
-            'location_id' => $location->id,
-            'evse_id' => $evse->evseId,
-            'balance' => $connector->balance,
-            'connector_id' => $connector->connectorId,
-            'max_current_amp' => $connector?->maxCurrentAmp ?? null,
-            'max_power_kw' => $connector->maxPowerKw,
-            'plug_type' => $connector->plugType,
-            'power_type' => $connector?->powerType ?? null,
-            'speed' => $connector->speed,
-        ]);
+        UpdateOrCreateCharger::dispatch($evse->evseId, $connector, $location->id);
     }
 }

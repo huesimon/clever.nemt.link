@@ -15,12 +15,12 @@ class ChargerObserver
      */
     public function created(Charger $charger)
     {
-        Log::info('Charger created', [
-            'id' => $charger->id,
-            'location_id' => $charger->location_id,
-            'evse_id' => $charger->evse_id,
-            'status' => $charger->status,
-        ]);
+        // Log::info('Charger created', [
+        //     'id' => $charger->id,
+        //     'location_id' => $charger->location_id,
+        //     'evse_id' => $charger->evse_id,
+        //     'status' => $charger->status,
+        // ]);
     }
 
     /**
