@@ -60,14 +60,22 @@ class LoadCleverChargersCommand extends Command
 
         $this->info('Loaded chargers from Clever endpoint');
         $bar = $this->output->createProgressBar(sizeof($response->json()['clever']));
+        $insert = [];
         foreach ($response->object()->clever as $evseId => $charger) {
-            $this->handleCharger($evseId, $charger);
+            $this->handleCharger($evseId, $charger, $insert);
+            if (count($insert) >= 300) {
+                // Remeber upsert wont trigger Model Observers
+                Charger::upsert($insert, ['evse_id', 'location_id'], ['status']);
+                $insert = [];
+            }
             $bar->advance();
         }
+        // Remeber upsert wont trigger Model Observers
+        Charger::upsert($insert, ['evse_id', 'location_id'], ['status']);
         $bar->finish();
     }
 
-    private function handleCharger(string $evseId, Object $charger): void
+    private function handleCharger(string $evseId, Object $charger, &$insert): void
     {
         $location = Location::where('external_id', $charger->locationId)->first();
         if (!$location) {
@@ -76,11 +84,10 @@ class LoadCleverChargersCommand extends Command
             return;
         }
 
-        $charger = Charger::updateOrCreate([
+        $insert[] = [
             'evse_id' => $evseId,
             'location_id' => $location->id,
-        ], [
             'status' => $charger->status,
-        ]);
+        ];
     }
 }

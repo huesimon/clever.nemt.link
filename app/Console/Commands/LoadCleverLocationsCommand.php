@@ -75,19 +75,22 @@ class LoadCleverLocationsCommand extends Command
         /**************************************************************************
          *  Load chargers
          *************************************************************************/
+        $this->newLine(3);
+        $this->info('Inserting chargers...');
         $bar = $this->output->createProgressBar(sizeof($response->json()['clever']));
 
         $insert = [];
         foreach ($response->object()->clever as $uuid => $location) {
             $this->handleEvses($uuid, $location->evses, $insert);
             if (sizeof($insert) >= 300) {
-                Charger::upsert($insert, ['location_id', 'evse_id',], ['connector_id', 'balance', 'max_current_amp', 'max_power_kw', 'plug_type', 'power_type', 'speed']);
+                Charger::upsert($insert, ['location_id', 'evse_id',], ['evse_connector_id', 'connector_id', 'balance', 'max_current_amp', 'max_power_kw', 'plug_type', 'power_type', 'speed']);
                 $insert = [];
             }
             $bar->advance();
         }
-        Charger::upsert($insert, ['location_id', 'evse_id',], ['connector_id', 'balance', 'max_current_amp', 'max_power_kw', 'plug_type', 'power_type', 'speed']);
+        Charger::upsert($insert, ['location_id', 'evse_id',], ['evse_connector_id', 'connector_id', 'balance', 'max_current_amp', 'max_power_kw', 'plug_type', 'power_type', 'speed']);
 
+        $this->newLine(3);
         $bar->finish();
     }
 
@@ -111,6 +114,7 @@ class LoadCleverLocationsCommand extends Command
             foreach($connectors as $connector){
                 $insert[] = [
                     'location_id' => Location::where('external_id', $uuid)->first()->id,
+                    'evse_connector_id' => $connector->evseConnectorId,
                     'evse_id' => $evse->evseId,
                     'balance' => $connector->balance,
                     'connector_id' => $connector->connectorId,
