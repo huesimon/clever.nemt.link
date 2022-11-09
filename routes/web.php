@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\Charger;
-use App\Models\Location;
+use App\Jobs\SleepJob;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,12 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
-
-    $location = Location::find(3);
-
-
-    // dd($location->chargers()->available()->get());
+    SleepJob::dispatch();
 
     return view('welcome');
 });
