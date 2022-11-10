@@ -17,11 +17,6 @@ class Location extends Model
         return $this->hasMany(Charger::class);
     }
 
-    public function newestCharger()
-    {
-        return $this->hasOne(Charger::class)->latest();
-    }
-
     public function subscribers()
     {
         return $this->belongsToMany(User::class);

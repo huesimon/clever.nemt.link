@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Location;
 
+use App\Models\Charger;
 use App\Models\Location;
 use Illuminate\View\Component;
 
@@ -24,12 +25,11 @@ class Index extends Component
      */
     public function render()
     {
-
+        $locationIds = Charger::distinct()->orderBy('updated_at', 'desc')->limit(15)->get(['location_id', 'updated_at']);
+        $locations = Location::whereIn('id', $locationIds->pluck('location_id'))->get();
         // limit locations to 10
         return view('components.location.index', [
-            'locations' => Location::with(['chargers'])
-            ->join('chargers', 'locations.id', '=', 'chargers.location_id')
-            ->orderBy('chargers.updated_at', 'desc')->limit(15)->get(),
+            'locations' => $locations,
         ]);
     }
 }
