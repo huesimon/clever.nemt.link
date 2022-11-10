@@ -84,6 +84,12 @@ class LoadCleverChargersCommand extends Command
             return;
         }
 
+        // if charger has the same status, skip it
+        $status = Charger::firstWhere(['evse_id' => $evseId, 'location_id' => $location->id])?->status;
+        if ($status && $status === $charger->status) {
+            return;
+        }
+
         $insert[] = [
             'evse_id' => $evseId,
             'location_id' => $location->id,
