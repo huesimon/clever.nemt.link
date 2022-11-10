@@ -27,6 +27,18 @@ class Charger extends Model
         self::CHADEMO,
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope('available', function ($builder) {
+            $builder->validConnector();
+        });
+    }
+
+    public function scopeValidConnector($query)
+    {
+        return $query->whereNotNull('connector_id');
+    }
+
     public function location()
     {
         return $this->belongsTo(Location::class);
@@ -34,8 +46,7 @@ class Charger extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->where('status', 'Available')
-            ->whereNotNull('connector_id');
+        return $query->where('status', 'Available');
     }
 
     public function scopePlugType($query, $value)

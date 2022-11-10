@@ -24,12 +24,12 @@ class Location extends Model
 
     public function getAvailableChargersCountAttribute()
     {
-        return $this->chargers()->available()->count();
+        return $this->is_public_visable == 'InProximity' ? 'N/a' : $this->chargers()->available()->count();
     }
 
     public function getTotalChargersCountAttribute()
     {
-        return $this->chargers()->available()->count();
+        $this->chargers()->count();
     }
 
     public function getIsOccupiedAttribute()
