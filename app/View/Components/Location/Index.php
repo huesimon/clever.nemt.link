@@ -27,7 +27,9 @@ class Index extends Component
 
         // limit locations to 10
         return view('components.location.index', [
-            'locations' => Location::recent()->limit(10)->paginate(),
+            'locations' => Location::with(['chargers'])
+            ->join('chargers', 'locations.id', '=', 'chargers.location_id')
+            ->orderBy('chargers.updated_at', 'desc')->limit(15)->get(),
         ]);
     }
 }

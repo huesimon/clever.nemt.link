@@ -4,7 +4,7 @@
             <div class="flex items-center space-x-3">
                 <h3 class="truncate text-sm font-medium text-gray-900">{{ $location->name }}</h3>
 
-                @if($location->is_public_visable == 'inProximity')
+                @if(!$location->is_public)
                     <span class="flex-shrink-0 inline-block px-2 py-0.5 text-yellow-800 text-xs font-medium bg-yellow-100 rounded-full">
                         In Proximity
                     </span>

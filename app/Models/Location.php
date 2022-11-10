@@ -17,6 +17,11 @@ class Location extends Model
         return $this->hasMany(Charger::class);
     }
 
+    public function newestCharger()
+    {
+        return $this->hasOne(Charger::class)->latest();
+    }
+
     public function subscribers()
     {
         return $this->belongsToMany(User::class);
@@ -29,12 +34,22 @@ class Location extends Model
 
     public function getTotalChargersCountAttribute()
     {
-        $this->chargers()->count();
+        return $this->chargers()->count();
     }
 
     public function getIsOccupiedAttribute()
     {
         return $this->chargers()->where('status', '!=', Charger::AVAILABLE)->count() >= $this->chargers()->count();
+    }
+
+    public function getIsPublicAttribute()
+    {
+        return $this->is_public_visable == 'Always';
+    }
+
+    public function getNewestChargerUpdatedAtAttribute()
+    {
+        return $this->chargers()->max('updated_at');
     }
 
     public function scopeRecent($query)
