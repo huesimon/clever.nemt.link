@@ -7,5 +7,8 @@
                 @endforeach
             </ul>
         </div>
+        <p>
+            Chargers updated in the last 5min: {{ App\Models\Charger::where('updated_at', '>', now()->subMinutes(5))->count() }}
+        </p>
     </div>
 </div>
