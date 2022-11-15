@@ -1,6 +1,11 @@
 <?php
 
 use App\Jobs\SleepJob;
+use App\Models\Charger;
+use App\Models\Location;
+use App\Models\LocationUser;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +20,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    SleepJob::dispatch();
-
     return view('welcome');
+});
+
+
+Route::get('/user/{user}/favorites/', function (User $user) {
+    return view('user.favorites', [
+        'user' => $user,
+        'locations' => $user->locations,
+    ]);
 });
 
 Route::middleware([
