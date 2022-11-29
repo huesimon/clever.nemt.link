@@ -25,12 +25,7 @@
     {{-- x-on:focusin.window="! $refs.panel.contains($event.target) && close()" --}}
     x-id="['mobile-nav-button']">
 
-    <div
-        x-ref="panel"
-        x-show="open"
-        x-on:click.outside="close($refs.button)"
-        :id="$id('dropdown-button')"
-        class="relative z-40 md:hidden" role="dialog" aria-modal="true">
+    <div class="relative z-40 md:hidden" role="dialog" aria-modal="true">
         <!--
      Off-canvas menu backdrop, show/hide based on off-canvas menu state.
 
@@ -41,8 +36,31 @@
       From: "opacity-100"
       To: "opacity-0"
      -->
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
-        <div class="fixed inset-0 z-40 flex">
+        <div
+            x-transition:enter="transition-opacity ease-linear duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-linear duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            x-ref="panel"
+            x-show="open"
+            {{-- x-on:click.outside="close($refs.button)" --}}
+            {{-- :id="$id('dropdown-button')" --}}
+            class="fixed inset-0 bg-red-600 bg-opacity-75"></div>
+        <div
+            x-ref="panel"
+            x-show="open"
+            x-transition:enter="transition ease-in-out duration-300 transform"
+            x-transition:enter-start="-translate-x-full"
+            x-transition:enter-end="translate-x-0"
+            x-transition:leave="transition ease-in-out duration-300 transform"
+            x-transition:leave-start="translate-x-0"
+            x-transition:leave-end="-translate-x-full"
+            x-on:click="toggle()"
+            {{-- x-on:click.outside="close($refs.button)"
+            :id="$id('dropdown-button')" --}}
+            class="fixed inset-0 z-40 flex">
             <!--
       Off-canvas menu, show/hide based on off-canvas menu state.
       Entering: "transition ease-in-out duration-300 transform"
