@@ -47,6 +47,8 @@
         <div class="flex flex-col md:pl-64">
             <div x-data class="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow">
                 <button
+                    x-ref="button"
+                    type="button"
                     @click="$dispatch('foo')"
                     {{-- type="button" --}}
                     class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden">

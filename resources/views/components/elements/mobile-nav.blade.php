@@ -8,7 +8,7 @@
                 return this.close()
             }
 
-            this.$refs.button.focus()
+            {{-- this.$refs.button.focus() --}}
 
             this.open = true
         },
@@ -21,7 +21,7 @@
         }
     }"
     @foo.window="toggle()"
-    x-on:keydown.escape.prevent.stop="close($refs.button)"
+    {{-- x-on:keydown.escape.prevent.stop="close($refs.button)" --}}
     {{-- x-on:focusin.window="! $refs.panel.contains($event.target) && close()" --}}
     x-id="['mobile-nav-button']">
 
@@ -37,19 +37,21 @@
       To: "opacity-0"
      -->
         <div
+            style="display: none;"
             x-transition:enter="transition-opacity ease-linear duration-300"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
             x-transition:leave="transition-opacity ease-linear duration-300"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            x-ref="panel"
             x-show="open"
-            {{-- x-on:click.outside="close($refs.button)" --}}
-            {{-- :id="$id('dropdown-button')" --}}
-            class="fixed inset-0 bg-red-600 bg-opacity-75"></div>
-        <div
             x-ref="panel"
+            {{-- x-on:click.outside="close($refs.button)" --}}
+            :id="$id('mobile-nav-button')"
+            class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
+        <div
+            style="display: none;"
+            {{-- x-ref="panel" --}}
             x-show="open"
             x-transition:enter="transition ease-in-out duration-300 transform"
             x-transition:enter-start="-translate-x-full"
@@ -57,7 +59,7 @@
             x-transition:leave="transition ease-in-out duration-300 transform"
             x-transition:leave-start="translate-x-0"
             x-transition:leave-end="-translate-x-full"
-            x-on:click="toggle()"
+            {{-- x-on:click="toggle()" --}}
             {{-- x-on:click.outside="close($refs.button)"
             :id="$id('dropdown-button')" --}}
             class="fixed inset-0 z-40 flex">
@@ -81,8 +83,9 @@
           To: "opacity-0"
       -->
                 <div class="absolute top-0 right-0 -mr-12 pt-2">
-                    <button type="button"
-                        x-ref="button"
+                    <button \
+                        {{-- type="button" --}}
+                        {{-- x-ref="button" --}}
                         x-on:click="toggle()"
                         :aria-expanded="open"
                         :aria-controls="$id('mobile-nav-button')"
@@ -114,9 +117,9 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                             </svg>
-                            Dashboard 1
+                            Dashboard
                         </a>
-                        <a href="#"
+                        {{-- <a href="#"
                             class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
                             <!-- Heroicon name: outline/users -->
                             <svg class="text-gray-400 group-hover:text-gray-300 mr-4 flex-shrink-0 h-6 w-6"
@@ -126,18 +129,20 @@
                                     d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                             </svg>
                             Team
-                        </a>
-                        <a href="#"
-                            class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
-                            <!-- Heroicon name: outline/folder -->
-                            <svg class="text-gray-400 group-hover:text-gray-300 mr-4 flex-shrink-0 h-6 w-6"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        </a> --}}
+                        @auth
+                            <a href="#"
+                                class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
+                                <!-- Heroicon name: outline/folder -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                             </svg>
-                            Projects
-                        </a>
+                                Favorites
+                            </a>
+                        @endauth
+
                         <a href="#"
                             class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
                             <!-- Heroicon name: outline/calendar -->
@@ -147,7 +152,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                             </svg>
-                            Calendar
+                            Newly created
                         </a>
                         <a href="#"
                             class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">

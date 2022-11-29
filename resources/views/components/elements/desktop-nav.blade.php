@@ -37,7 +37,7 @@
                     Team
                 </a> --}}
 
-                {{-- @auth --}}
+                @auth
                     <a
                         {{-- href="{{ route('user.favorites', ['user' => auth()->user()->id ]) }}" --}}
                         class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
@@ -49,7 +49,7 @@
                         </svg>
                         Favorites
                     </a>
-                {{-- @endauth --}}
+                @endauth
 
                 <a href="#"
                     class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
