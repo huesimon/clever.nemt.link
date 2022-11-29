@@ -4,7 +4,7 @@ namespace App\View\Components\elements;
 
 use Illuminate\View\Component;
 
-class dropdown extends Component
+class Dropdown extends Component
 {
     private $links;
     /**

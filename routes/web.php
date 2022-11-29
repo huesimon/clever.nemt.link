@@ -20,8 +20,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('components.layouts.main');
+    return view('dashboard');
 });
+
+Route::get('/reports', function () {
+    return view('reports');
+})->name('reports');
 
 
 Route::get('/user/{user}/favorites/', function (User $user) {
@@ -29,7 +33,7 @@ Route::get('/user/{user}/favorites/', function (User $user) {
         'user' => $user,
         'locations' => $user->locations,
     ]);
-});
+})->name('user.favorites');
 
 Route::middleware([
     'auth:sanctum',

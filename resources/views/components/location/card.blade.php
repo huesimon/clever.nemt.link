@@ -21,28 +21,26 @@
             </div>
             <p class="mt-1 truncate text-sm text-gray-500"> {{$location->available_chargers_count}} / {{$location->total_chargers_count}} </p>
         </div>
-        <img class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
+        {{-- <img class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
             src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
-            alt="">
+            alt=""> --}}
     </div>
     <div>
         <div class="-mt-px flex divide-x divide-gray-200">
-            <div class="flex w-0 flex-1">
-                <a href="mailto:janecooper@example.com"
-                    class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center rounded-bl-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
-                    <svg class="h-5 w-5 text-gray-400" x-description="Heroicon name: mini/envelope"
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z">
-                        </path>
-                        <path
-                            d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z">
-                        </path>
-                    </svg>
-                    <span class="ml-3">Email</span>
+            <div class="-ml-px flex w-0 flex-1">
+                <a href="{{ "https://www.google.com/maps/search/?api=1&query=" . str($location->coordinates)->remove(' ')  }}"
+                    target="_blank"
+                    class="relative inline-flex w-0 flex-1 items-center justify-center rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
+                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                      </svg>
+
+                    <span class="ml-3">Directions</span>
                 </a>
             </div>
-            <div class="-ml-px flex w-0 flex-1">
-                <a href="tel:+1-202-555-0170"
+            {{-- <div class="-ml-px flex w-0 flex-1">
+                <a href="#"
                     class="relative inline-flex w-0 flex-1 items-center justify-center rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
                     <svg class="h-5 w-5 text-gray-400" x-description="Heroicon name: mini/phone"
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -52,7 +50,7 @@
                     </svg>
                     <span class="ml-3">Call</span>
                 </a>
-            </div>
+            </div> --}}
         </div>
     </div>
 </li>

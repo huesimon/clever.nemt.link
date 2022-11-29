@@ -58,7 +58,7 @@
                 </button>
                 <div class="flex flex-1 justify-between px-4">
                     <div class="flex flex-1">
-                        <form class="flex w-full md:ml-0" action="#" method="GET">
+                        {{-- <form class="flex w-full md:ml-0" action="#" method="GET">
                             <label for="search-field" class="sr-only">Search</label>
                             <div class="relative w-full text-gray-400 focus-within:text-gray-600">
                                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
@@ -74,7 +74,7 @@
                                     class="block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm"
                                     placeholder="Search" type="search" name="search">
                             </div>
-                        </form>
+                        </form> --}}
                     </div>
                     <div class="ml-4 flex items-center md:ml-6">
                         <button type="button"
@@ -93,18 +93,16 @@
             </div>
 
             <main class="flex-1">
-                <div class="py-6">
-                    <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+                {{-- <div class="py-3"> --}}
+                    {{-- <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
                         <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
-                    </div>
-                    <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+                    </div> --}}
+                    <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 py-8">
                         <!-- Replace with your content -->
-                        <div class="py-4">
-                            <div class="h-96 rounded-lg border-4 border-dashed border-gray-200"></div>
-                        </div>
+                        {{ $slot }}
                         <!-- /End replace -->
                     </div>
-                </div>
+                {{-- </div> --}}
             </main>
         </div>
     </div>

@@ -4,7 +4,7 @@ namespace App\View\Components\elements;
 
 use Illuminate\View\Component;
 
-class mobile-nav extends Component
+class DesktopNav extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class mobile-nav extends Component
      */
     public function render()
     {
-        return view('components.elements.mobile-nav');
+        return view('components.elements.desktop-nav');
     }
 }

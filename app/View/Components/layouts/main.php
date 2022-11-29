@@ -4,7 +4,7 @@ namespace App\View\Components\layouts;
 
 use Illuminate\View\Component;
 
-class main extends Component
+class Main extends Component
 {
     /**
      * Create a new component instance.
