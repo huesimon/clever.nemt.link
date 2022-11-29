@@ -24,17 +24,27 @@ class Location extends Model
 
     public function getAvailableChargersCountAttribute()
     {
-        return $this->chargers()->available()->count();
+        return $this->is_public_visable == 'InProximity' ? 'N/a' : $this->chargers()->available()->count();
     }
 
     public function getTotalChargersCountAttribute()
     {
-        return $this->chargers()->available()->count();
+        return $this->chargers()->count();
     }
 
     public function getIsOccupiedAttribute()
     {
         return $this->chargers()->where('status', '!=', Charger::AVAILABLE)->count() >= $this->chargers()->count();
+    }
+
+    public function getIsPublicAttribute()
+    {
+        return $this->is_public_visable == 'Always';
+    }
+
+    public function getNewestChargerUpdatedAtAttribute()
+    {
+        return $this->chargers()->max('updated_at');
     }
 
     public function scopeRecent($query)
