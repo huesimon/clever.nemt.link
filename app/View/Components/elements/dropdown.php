@@ -31,7 +31,7 @@ class Dropdown extends Component
     public function render()
     {
         return view('components.elements.dropdown', [
-            'links' => $this->links,
+            'links' => [],
         ]);
     }
 }
