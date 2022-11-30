@@ -22,6 +22,13 @@ class Location extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function scopeFavorited($query, $user = null)
+    {
+        return $query->whereHas('subscribers', function ($query) use($user) {
+            $query->where('user_id', $user ? $user->id : auth()->id());
+        });
+    }
+
     public function getAvailableChargersCountAttribute()
     {
         return $this->is_public_visable == 'InProximity' ? 'N/a' : $this->chargers()->available()->count();

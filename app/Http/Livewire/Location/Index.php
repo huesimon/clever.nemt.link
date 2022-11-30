@@ -11,18 +11,27 @@ class Index extends Component
 {
 
     public $search = '';
+    public $user = null;
 
     public function render()
     {
+        $query = Location::query();
+
         if (str($this->search)->length() > 2) {
-            $locations = Location::where('name', 'like', '%' . $this->search . '%')->get();
-        } else {
-            $locationIds = Charger::distinct()->orderBy('updated_at', 'desc')->limit(15)->get(['location_id', 'updated_at']);
-            $locations = Location::whereIn('id', $locationIds->pluck('location_id'))->get();
+            $query->where('name', 'like', '%' . $this->search . '%');
         }
 
+        if ($this->user) {
+            $query->favorited($this->user);
+        } else {
+            $locationIds = Charger::distinct()->orderBy('updated_at', 'desc')->limit(15)->get(['location_id', 'updated_at']);
+            $query->whereIn('id', $locationIds->pluck('location_id'));
+        }
+
+
+
         return view('livewire.location.index', [
-            'locations' => $locations,
+            'locations' => $query->get(),
         ]);
     }
 }
