@@ -53,4 +53,14 @@ class Charger extends Model
     {
         return $query->where('plug_type', $value);
     }
+
+    public function getCurrentSessionAttribute()
+    {
+        return $this->attributes['status'] === self::OCCUPIED ? $this?->updated_at->diffForHumans() : 0;
+    }
+
+    public function getIsOccupiedAttribute()
+    {
+         return $this->attributes['status'] === self::OCCUPIED;
+    }
 }

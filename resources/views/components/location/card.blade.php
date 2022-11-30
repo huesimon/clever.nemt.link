@@ -20,6 +20,12 @@
 
             </div>
             <p class="mt-1 truncate text-sm text-gray-500"> {{$location->available_chargers_count}} / {{$location->total_chargers_count}} </p>
+            {{-- @foreach ($location->chargers as $charger)
+            @if ($charger->is_occupied)
+            <p class="mt-1 truncate text-sm text-gray-500"> #{{$loop->index}}: {{$charger->status}} </p>
+            <p class="mt-1 truncate text-sm text-gray-500"> {{$charger->current_session}} minutes </p>
+                @endif
+            @endforeach --}}
         </div>
         {{-- <img class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
             src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
@@ -35,7 +41,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                       </svg>
-
                     <span class="ml-3">Directions</span>
                 </a>
             </div>
@@ -51,6 +56,40 @@
                     <span class="ml-3">Call</span>
                 </a>
             </div> --}}
+            <x-elements.modal title="Chargers">
+                <x-slot:button>
+                    <button type="submit"
+                        class="relative inline-flex w-0 flex-1 items-center justify-center rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="ml-3">Chargers</span>
+                    </button>
+                </x-slot:button>
+
+                <x-slot:content>
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                                    Call {{ $location->name }}
+                                </h3>
+                                <div class="mt-2">
+                                    @foreach ($location->chargers as $charger)
+                                        {{-- display id and how long the charging_session is --}}
+                                        <p class="text-sm text-gray-500">
+                                            {{ $charger->id }} - {{ $charger->current_session }}
+                                        </p>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </x-slot:content>
+
+
+            </x-elements.modal>
         </div>
+
+
+
     </div>
 </li>
