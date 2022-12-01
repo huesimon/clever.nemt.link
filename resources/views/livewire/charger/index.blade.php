@@ -56,7 +56,7 @@
                     <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
                         <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
                             {{$longChargingSessionsCount}}
-                            <span class="ml-2 text-sm font-medium text-gray-500">8 hour plus: {{$longerChargingSessionsCount}}</span>
+                            <span class="ml-2 text-sm font-medium text-gray-500">12 hour plus: {{$longerChargingSessionsCount}}</span>
                         </div>
                         {{-- <div
                             class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800 md:mt-2 lg:mt-0">

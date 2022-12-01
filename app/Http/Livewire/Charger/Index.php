@@ -34,7 +34,7 @@ class Index extends Component
                 'chargersOccupiedCount' => Charger::where('status', Charger::OCCUPIED)->count(),
                 'totalChargersCount' => Charger::count(),
                 'totalChargersCountLastWeek' => Charger::where('created_at', '>=', now()->subWeek())->count(),
-                'longChargingSessionsCount' => Charger::where('status', Charger::OCCUPIED)->where('updated_at', '<=', now()->subHours(8))->where('updated_at', '>=', now()->subHours(12))->count(),
+                'longChargingSessionsCount' => Charger::where('status', Charger::OCCUPIED)->where('updated_at', '<=', now()->subHours(6))->where('updated_at', '>=', now()->subHours(12))->count(),
                 'longerChargingSessionsCount' => Charger::where('status', Charger::OCCUPIED)->where('updated_at', '<=', now()->subHours(12))->count(),
             ]
         );
