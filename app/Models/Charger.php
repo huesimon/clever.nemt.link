@@ -17,6 +17,14 @@ class Charger extends Model
     const PLANNED = 'Planned';
     const UNKNOWN = 'Unknown';
 
+    const STATUSES = [
+        self::AVAILABLE,
+        self::OCCUPIED,
+        self::OUT_OF_ORDER,
+        self::PLANNED,
+        self::UNKNOWN,
+    ];
+
     const TYPE_2 = 'Type2';
     const CCS = 'CCS';
     const CHADEMO = 'CHAdeMO';
