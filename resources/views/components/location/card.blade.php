@@ -56,12 +56,12 @@
                     <span class="ml-3">Call</span>
                 </a>
             </div> --}}
-            <x-elements.modal title="Chargers">
+            <x-elements.modal :title="$location->name">
                 <x-slot:button>
                     <button type="submit"
                         class="relative inline-flex w-0 flex-1 items-center justify-center rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span class="ml-3">{{ $location->name }}</span>
+                        <span class="ml-3">Chargers</span>
                     </button>
                 </x-slot:button>
 
@@ -70,7 +70,7 @@
                         <div class="sm:flex sm:items-start">
                             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                 <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                                    #{{ $location->id }}: Chargers
+                                    #{{ $location->id }}: {{ $location->name }}
                                 </h3>
                                 <div class="mt-2">
                                     @foreach ($location->chargers as $charger)
