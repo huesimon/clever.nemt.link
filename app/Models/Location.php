@@ -31,7 +31,7 @@ class Location extends Model
 
     public function getAvailableChargersCountAttribute()
     {
-        return $this->is_public_visable == 'InProximity' ? 'N/a' : $this->chargers()->available()->count();
+        return $this->is_public_visible == 'InProximity' ? 'N/a' : $this->chargers()->available()->count();
     }
 
     public function getTotalChargersCountAttribute()
@@ -46,7 +46,7 @@ class Location extends Model
 
     public function getIsPublicAttribute()
     {
-        return $this->is_public_visable == 'Always';
+        return $this->is_public_visible == 'Always';
     }
 
     public function getNewestChargerUpdatedAtAttribute()

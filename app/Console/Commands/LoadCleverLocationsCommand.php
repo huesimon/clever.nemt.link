@@ -65,12 +65,12 @@ class LoadCleverLocationsCommand extends Command
         foreach ($response->object()->clever as $uuid => $location) {
             $this->handleLocation($uuid, $location, $cleverOperator, $insert);
             if (sizeof($insert) >= 300) {
-                Location::upsert($insert, ['external_id', 'company_id'], ['name', 'origin', 'is_roaming_allowed', 'is_public_visable', 'coordinates']);
+                Location::upsert($insert, ['external_id', 'company_id'], ['name', 'origin', 'is_roaming_allowed', 'is_public_visible', 'coordinates']);
                 $insert = [];
             }
             $bar->advance();
         }
-        Location::upsert($insert, ['external_id', 'company_id'], ['name', 'origin', 'is_roaming_allowed', 'is_public_visable', 'coordinates']);
+        Location::upsert($insert, ['external_id', 'company_id'], ['name', 'origin', 'is_roaming_allowed', 'is_public_visible', 'coordinates']);
         $bar->finish();
         /**************************************************************************
          *  Load chargers
@@ -104,7 +104,7 @@ class LoadCleverLocationsCommand extends Command
             'name' => $data->name,
             'origin' => $data->origin,
             'is_roaming_allowed' => $data->publicAccess->isRoamingAllowed,
-            'is_public_visable' => $data->publicAccess->visibility,
+            'is_public_visible' => $data->publicAccess->visibility,
             'coordinates' => $data->coordinates->lat . ', ' . $data->coordinates->lng,
         ];
     }

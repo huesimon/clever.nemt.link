@@ -21,7 +21,7 @@ class LocationFactory extends Factory
             'name' => $this->faker->name,
             'origin' => $this->faker->name,
             'is_roaming_allowed' => $this->faker->boolean,
-            'is_public_visable' => $this->faker->boolean,
+            'is_public_visible' => $this->faker->boolean,
             'coordinates' => $this->faker->latitude . ', ' . $this->faker->longitude,
         ];
     }
