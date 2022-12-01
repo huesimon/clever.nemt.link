@@ -27,6 +27,95 @@ Route::get('/reports', function () {
     return view('reports');
 })->name('reports');
 
+Route::get('/ajson', function () {
+    return [
+            'clever' => [
+                'DK*CLE*E11600*1' => [
+                    'evseId' => 'DK*CLE*E11600*1',
+                    'locationId' => 'd0698aec-3d8d-eb11-b1ac-0022489bc085',
+                    'status' => Charger::OCCUPIED,
+                ],
+                'DK*CLE*E11600*2' => [
+                    'evseId' => 'DK*CLE*E11600*2',
+                    'locationId' => 'd0698aec-3d8d-eb11-b1ac-0022489bc085',
+                    'status' => Charger::AVAILABLE,
+                ],
+                'DK*CLE*E11601*1' => [
+                    'evseId' => 'DK*CLE*E11601*1',
+                    'locationId' => 'd0698aec-3d8d-eb11-b1ac-0022489bc085',
+                    'status' => Charger::OCCUPIED,
+                ],
+                'DK*CLE*E11601*2' => [
+                    'evseId' => 'DK*CLE*E11601*2',
+                    'locationId' => 'd0698aec-3d8d-eb11-b1ac-0022489bc085',
+                    'status' => Charger::OCCUPIED,
+                ],
+            ]
+        ];
+})->name('ajson');
+
+
+Route::get('ljson', function () {
+    return [
+        'clever' => [
+            'd0698aec-3d8d-eb11-b1ac-0022489bc085' => [
+                "name" => "Dampfærgevej 2",
+                "origin" => "Clever",
+                'publicAccess' => [
+                    'isRoamingAllowed' => true,
+                    'visibility' => 'PUBLIC',
+                ],
+                'address' => [
+                    'address' => 'Dampfærgevej 2',
+                    'city' => 'København',
+                    'countryCode' => 'DK',
+                    'postalCode' => '2100'
+                ],
+                'coordinates' => [
+                    'lat' => 55.686,
+                    'lng' => 12.568
+                ],
+                'evses' => [
+                    'DK*CLE*E11600*1' => [
+                        'chargePointId' => '11600',
+                        'connectors' => [
+                            'DK*CLE*E11600*1-1' => [
+                                "balance" => "None",
+                                "connectionType" => "Socket",
+                                "connectorId" => "1",
+                                "evseConnectorId" => "DK*CLE*E11600*1-1",
+                                "maxCurrentAmp" => "16",
+                                "maxPowerKw" => "11.04",
+                                "plugType" => "Type2",
+                                "powerType" => "AC3Phase",
+                                "speed" => "Standard"
+                            ]
+                            ],
+                        "evseId" => "DK*CLE*E11600*1",
+                        ],
+                    'DK*CLE*E11600*2' => [
+                        'chargePointId' => '11600',
+                        'connectors' => [
+                            'DK*CLE*E11600*2-2' => [
+                                "balance" => "None",
+                                "connectionType" => "Socket",
+                                "connectorId" => "1",
+                                "evseConnectorId" => "DK*CLE*E11600*2-2",
+                                "maxCurrentAmp" => "16",
+                                "maxPowerKw" => "11.04",
+                                "plugType" => "Type2",
+                                "powerType" => "AC3Phase",
+                                "speed" => "Standard"
+                            ]
+                            ],
+                        "evseId" => "DK*CLE*E11600*2",
+                    ],
+                ]
+            ]
+        ]
+    ];
+})->name('ljson');
+
 
 Route::get('/user/{user}/favorites/', function (User $user) {
     return view('user.favorites', [

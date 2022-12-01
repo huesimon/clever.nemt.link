@@ -46,7 +46,7 @@ class LoadCleverLocationsCommand extends Command
     private function handleEndpoint(): void
     {
         $url = 'https://clever-app-prod.firebaseio.com/prod/locations/V1.json';
-
+        // $url = route('ljson');
         $response = Http::get($url);
 
         if ($response->failed()) {
@@ -83,11 +83,13 @@ class LoadCleverLocationsCommand extends Command
         foreach ($response->object()->clever as $uuid => $location) {
             $this->handleEvses($uuid, $location->evses, $insert);
             if (sizeof($insert) >= 300) {
+                // if the charger has these values already, skip
                 Charger::upsert($insert, ['location_id', 'evse_id',], ['evse_connector_id', 'connector_id', 'balance', 'max_current_amp', 'max_power_kw', 'plug_type', 'power_type', 'speed']);
                 $insert = [];
             }
             $bar->advance();
         }
+
         Charger::upsert($insert, ['location_id', 'evse_id',], ['evse_connector_id', 'connector_id', 'balance', 'max_current_amp', 'max_power_kw', 'plug_type', 'power_type', 'speed']);
 
         $this->newLine(3);
@@ -112,7 +114,17 @@ class LoadCleverLocationsCommand extends Command
         foreach ($evses as $evse) {
             $connectors = collect($evse->connectors);
             foreach($connectors as $connector){
-                $insert[] = [
+                Charger::where([
+                    'location_id' => Location::where('external_id', $uuid)->first()->id,
+                    'evse_id' => $evse->evseId,
+                    'evse_connector_id' => $connector->evseConnectorId,
+                    // 'balance' => $connector->balance,
+                    // 'max_current_amp' => $connector->maxCurrentAmp,
+                    // 'max_power_kw' => $connector->maxPowerKW,
+                    // 'plug_type' => $connector->plugType,
+                    // 'power_type' => $connector->powerType,
+                    // 'speed' => $connector->speed,
+                ])->exists() ?: $insert[] = [
                     'location_id' => Location::where('external_id', $uuid)->first()->id,
                     'evse_connector_id' => $connector->evseConnectorId,
                     'evse_id' => $evse->evseId,

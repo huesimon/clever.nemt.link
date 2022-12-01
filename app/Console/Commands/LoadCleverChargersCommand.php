@@ -50,6 +50,7 @@ class LoadCleverChargersCommand extends Command
     private function handleEndpoint(): void
     {
         $url = 'https://clever-app-prod.firebaseio.com/prod/availability/V1.json';
+        // $url = route('ajson');
 
         $response = Http::get($url);
 
@@ -57,6 +58,7 @@ class LoadCleverChargersCommand extends Command
             $this->error('Failed to load chargers from Clever endpoint');
             return;
         }
+        // dd($response->object());
 
         $this->info('Loaded chargers from Clever endpoint');
         $bar = $this->output->createProgressBar(sizeof($response->json()['clever']));
@@ -83,13 +85,14 @@ class LoadCleverChargersCommand extends Command
             $locationsNotLoaded[] = $charger->locationId;
             return;
         }
-
         // if charger has the same status, skip it
         $status = Charger::firstWhere(['evse_id' => $evseId, 'location_id' => $location->id])?->status;
+        // dump("status: $status", "charger->status: $charger->status", "evseId: $evseId", "locationId: $location->id");
         if ($status && $status === $charger->status) {
             return;
         }
 
+        // dump('updating charger ' . $evseId . ' with status ' . $charger->status);
         $insert[] = [
             'evse_id' => $evseId,
             'location_id' => $location->id,
