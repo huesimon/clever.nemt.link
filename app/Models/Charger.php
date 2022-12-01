@@ -56,7 +56,7 @@ class Charger extends Model
 
     public function getCurrentSessionAttribute()
     {
-        return $this->attributes['status'] === self::OCCUPIED ? $this?->updated_at->diffForHumans() : 0;
+        return $this->attributes['status'] === self::OCCUPIED ? 'Occupied since: ' . $this?->updated_at->diffForHumans() : 'Last used: ' . $this->updated_at->diffForHumans(); ;
     }
 
     public function getIsOccupiedAttribute()
