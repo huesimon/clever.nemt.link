@@ -52,7 +52,9 @@ class LoadCleverChargersCommand extends Command
         $url = 'https://clever-app-prod.firebaseio.com/prod/availability/V1.json';
         // $url = route('ajson');
 
-        $response = Http::get($url);
+        $response = Http::get($url, [
+            'ac' => config('clever.app_check_token'),
+        ]);
 
         if ($response->failed()) {
             $this->error('Failed to load chargers from Clever endpoint');
