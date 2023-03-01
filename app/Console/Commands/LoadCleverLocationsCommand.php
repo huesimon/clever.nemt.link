@@ -48,7 +48,7 @@ class LoadCleverLocationsCommand extends Command
         $url = 'https://clever-app-prod.firebaseio.com/prod/locations/V1.json';
         // $url = route('ljson');
         $response = Http::get($url, [
-            'ac' => config('clever.app_check_token'),
+            'ac' => Company::firstWhere('name', 'Clever')->app_check_token
         ]);
 
         if ($response->failed()) {

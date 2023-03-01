@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Charger;
+use App\Models\Company;
 use App\Models\Location;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
@@ -53,7 +54,7 @@ class LoadCleverChargersCommand extends Command
         // $url = route('ajson');
 
         $response = Http::get($url, [
-            'ac' => config('clever.app_check_token'),
+            'ac' => Company::firstWhere('name', 'Clever')->app_check_token
         ]);
 
         if ($response->failed()) {
