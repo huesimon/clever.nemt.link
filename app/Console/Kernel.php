@@ -17,9 +17,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
-        $schedule->command('clever:load')->hourly();
-        $schedule->command('clever:chargers')->everyMinute();
-        $schedule->command('check:subscribers')->everyMinute();
+        $schedule->command('clever:load')->dailyAt('08:00');
+        $schedule->command('clever:load')->dailyAt('18:00');
+        // $schedule->command('clever:chargers')->everyMinute();
+        // $schedule->command('check:subscribers')->everyMinute();
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Location;
 use App\Models\Charger;
 use App\Models\Location;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Artisan;
 use Livewire\Component;
 
 class Index extends Component
@@ -31,5 +32,10 @@ class Index extends Component
         return view('livewire.location.index', [
             'locations' => $query->get(),
         ]);
+    }
+
+    public function updateLocations()
+    {
+        Artisan::call('clever:chargers');
     }
 }
