@@ -2,6 +2,7 @@
 
 use App\Jobs\SleepJob;
 use App\Models\Charger;
+use App\Models\Company;
 use App\Models\Location;
 use App\Models\LocationUser;
 use App\Models\User;
@@ -115,6 +116,17 @@ Route::get('ljson', function () {
         ]
     ];
 })->name('ljson');
+
+Route::post('/app-check', function () {
+    $clever = Company::where('name', 'Clever')->first();
+    $clever->update([
+        'app_check_token' => request('ac'),
+    ]);
+
+    return response()->json([
+        'message' => 'Token updated',
+    ]);
+})->name('app-check');
 
 
 Route::get('/user/{user}/favorites/', function (User $user) {
