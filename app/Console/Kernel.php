@@ -19,6 +19,15 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('clever:load')->dailyAt('08:00');
         $schedule->command('clever:load')->dailyAt('18:00');
+        $schedule->command('clever:chargers')
+            ->everyMinute()
+            ->timezone('Europe/Copenhagen')
+            ->between('09:30', '10:15');
+
+        $schedule->command('clever:chargers')
+            ->everyMinute()
+            ->timezone('Europe/Copenhagen')
+            ->between('18:30', '19:15');
         // $schedule->command('clever:chargers')->everyMinute();
         // $schedule->command('check:subscribers')->everyMinute();
     }
