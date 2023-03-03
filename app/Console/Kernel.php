@@ -22,14 +22,14 @@ class Kernel extends ConsoleKernel
         $schedule->command('clever:chargers')
             ->everyMinute()
             ->timezone('Europe/Copenhagen')
-            ->between('09:30', '10:15');
+            ->between('09:30', '10:15')
+            ->between('18:30', '19:15');
 
         $schedule->command('clever:chargers')
-            ->everyMinute()
+            ->hourly()
             ->timezone('Europe/Copenhagen')
-            ->between('18:30', '19:15');
-        // $schedule->command('clever:chargers')->everyMinute();
-        // $schedule->command('check:subscribers')->everyMinute();
+            ->unlessBetween('09:30', '10:15')
+            ->unlessBetween('18:30', '19:15');
     }
 
     /**
