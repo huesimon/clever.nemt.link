@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Location;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class LoadCleverChargersCommand extends Command
 {
@@ -31,6 +32,8 @@ class LoadCleverChargersCommand extends Command
      */
     public function handle()
     {
+        $start = microtime(true);
+
         $locationsNotLoaded = [];
         $this->info('Loading chargers from Clever endpoint...');
         $this->handleEndpoint();
@@ -44,6 +47,7 @@ class LoadCleverChargersCommand extends Command
         }
 
         $this->info('Done!');
+        Log::info('LoadCleverChargersCommand took ' . (microtime(true) - $start) . ' seconds');
 
         return Command::SUCCESS;
     }
