@@ -72,11 +72,16 @@
                                 <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
                                     #{{ $location->id }}: {{ $location->name }}
                                 </h3>
-                                <div class="mt-2">
+                                <div class="flex flex-col space-y-2 mt-2">
                                     @foreach ($location->chargers as $charger)
                                         {{-- display id and how long the charging_session is --}}
-                                        <p class="text-sm text-gray-500">
-                                            {{ $charger->id }} - {{ $charger->current_session }}
+                                        <p class="text-sm">
+                                            {{ $charger->readable_id }} - <span class="inline-flex items-center rounded-full {{$charger->session_color}} px-2.5 py-0.5 text-xs font-medium text-indigo-800">
+                                                <svg class="-ml-0.5 mr-1.5 h-2 w-2 text-indigo-400" fill="currentColor" viewBox="0 0 8 8">
+                                                  <circle cx="4" cy="4" r="3" />
+                                                </svg>
+                                                {{ $charger->current_session }}
+                                              </span>
                                         </p>
                                     @endforeach
                                 </div>

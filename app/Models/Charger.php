@@ -14,6 +14,7 @@ class Charger extends Model
     const AVAILABLE = 'Available';
     const OCCUPIED = 'Occupied';
     const OUT_OF_ORDER = 'OutOfOrder';
+    const INOPERATIVE = 'Inoperative';
     const PLANNED = 'Planned';
     const UNKNOWN = 'Unknown';
 
@@ -21,6 +22,7 @@ class Charger extends Model
         self::AVAILABLE,
         self::OCCUPIED,
         self::OUT_OF_ORDER,
+        self::INOPERATIVE,
         self::PLANNED,
         self::UNKNOWN,
     ];
@@ -64,7 +66,32 @@ class Charger extends Model
 
     public function getCurrentSessionAttribute()
     {
-        return $this->attributes['status'] === self::OCCUPIED ? 'Occupied since: ' . $this?->updated_at->diffForHumans() : 'Last used: ' . $this->updated_at->diffForHumans(); ;
+        return match ($this->attributes['status']){
+            self::OCCUPIED => 'Occupied since: ' . $this->updated_at->diffForHumans(),
+            self::AVAILABLE => 'Last used: ' . $this->updated_at->diffForHumans(),
+            self::OUT_OF_ORDER => 'Out of order since: ' . $this->updated_at->diffForHumans(),
+            self::INOPERATIVE => 'Inoperative since: ' . $this->updated_at->diffForHumans(),
+            default => 'Unknown: ' . $this->attributes['status'],
+        };
+    }
+
+    public function getSessionColorAttribute()
+    {
+         return match ($this->attributes['status']){
+            self::OCCUPIED => 'bg-gray-100',
+            self::AVAILABLE => 'bg-indigo-100',
+            self::OUT_OF_ORDER => 'bg-yellow-100',
+            self::INOPERATIVE => 'bg-red-100',
+            default => 'bg-gray-100',
+         };
+    }
+
+    public function getReadableIdAttribute()
+    {
+        $id = str_replace('-', '.', $this->attributes['evse_connector_id']);
+
+        return preg_replace('/[^0-9.]/', '', $id);
+
     }
 
     public function getIsOccupiedAttribute()
