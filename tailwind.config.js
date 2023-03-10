@@ -8,7 +8,11 @@ module.exports = {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
-
+    safelist:[
+        {
+            pattern: /bg-(gray|indigo|yellow|red)-(100|200|300|400)/,
+          },
+    ],
     theme: {
         extend: {
             fontFamily: {
