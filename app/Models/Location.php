@@ -8,13 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Location extends Model
 {
 
+    protected $primaryKey = 'external_id';
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     protected $with = ['chargers'];
 
     use HasFactory;
 
     public function chargers()
     {
-        return $this->hasMany(Charger::class);
+        return $this->hasMany(Charger::class, 'location_external_id', 'external_id');
     }
 
     public function subscribers()
@@ -31,7 +36,7 @@ class Location extends Model
 
     public function getAvailableChargersCountAttribute()
     {
-        return $this->is_public_visible == 'InProximity' ? 'N/a' : $this->chargers()->available()->count();
+        return $this->chargers()->available()->count();
     }
 
     public function getTotalChargersCountAttribute()

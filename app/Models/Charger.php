@@ -9,6 +9,10 @@ class Charger extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'evse_id';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $touches = ['location'];
 
     const AVAILABLE = 'Available';
@@ -51,7 +55,7 @@ class Charger extends Model
 
     public function location()
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(Location::class, 'location_external_id', 'external_id');
     }
 
     public function scopeAvailable($query)
