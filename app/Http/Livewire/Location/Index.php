@@ -21,8 +21,8 @@ class Index extends Component
         if (str($this->search)->length() > 2) {
             $query->where('name', 'like', '%' . $this->search . '%');
         } elseif (!$this->user) {
-            $locationIds = Charger::distinct()->orderBy('updated_at', 'desc')->limit(15)->get(['location_id', 'updated_at']);
-            $query->whereIn('id', $locationIds->pluck('location_id'));
+            $locationIds = Charger::distinct()->orderBy('updated_at', 'desc')->limit(15)->get(['location_external_id', 'updated_at']);
+            $query->whereIn('external_id', $locationIds->pluck('location_external_id'));
         }
 
         if ($this->user) {

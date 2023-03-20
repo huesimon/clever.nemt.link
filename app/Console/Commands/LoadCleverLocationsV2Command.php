@@ -17,14 +17,14 @@ class LoadCleverLocationsV2Command extends Command
      *
      * @var string
      */
-    protected $signature = 'clever:1';
+    protected $signature = 'clever:locations';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Load locations from Clever endpoint';
 
     /**
      * Execute the console command.
@@ -58,7 +58,7 @@ class LoadCleverLocationsV2Command extends Command
                     'company_id' => '1',
                     'origin' => 'clever',
                     'is_roaming_allowed' => $chunk->publicAccess->isRoamingAllowed,
-                    'is_public_visible' => $chunk->publicAccess->visibility === 'Always' ? true : false,
+                    'is_public_visible' => $chunk->publicAccess->visibility,
                     'coordinates' => $chunk->coordinates->lat . ',' . $chunk->coordinates->lng,
                 ];
             })
