@@ -42,6 +42,8 @@ class LoadCleverChargersV2Command extends Command
             'ac' => Company::firstWhere('name', 'Clever')->app_check_token
         ]);
 
+        $this->saveResponseToFile($response);
+
         if ($response->failed()) {
             $this->error('Failed to load chargers from Clever endpoint');
             return Command::FAILURE;
@@ -90,5 +92,13 @@ class LoadCleverChargersV2Command extends Command
         Log::info('LoadCleverChargersV2Command took ' . (microtime(true) - $start) . ' seconds');
 
         return Command::SUCCESS;
+    }
+
+    private function saveResponseToFile($response)
+    {
+        $filename = now()->format('Y-m-d-H-i-s') . '-clever-chargers';
+        $file = fopen(storage_path('clever/' . $filename . '.json'), 'w');
+        fwrite($file, json_encode($response->json()));
+        fclose($file);
     }
 }
