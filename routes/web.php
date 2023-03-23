@@ -8,6 +8,7 @@ use App\Models\LocationUser;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('dashboard');
 })->name('home');
+
+
+Route::get('log/{filename}', function ($filename) {
+    return json_decode(Storage::disk('local')->get('clever/' . $filename));
+});
+
+Route::get('logs', function () {
+    return Storage::disk('local')->files('clever');
+});
 
 Route::get('/reports', function () {
     return view('reports');
