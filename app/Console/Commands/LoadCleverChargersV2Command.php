@@ -97,7 +97,7 @@ class LoadCleverChargersV2Command extends Command
     private function saveResponseToFile($response)
     {
         $filename = now()->format('Y-m-d-H-i') . '-clever-chargers';
-        $file = fopen(storage_path('app/clever/' . $filename . '.json'), 'w');
+        $file = fopen(storage_path('clever/' . $filename . '.json'), 'w');
         fwrite($file, json_encode($response->json()));
         fclose($file);
     }
