@@ -42,7 +42,7 @@ class LoadCleverChargersV2Command extends Command
             'ac' => Company::firstWhere('name', 'Clever')->app_check_token
         ]);
 
-        $this->saveResponseToFile($response);
+        // $this->saveResponseToFile($response);
 
         if ($response->failed()) {
             $this->error('Failed to load chargers from Clever endpoint');
