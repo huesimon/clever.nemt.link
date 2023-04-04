@@ -80,7 +80,7 @@ class LoadCleverLocationsV2Command extends Command
                 $evseId = $evse->evseId;
                 collect($evse->connectors)->each(function ($connector) use ($location, &$chargersFromClever, $evseId) {
                     $chargersFromClever[] = [
-                        'evse_id' => $connector->evseConnectorId, // seems like evseId is not unique, using connector for now. 🤷
+                        'evse_id' => $evseId, // okay chargers endpoint uses evseId, not sure how that works when its not unique
                         'evse_connector_id' => $connector->evseConnectorId,
                         'connector_id' => $connector->connectorId,
                         'max_current_amp' => $connector->maxCurrentAmp ?? 0,
