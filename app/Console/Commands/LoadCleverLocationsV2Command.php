@@ -6,6 +6,7 @@ use App\Models\Charger;
 use App\Models\Company;
 use App\Models\Location;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use PDO;
@@ -72,41 +73,52 @@ class LoadCleverLocationsV2Command extends Command
             });
         // $bar->finish();
 
-        $cleverCollection->map(function ($chunk) {
-            // $connectorMapResult[] = [
-            //     'location_external_id' => $chunk->locationId,
-            // ];
-            collect($chunk->evses)->map(function ($evses) use (&$connectorMapResult, $chunk) {
-                    collect($evses->connectors)->map(function ($connector) use (&$connectorMapResult, $chunk, $evses) {
-                        // dd($evses);
-                        $connectorMapResult[] = [
-                            'location_external_id' => $chunk->locationId,
-                            'balance' => $connector->balance,
-                            'evse_id' => $evses->evseId,
-                            'evse_connector_id' => $connector->evseConnectorId,
-                            'connector_id' => $connector->connectorId,
-                            'max_current_amp' => $connector->maxCurrentAmp ?? 0,
-                            'max_power_kw' => $connector->maxPowerKw,
-                            'plug_type' => $connector->plugType,
-                            'speed' => $connector->speed,
-                        ];
-                    });
-                });
+        $chargersFromClever = [];
 
-                return $connectorMapResult;
-            })
-            ->chunk(100)
-            ->each(function ($chunk) use ($cleverOperator, $bar) {
-                collect($chunk)->each(function ($chunk) use ($cleverOperator, $bar) {
-                    // dd($chunk);
-                    Charger::upsert(
-                        $chunk,
-                        ['evse_id'],
-                        ['location_external_id', 'balance', 'evse_connector_id', 'connector_id', 'max_current_amp', 'max_power_kw', 'plug_type', 'speed']);
-                    $bar->advance();
-                    // dd($chunk);
+        $cleverCollection->each(function ($location) use (&$chargersFromClever) {
+            collect($location->evses)->each(function ($evse) use ($location, &$chargersFromClever) {
+                $evseId = $evse->evseId;
+                collect($evse->connectors)->each(function ($connector) use ($location, &$chargersFromClever, $evseId) {
+                    $chargersFromClever[] = [
+                        'evse_id' => $connector->evseConnectorId, // seems like evseId is not unique, using connector for now. 🤷
+                        'evse_connector_id' => $connector->evseConnectorId,
+                        'connector_id' => $connector->connectorId,
+                        'max_current_amp' => $connector->maxCurrentAmp ?? 0,
+                        'max_power_kw' => $connector->maxPowerKw,
+                        'plug_type' => $connector->plugType,
+                        'speed' => $connector->speed,
+                        'location_external_id' => $location->locationId,
+                    ];
                 });
             });
+        });
+
+        $chargersInDb = Charger::select([
+            'evse_id',
+            'evse_connector_id',
+            'connector_id',
+            'max_current_amp',
+            'max_power_kw',
+            'plug_type',
+            'speed',
+            'location_external_id',
+        ])->get()->keyBy('evse_id');
+        $chargersFromClever = collect($chargersFromClever);
+
+        $chargersThatNeedsToBeCreated = collect();
+
+
+        $chargersFromClever->each(function ($charger) use ($chargersInDb, &$chargersThatNeedsToBeCreated) {
+            // $chargerInDb = $chargersInDb->firstWhere('evse_id', $charger['evse_id']);
+            if (!$chargersInDb->has($charger['evse_id'])) {
+                $chargersThatNeedsToBeCreated->push($charger);
+            }
+        });
+
+        $chargersThatNeedsToBeCreated->chunk(5)->each(function ($chunk) {
+            Charger::upsert($chunk->toArray(), ['evse_id']);
+        });
+
 
         $this->info("LoadCleanLocationsV2Command took " . (microtime(true) - $start) . " seconds");
         $this->info('Done!');
