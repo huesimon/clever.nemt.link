@@ -106,6 +106,16 @@ class Charger extends Model
         return preg_replace('/\..*/', '', $this->attributes['max_power_kw']);
     }
 
+    public function getKwColorAttribute()
+    {
+        return match (true) {
+            $this->attributes['max_power_kw'] <= 40 => 'bg-green-100',
+            $this->attributes['max_power_kw'] <= 100 => 'bg-yellow-100',
+            $this->attributes['max_power_kw'] <= 200 => 'bg-orange-100',
+            default => 'bg-red-100',
+        };
+    }
+
     public function getIsOccupiedAttribute()
     {
          return $this->attributes['status'] === self::OCCUPIED;

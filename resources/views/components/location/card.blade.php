@@ -93,7 +93,7 @@
                         <div class="sm:flex sm:items-start">
                             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                 <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                                    #{{ $location->id }}: {{ $location->name }}
+                                    {{--  --}}
                                 </h3>
                                 <div class="flex flex-col space-y-2 mt-2">
                                     @foreach ($location->chargers as $charger)
@@ -106,7 +106,7 @@
                                                 {{ $charger->current_session }}
                                               </span>
 
-                                              <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800">
+                                              <span class="inline-flex items-center rounded-full {{ $charger->kw_color }} px-2.5 py-0.5 text-xs font-medium text-indigo-800">
                                                 {{ $charger->plug_type }}: {{ $charger->kw }} kW
                                               </span>
                                         </p>
