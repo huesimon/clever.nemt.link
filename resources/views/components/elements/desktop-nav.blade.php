@@ -8,23 +8,9 @@
         </div>
         <div class="flex flex-1 flex-col overflow-y-auto">
             <nav class="flex-1 space-y-1 px-2 py-4">
-                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                <a href="{{ route('home') }}"
-                    class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                    <!--
-        Heroicon name: outline/home
-
-        Current: "text-gray-300", Default: "text-gray-400 group-hover:text-gray-300"
-      -->
-                    <svg class="text-gray-300 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                        aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                    </svg>
+                <x-elements.navbar-link :link="route('home')" icon="house" :active="route('home') == url()->current()">
                     Dashboard
-                </a>
-
+                </x-elements.navbar-link>
                 {{-- <a href="#"
                     class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                     <!-- Heroicon name: outline/users -->
@@ -38,20 +24,15 @@
                 </a> --}}
 
                 @auth
-                    <a
-                        href="{{ route('user.favorites', ['user' => auth()->user()->id ]) }}"
-                        class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                        <!-- Heroicon name: outline/folder -->
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                            class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                        </svg>
+                    <x-elements.navbar-link
+                        :link="route('user.favorites', ['user' => auth()->user()->id ])"
+                        icon="heart"
+                        :active="route('user.favorites', ['user' => auth()->user()->id ]) == url()->current()">
                         Favorites
-                    </a>
+                    </x-elements.navbar-link>
                 @endauth
 
-                <a href="#"
+                {{-- <a href="#"
                     class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                     <!-- Heroicon name: outline/calendar -->
                     <svg class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
@@ -61,7 +42,7 @@
                             d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                     </svg>
                     Newly created
-                </a>
+                </a> --}}
 {{--
                 <a href="#"
                     class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
