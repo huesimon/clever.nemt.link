@@ -98,6 +98,14 @@ class Charger extends Model
 
     }
 
+    /**
+     * Get the rounded max_power_kw
+     */
+    public function getKwAttribute()
+    {
+        return preg_replace('/\..*/', '', $this->attributes['max_power_kw']);
+    }
+
     public function getIsOccupiedAttribute()
     {
          return $this->attributes['status'] === self::OCCUPIED;
