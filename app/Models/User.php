@@ -63,4 +63,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Location::class);
     }
+
+    public function toggleFavorite(Location $location)
+    {
+        if ($this->locations->contains($location)) {
+            $this->locations()->detach($location);
+        } else {
+            $this->locations()->attach($location);
+        }
+    }
 }

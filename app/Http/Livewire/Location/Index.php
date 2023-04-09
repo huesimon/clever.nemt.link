@@ -39,4 +39,12 @@ class Index extends Component
     {
         Artisan::call('clever:chargers');
     }
+
+    /**
+     * TODO: Refactor if reverting to primary key
+     */
+    public function toggleFavorite(Location $location)
+    {
+        auth()->user()->toggleFavorite($location);
+    }
 }

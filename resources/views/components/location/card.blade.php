@@ -18,6 +18,29 @@
                     </span>
                 @endif
 
+                @auth
+                {{-- favorite button --}}
+                <div class="flex-shrink-0">
+                    <button type="button"
+                        wire:click="toggleFavorite({{$location}})"
+                        class="relative inline-flex items-center justify-center h-6 w-6 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+                        aria-expanded="false">
+                        <span class="sr-only">Add to favorite</span>
+                        <svg
+                            @if ($location->is_favorite)
+                                fill="currentColor"
+                            @else
+                                fill="none"
+                            @endif
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"></path>
+                          </svg>
+                    </button>
+                </div>
+                @endauth
             </div>
             <p class="mt-1 truncate text-sm text-gray-500"> {{$location->available_chargers_count}} / {{$location->total_chargers_count}} </p>
             {{-- @foreach ($location->chargers as $charger)

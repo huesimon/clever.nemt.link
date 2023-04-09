@@ -34,6 +34,20 @@ class Location extends Model
         });
     }
 
+    /**
+     * Will probably revert to using id as primary key
+     * This is just to avoid refactor...hopefully
+     */
+    public function getIdAttribute()
+    {
+         return $this->external_id;
+    }
+
+    public function getIsFavoriteAttribute()
+    {
+         return $this->subscribers()->where('user_id', auth()->id())->exists();
+    }
+
     public function getAvailableChargersCountAttribute()
     {
         return $this->chargers()->available()->count();
