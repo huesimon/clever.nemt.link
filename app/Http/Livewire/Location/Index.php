@@ -30,6 +30,14 @@ class Index extends Component
             $query->favorited($this->user);
         }
 
+        $query->withCount([
+            'chargers as available_chargers_count' => function ($query) {
+                $query->available();
+            },
+            'chargers as total_chargers_count' => function ($query) {
+            },
+        ]);
+
         return view('livewire.location.index', [
             'locations' => $query->get(),
         ]);

@@ -48,16 +48,6 @@ class Location extends Model
          return $this->subscribers()->where('user_id', auth()->id())->exists();
     }
 
-    public function getAvailableChargersCountAttribute()
-    {
-        return $this->chargers()->available()->count();
-    }
-
-    public function getTotalChargersCountAttribute()
-    {
-        return $this->chargers()->count();
-    }
-
     public function getIsOccupiedAttribute()
     {
         return $this->chargers()->where('status', '!=', Charger::AVAILABLE)->count() >= $this->chargers()->count();
