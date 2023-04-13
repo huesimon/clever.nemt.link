@@ -2,7 +2,9 @@
 /public/build
 /public/hot
 /public/storage
+/public/clever
 /storage/*.key
+/storage/clever
 /vendor
 .env
 .env.backup
@@ -14,3 +16,5 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+appcheck.py
