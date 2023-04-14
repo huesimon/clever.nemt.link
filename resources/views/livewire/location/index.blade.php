@@ -11,7 +11,7 @@
                                 placeholder="Copenhagen">
                         </div>
                     </div>
-
+{{--
                     @if (auth()->check() || Route::currentRouteName() == 'user.favorites')
                         <div class="mt-1 w-1/3">
                             <label for="update" class="block text-sm font-medium text-gray-700">Update</label>
@@ -22,7 +22,7 @@
                                 class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                     Update</button>
                         </div>
-                    @endif
+                    @endif --}}
                 </div>
             </div>
             <ul wire:poll.10s role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
