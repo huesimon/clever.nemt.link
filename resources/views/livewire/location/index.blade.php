@@ -11,6 +11,17 @@
                                 placeholder="Copenhagen">
                         </div>
                     </div>
+                    {{-- select with options for slow, fast, hyper --}}
+                    <div class="mt-1 w-1/3">
+                        <label for="kwh" class="block text-sm font-medium text-gray-700">Speed</label>
+                        <select wire:model='kwh' id="kwh" name="kwh"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <option value="null">All</option>
+                            <option value="slow">Slow</option>
+                            <option value="fast">Fast</option>
+                            <option value="hyper">Hyper</option>
+                        </select>
+                    </div>
 {{--
                     @if (auth()->check() || Route::currentRouteName() == 'user.favorites')
                         <div class="mt-1 w-1/3">
