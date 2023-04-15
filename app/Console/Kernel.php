@@ -20,6 +20,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('clever:locations')->dailyAt('08:00');
         $schedule->command('clever:locations')->dailyAt('18:00');
         $schedule->command('clever:chargers')->everyMinute();
+
+        $schedule->command('location:history')->everyFifteenMinutes();
         // $schedule->command('clever:chargers')
         //     ->everyMinute()
         //     ->timezone('Europe/Copenhagen')

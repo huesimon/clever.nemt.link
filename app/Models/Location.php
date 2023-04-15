@@ -27,6 +27,23 @@ class Location extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function history()
+    {
+        return $this->hasMany(LocationHistory::class, 'location_id', 'external_id');
+    }
+
+    public function historyTimestamped()
+    {
+        return $this->history->groupBy(function ($item, $key) {
+            return $item->created_at->format('Y-m-d H:i');
+        })->map(function ($item, $key) {
+            return [
+                'occupied' => $item->sum('occupied'),
+                'available' => $item->sum('available'),
+            ];
+        });
+    }
+
     public function scopeFavorited($query, $user = null)
     {
         return $query->whereHas('subscribers', function ($query) use($user) {

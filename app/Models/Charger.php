@@ -60,7 +60,12 @@ class Charger extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->where('status', 'Available');
+        return $query->where('status', self::AVAILABLE);
+    }
+
+    public function scopeOccupied($query)
+    {
+        return $query->where('status', self::OCCUPIED);
     }
 
     public function scopePlugType($query, $value)

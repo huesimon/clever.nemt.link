@@ -26,7 +26,9 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('chart', function () {
-    return view('chart');
+    return view('chart', [
+        'location' => Location::first(),
+    ]);
 });
 
 
