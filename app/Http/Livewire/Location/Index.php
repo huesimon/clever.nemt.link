@@ -49,7 +49,7 @@ class Index extends Component
         ]);
     }
 
-    public function getKwhRange(String $kwh)
+    public function getKwhRange($kwh)
     {
         switch ($kwh) {
             case 'slow':
