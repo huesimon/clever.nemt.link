@@ -22,6 +22,13 @@ class Index extends Component
 
         if (str($this->search)->length() > 2) {
             $query->where('name', 'like', '%' . $this->search . '%');
+            $locationIds = Charger::distinct()
+                ->orderBy('updated_at', 'desc')
+                // ->where('max_power_kw', '>=', 200)
+                ->whereBetween('max_power_kw', $this->getKwhRange($this->kwh))
+                ->limit(15)
+                ->get(['location_external_id', 'updated_at']);
+            $query->whereIn('external_id', $locationIds->pluck('location_external_id'));
         } elseif (!$this->user) {
             $locationIds = Charger::distinct()
                 ->orderBy('updated_at', 'desc')
