@@ -4,6 +4,12 @@
     'chartType' => 'line',
 ])
 
+{{-- incase of multiple charts on 1 page, once will prevent the js from being added multiple times --}}
+@once
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+@endpush
+@endonce
 <div
 x-data="{
     labels: {{ $labels }},

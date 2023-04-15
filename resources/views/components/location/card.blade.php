@@ -115,9 +115,14 @@
                             </div>
                         </div>
                     </div>
+                    {{-- A link to go to route location.chart --}}
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <a href="{{ route('location.chart', $location) }}"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 sm:ml-3 sm:w-auto sm:text-sm">
+                            View Chart
+                        </a>
+                    </div>
                 </x-slot:content>
-
-
             </x-elements.modal>
         </div>
 
