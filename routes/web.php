@@ -25,6 +25,10 @@ Route::get('/', function () {
     return view('dashboard');
 })->name('home');
 
+Route::get('chart', function () {
+    return view('chart');
+});
+
 
 Route::get('log/{filename}', function ($filename) {
     return json_decode(Storage::disk('local')->get('clever/' . $filename));
