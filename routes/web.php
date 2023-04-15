@@ -25,11 +25,11 @@ Route::get('/', function () {
     return view('dashboard');
 })->name('home');
 
-Route::get('chart', function () {
+Route::get('chart/{location}', function (Location $location) {
     return view('chart', [
-        'location' => Location::first(),
+        'location' => $location,
     ]);
-});
+})->name('location.chart');
 
 
 Route::get('log/{filename}', function ($filename) {
