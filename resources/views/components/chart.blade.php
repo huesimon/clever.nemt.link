@@ -34,7 +34,7 @@ x-data="{
                         displayColors: false,
                         callbacks: {
                             label(point) {
-                                return point.raw
+                                return 'Available' + point.raw
                             }
                         }
                     }
