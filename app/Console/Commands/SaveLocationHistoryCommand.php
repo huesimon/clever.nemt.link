@@ -6,6 +6,7 @@ use App\Models\Charger;
 use App\Models\Location;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SaveLocationHistoryCommand extends Command
 {
@@ -15,6 +16,8 @@ class SaveLocationHistoryCommand extends Command
      * @var string
      */
     protected $signature = 'location:history';
+
+    public $counter = 0;
 
     /**
      * The console command description.
@@ -32,9 +35,11 @@ class SaveLocationHistoryCommand extends Command
     {
         $this->info('Saving location history...');
         $insert = [];
+        Log::info('Total locations: ' . Location::count());
 
         DB::table('locations')->orderBy('created_at')->chunk(100, function ($locations) use (&$insert) {
             foreach ($locations as $location) {
+                $this->counter++;
                 $insert[] = [
                     'location_id' => $location->external_id,
                     'occupied' => Charger::where('location_external_id', $location->external_id)->occupied()->count(),
@@ -47,6 +52,8 @@ class SaveLocationHistoryCommand extends Command
 
         $this->info('Saving location history to database...');
         DB::table('location_histories')->insert($insert);
+        Log::info('Total locations: ' . Location::count());
+        Log::info('Counter value: ' . $this->counter);
 
         $this->info('Location history saved.');
         return Command::SUCCESS;
