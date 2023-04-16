@@ -17,8 +17,6 @@ class SaveLocationHistoryCommand extends Command
      */
     protected $signature = 'location:history';
 
-    public $counter = 0;
-
     /**
      * The console command description.
      *
@@ -34,14 +32,9 @@ class SaveLocationHistoryCommand extends Command
     public function handle()
     {
         $this->info('Saving location history...');
-        $insert = [];
         Log::info('Total locations: ' . Location::count());
 
         DB::table('locations')->orderBy('created_at')->each(function ($location) use (&$insert) {
-            if ($location->external_id == 'd0698aec-3d8d-eb11-b1ac-0022489bc085'){
-                Log::info('Will be added to history: ' . $location->external_id);
-            }
-            $this->counter++;
             $insert[] = [
                 'location_id' => $location->external_id,
                 'occupied' => Charger::where('location_external_id', $location->external_id)->occupied()->count(),
@@ -53,8 +46,6 @@ class SaveLocationHistoryCommand extends Command
 
         $this->info('Saving location history to database...');
         DB::table('location_histories')->insert($insert);
-        Log::info('Total locations: ' . Location::count());
-        Log::info('Counter value: ' . $this->counter);
 
         $this->info('Location history saved.');
         return Command::SUCCESS;
