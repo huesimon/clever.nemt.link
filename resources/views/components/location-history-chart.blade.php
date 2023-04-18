@@ -6,11 +6,12 @@
     'planned' => null,
     'unknown' => null,
     'blocked' => null,
-    'chartType' => 'line',
+    'title' => 'Location History Chart',
 ])
 
 <x-chart
     :labels="$labels"
+    :title="$title"
     :datasets="[
         [
             'data' => $available,
