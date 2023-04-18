@@ -21,6 +21,7 @@ class Charger extends Model
     const INOPERATIVE = 'Inoperative';
     const PLANNED = 'Planned';
     const UNKNOWN = 'Unknown';
+    const BLOCKED = 'Blocked';
 
     const STATUSES = [
         self::AVAILABLE,
@@ -29,6 +30,7 @@ class Charger extends Model
         self::INOPERATIVE,
         self::PLANNED,
         self::UNKNOWN,
+        self::BLOCKED,
     ];
 
     const TYPE_2 = 'Type2';
@@ -66,6 +68,26 @@ class Charger extends Model
     public function scopeOccupied($query)
     {
         return $query->where('status', self::OCCUPIED);
+    }
+
+    public function scopeOutOfOrder($query)
+    {
+        return $query->where('status', self::OUT_OF_ORDER);
+    }
+
+    public function scopeInoperative($query)
+    {
+        return $query->where('status', self::INOPERATIVE);
+    }
+
+    public function scopePlanned($query)
+    {
+        return $query->where('status', self::PLANNED);
+     }
+
+    public function scopeUnknown($query)
+    {
+        return $query->where('status', self::UNKNOWN);
     }
 
     public function scopePlugType($query, $value)

@@ -1,34 +1,28 @@
 @props([
     'labels' => [],
-    'values' => [],
+    'datasets' => [],
     'chartType' => 'line',
 ])
-
 {{-- incase of multiple charts on 1 page, once will prevent the js from being added multiple times --}}
 @once
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 @endpush
 @endonce
+
 <div
 x-data="{
-    labels: {{ $labels }},
-    values: {{ $values }},
     init() {
         let chart = new Chart(this.$refs.canvas.getContext('2d'), {
             type: '{{ $chartType }}',
             data: {
-                labels: this.labels,
-                datasets: [{
-                    data: this.values,
-                    backgroundColor: '#77C1D2',
-                    borderColor: '#77C1D2',
-                }],
+                labels: {{ Js::from($labels) }},
+                datasets: {{ Js::from($datasets) }},
             },
             options: {
                 interaction: { intersect: false },
-                scales: { 
-                    y: { 
+                scales: {
+                    y: {
                         beginAtZero: true,
                         ticks: { stepSize: 1 }
                     }
@@ -45,12 +39,6 @@ x-data="{
                     }
                 }
             }
-        })
-
-        this.$watch('values', () => {
-            chart.data.labels = this.labels
-            chart.data.datasets[0].data = this.values
-            chart.update()
         })
     }
 }"

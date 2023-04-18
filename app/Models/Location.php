@@ -32,6 +32,9 @@ class Location extends Model
         return $this->hasMany(LocationHistory::class, 'location_id', 'external_id');
     }
 
+    /**
+     * Is ->sum the correct function to use?
+     */
     public function historyTimestamped()
     {
         return $this->history->groupBy(function ($item, $key) {
@@ -40,6 +43,11 @@ class Location extends Model
             return [
                 'occupied' => $item->sum('occupied'),
                 'available' => $item->sum('available'),
+                'out_of_order' => $item->sum('out_of_order'),
+                'inoperative' => $item->sum('inoperative'),
+                'planned' => $item->sum('planned'),
+                'unknown' => $item->sum('unknown'),
+                'blocked' => $item->sum('blocked'),
             ];
         });
     }
