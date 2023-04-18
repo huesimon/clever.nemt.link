@@ -17,8 +17,6 @@ class SaveLocationHistoryCommand extends Command
      */
     protected $signature = 'location:history';
 
-    public $now = now();
-
     /**
      * The console command description.
      *
@@ -33,6 +31,7 @@ class SaveLocationHistoryCommand extends Command
      */
     public function handle()
     {
+        $now = now();
         $this->info('Saving location history...');
         Log::info('Total locations: ' . Location::count());
 
@@ -47,8 +46,8 @@ class SaveLocationHistoryCommand extends Command
                     'inoperative' => Charger::where('location_external_id', $location->external_id)->inoperative()->count(),
                     'unknown' => Charger::where('location_external_id', $location->external_id)->unknown()->count(),
                     'planned' => Charger::where('location_external_id', $location->external_id)->planned()->count(),
-                    'created_at' => $this->now,
-                    'updated_at' => $this->now,
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ];
             }
             $this->info('Saving location history to database...');
