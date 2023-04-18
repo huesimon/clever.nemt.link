@@ -23,7 +23,7 @@
             'borderColor' => '#F2C94C',
             'label' => 'Out of order'
         ],[
-            'inoperative' => $inoperative,
+            'data' => $inoperative,
             'backgroundColor' => '#F2994A',
             'borderColor' => '#F2994A',
             'label' => 'Inoperative'
