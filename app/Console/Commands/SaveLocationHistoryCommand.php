@@ -34,7 +34,7 @@ class SaveLocationHistoryCommand extends Command
         $this->info('Saving location history...');
         Log::info('Total locations: ' . Location::count());
 
-        DB::table('locations')->where('external_id', '0005b2ef-5dbf-ea11-a812-000d3ad97943')->orderBy('created_at')->each(function ($location) use (&$insert) {
+        DB::table('locations')->orderBy('created_at')->each(function ($location) use (&$insert) {
             $insert[] = [
                 'location_id' => $location->external_id,
                 'occupied' => Charger::where('location_external_id', $location->external_id)->occupied()->count(),
