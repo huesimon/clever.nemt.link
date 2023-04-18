@@ -2,7 +2,7 @@
     'labels' => [],
     'available' => null,
     'out_of_order' => null,
-    'inooperative' => null,
+    'inoperative' => null,
     'planned' => null,
     'unknown' => null,
     'blocked' => null,
@@ -23,7 +23,7 @@
             'borderColor' => '#F2C94C',
             'label' => 'Out of order'
         ],[
-            'inoperative' => $inooperative,
+            'inoperative' => $inoperative,
             'backgroundColor' => '#F2994A',
             'borderColor' => '#F2994A',
             'label' => 'Inoperative'
