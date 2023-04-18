@@ -22,6 +22,41 @@ class Location extends Model
         return $this->hasMany(Charger::class, 'location_external_id', 'external_id');
     }
 
+    public function availableChargers()
+    {
+        return $this->chargers()->available();
+    }
+
+    public function occupiedChargers()
+    {
+        return $this->chargers()->occupied();
+    }
+
+    public function outOfOrderChargers()
+    {
+        return $this->chargers()->outOfOrder();
+    }
+
+    public function inoperativeChargers()
+    {
+        return $this->chargers()->inoperative();
+    }
+
+    public function unknownChargers()
+    {
+        return $this->chargers()->unknown();
+    }
+
+    public function plannedChargers()
+    {
+        return $this->chargers()->planned();
+    }
+
+    public function blockedChargers()
+    {
+        return $this->chargers()->blocked();
+    }
+
     public function subscribers()
     {
         return $this->belongsToMany(User::class);
