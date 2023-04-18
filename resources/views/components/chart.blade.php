@@ -27,7 +27,12 @@ x-data="{
             },
             options: {
                 interaction: { intersect: false },
-                scales: { y: { beginAtZero: true }},
+                scales: { 
+                    y: { 
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    }
+                },
                 plugins: {
                     legend: { display: false },
                     tooltip: {
