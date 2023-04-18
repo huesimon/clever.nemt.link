@@ -33,7 +33,7 @@ x-data="{
                         displayColors: false,
                         callbacks: {
                             label(point) {
-                                return 'Available: ' + point.raw
+                                return point.parsed.y + ' ' + point.dataset.label
                             }
                         }
                     }
