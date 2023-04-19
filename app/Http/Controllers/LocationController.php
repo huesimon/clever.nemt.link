@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Location;
 use App\Http\Requests\StoreLocationRequest;
 use App\Http\Requests\UpdateLocationRequest;
+use Illuminate\Support\Facades\Cache;
 
 class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return Location::without('chargers')->get();
     }
 
     /**
@@ -47,7 +47,7 @@ class LocationController extends Controller
      */
     public function show(Location $location)
     {
-        //
+        return $location->load('chargers');
     }
 
     /**
