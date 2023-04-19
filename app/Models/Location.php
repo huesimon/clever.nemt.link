@@ -73,7 +73,7 @@ class Location extends Model
     public function historyTimestamped()
     {
         return $this->history->groupBy(function ($item, $key) {
-            return $item->created_at->format('Y-m-d H:i');
+            return $item->created_at_eu->format('Y-m-d H:i');
         })->map(function ($item, $key) {
             return [
                 'occupied' => $item->sum('occupied'),
