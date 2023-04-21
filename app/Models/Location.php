@@ -72,18 +72,20 @@ class Location extends Model
      */
     public function historyTimestamped()
     {
-        return $this->history->groupBy(function ($item, $key) {
-            return $item->created_at_eu->format('Y-m-d H:i');
-        })->map(function ($item, $key) {
-            return [
-                'occupied' => $item->sum('occupied'),
-                'available' => $item->sum('available'),
-                'out_of_order' => $item->sum('out_of_order'),
-                'inoperative' => $item->sum('inoperative'),
-                'planned' => $item->sum('planned'),
-                'unknown' => $item->sum('unknown'),
-                'blocked' => $item->sum('blocked'),
-            ];
+        return Cache::remember('location-history-timestamped-' . $this->external_id, now()->addMinutes(15), function () {
+            return $this->history->groupBy(function ($item, $key) {
+                return $item->created_at->format('Y-m-d H:i');
+            })->map(function ($item, $key) {
+                return [
+                    'occupied' => $item->sum('occupied'),
+                    'available' => $item->sum('available'),
+                    'out_of_order' => $item->sum('out_of_order'),
+                    'inoperative' => $item->sum('inoperative'),
+                    'planned' => $item->sum('planned'),
+                    'unknown' => $item->sum('unknown'),
+                    'blocked' => $item->sum('blocked'),
+                ];
+            });
         });
     }
 

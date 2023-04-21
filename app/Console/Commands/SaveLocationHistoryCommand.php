@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Charger;
 use App\Models\Location;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -56,6 +57,8 @@ class SaveLocationHistoryCommand extends Command
                     'created_at' => $now,
                     'updated_at' => $now,
                 ];
+
+                $this->clearLocationHistoryCache($location->external_id);
             }
             $this->info('Saving location history to database...');
             DB::table('location_histories')->insert($insert);
@@ -63,5 +66,10 @@ class SaveLocationHistoryCommand extends Command
 
         $this->info('Location history saved.');
         return Command::SUCCESS;
+    }
+
+    private function clearLocationHistoryCache($externalLocationId)
+    {
+        Cache::forget('location-history-timestamped-' . $externalLocationId);
     }
 }
