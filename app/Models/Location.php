@@ -71,10 +71,18 @@ class Location extends Model
     /**
      * Is ->sum the correct function to use?
      */
-    public function historyTimestamped()
+    public function historyTimestamped($from = null, $to = null)
     {
-        return Cache::remember('location-history-timestamped-' . $this->external_id, now()->addMinutes(15), function () {
-            return $this->history->groupBy(function ($item, $key) {
+        $from = $from ?? now()->subDays(2);
+        $to = $to ?? now();
+
+        return Cache::remember('location-history-timestamped-' .
+            $from->format('Y-m-d') . '-' . $to->format('Y-m-d') . '-' .
+            $this->external_id, now()->addMinutes(15), function () use ($from, $to) {
+            return $this->history()
+                ->whereBetween('created_at', [$from, $to])
+                ->get()
+                ->groupBy(function ($item, $key) {
                 return $item->created_at->format('Y-m-d H:i');
             })->map(function ($item, $key) {
                 return [
