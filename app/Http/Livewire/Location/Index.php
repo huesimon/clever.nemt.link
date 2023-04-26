@@ -7,12 +7,15 @@ use App\Models\Location;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination;
     public $search;
     public $kwh; // slow, fast, hyper
     protected $queryString = ['search', 'kwh'];
+
 
     public $user = null;
 
@@ -20,21 +23,12 @@ class Index extends Component
     {
         $query = Location::query();
 
-        if (str($this->search)->length() > 2) {
-            $query->where('name', 'like', '%' . $this->search . '%');
-        } elseif (!$this->user) {
-            $locationIds = Charger::distinct()
-                ->orderBy('updated_at', 'desc')
-                // ->where('max_power_kw', '>=', 200)
-                ->whereBetween('max_power_kw', $this->getKwhRange($this->kwh))
-                ->limit(15)
-                ->get(['location_external_id', 'updated_at']);
-            $query->whereIn('external_id', $locationIds->pluck('location_external_id'));
-        }
 
-        if ($this->user) {
-            $query->favorited($this->user);
-        }
+        $query->filter(['search' => $this->search]);
+
+        $query->filter(['favoriteBy' => $this->user]);
+
+        $query->filter(['kwhRange' => $this->getKwhRange($this->kwh)]);
 
         $query->withCount([
             'chargers as available_chargers_count' => function ($query) {
@@ -45,8 +39,18 @@ class Index extends Component
         ]);
 
         return view('livewire.location.index', [
-            'locations' => $query->get(),
+            'locations' => $query->paginate(15),
         ]);
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingKwh()
+    {
+        $this->resetPage();
     }
 
     public function getKwhRange($kwh)
@@ -59,7 +63,7 @@ class Index extends Component
             case 'hyper':
                 return [101, 1000];
             default:
-                return [1, 1000];
+                return null;
         }
     }
 

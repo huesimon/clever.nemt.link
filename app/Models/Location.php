@@ -107,6 +107,28 @@ class Location extends Model
         });
     }
 
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $search = explode(' ', $search);
+            $query->where(function ($query) use ($search) {
+                foreach ($search as $searchTerm) {
+                    $query->where('name', 'like', '%' . $searchTerm . '%');
+                }
+            });
+        });
+
+        $query->when($filters['favoriteBy'] ?? null, function ($query, $user) {
+            $query->favorited($user);
+        });
+
+        $query->when($filters['kwhRange'] ?? null, function ($query, $kwhRange) {
+            $query->whereHas('chargers', function ($query) use ($kwhRange) {
+                $query->whereBetween('kwh', $kwhRange);
+            });
+        });
+    }
+
     /**
      * Will probably revert to using id as primary key
      * This is just to avoid refactor...hopefully

@@ -41,6 +41,9 @@
                     <x-location.card :location="$location"/>
                 @endforeach
             </ul>
+            <div class="mt-6">
+                {{ $locations->links() }}
+            </div>
         </div>
     </div>
 </div>
