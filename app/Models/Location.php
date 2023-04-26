@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class Location extends Model
 {
@@ -79,6 +80,7 @@ class Location extends Model
         return Cache::remember('location-history-timestamped-' .
             $from->format('Y-m-d') . '-' . $to->format('Y-m-d') . '-' .
             $this->external_id, now()->addMinutes(15), function () use ($from, $to) {
+            Log::info('Fetching location history for ' . $this->external_id . ' from ' . $from->format('Y-m-d') . ' to ' . $to->format('Y-m-d'));
             return $this->history()
                 ->whereBetween('created_at', [$from, $to])
                 ->get()
