@@ -74,7 +74,7 @@ class Location extends Model
      */
     public function historyTimestamped($from = null, $to = null)
     {
-        $from = $from ?? now()->subDays(2);
+        $from = $from ?? now()->subDays(30);
         $to = $to ?? now();
 
         return Cache::remember('location-history-timestamped-' .

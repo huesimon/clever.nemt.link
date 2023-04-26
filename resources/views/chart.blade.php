@@ -1,7 +1,7 @@
 <x-layouts.main>
     @php
         // This is done to prevent calling the function multiple times
-        $timestamps = $location->historyTimestamped(now()->subDays(request()->get('days')));
+        $timestamps = $location->historyTimestamped();
     @endphp
     <x-location-history-chart
         :labels="$timestamps->keys()"

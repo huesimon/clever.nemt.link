@@ -8,6 +8,8 @@
 @once
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @endpush
 @endonce
 
@@ -37,6 +39,17 @@ x-data="{
                                 return point.parsed.y + ' ' + point.dataset.label
                             }
                         }
+                    },
+                    zoom: {
+                        zoom: {
+                          wheel: {
+                            enabled: true,
+                          },
+                          pinch: {
+                            enabled: true
+                          },
+                          mode: 'x',
+                        }
                     }
                 }
             }
@@ -49,9 +62,6 @@ class="w-full"
 <div class="flex flex-col space-y-5">
     <div class="flex justify-between items-center mb-2">
         <h2 class="text-2xl font-bold">{{ $title }}</h2>
-        <div class="{{ $extra->attributes->get('class') }}">
-            {{ $extra }}
-        </div>
     </div>
 </div>
 <canvas x-ref="canvas" class="rounded-lg bg-white p-8"></canvas>
