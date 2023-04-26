@@ -1,4 +1,6 @@
-@props(['title'])
+@props([
+    'title',
+])
 
 <div x-data="{ open: false }" class="-ml-px flex w-0 flex-1" >
     <!-- Trigger -->
@@ -43,13 +45,7 @@
 
                 <!-- Buttons -->
                 <div class="mt-8 flex space-x-2">
-                    <button type="button" x-on:click="open = false" class="rounded-md border border-gray-200 bg-white px-5 py-2.5">
-                        Confirm
-                    </button>
-
-                    <button type="button" x-on:click="open = false" class="rounded-md border border-gray-200 bg-white px-5 py-2.5">
-                        Cancel
-                    </button>
+                    {{ $buttons }}
                 </div>
             </div>
         </div>
