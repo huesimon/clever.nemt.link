@@ -41,13 +41,15 @@ x-data="{
                         }
                     },
                     zoom: {
-                        zoom: {
-                          wheel: {
+                        pan: {
                             enabled: true,
-                          },
-                          pinch: {
-                            enabled: true
-                          },
+                            mode: 'x',
+                            modifierKey: 'ctrl',
+                        },
+                        zoom: {
+                            drag: {
+                                enabled: true
+                            },
                           mode: 'x',
                         }
                     }
