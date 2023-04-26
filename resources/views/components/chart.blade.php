@@ -45,9 +45,14 @@ x-data="{
 }"
 class="w-full"
 >
-{{-- headline --}}
-<div class="flex justify-between items-center">
-    <h2 class="text-2xl font-bold">{{ $title }}</h2>
+
+<div class="flex flex-col space-y-5">
+    <div class="flex justify-between items-center mb-2">
+        <h2 class="text-2xl font-bold">{{ $title }}</h2>
+        <div class="{{ $extra->attributes->get('class') }}">
+            {{ $extra }}
+        </div>
+    </div>
 </div>
 <canvas x-ref="canvas" class="rounded-lg bg-white p-8"></canvas>
 </div>
