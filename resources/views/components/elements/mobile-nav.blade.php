@@ -99,8 +99,8 @@
                     </button>
                 </div>
                 <div class="flex flex-shrink-0 items-center px-4">
-                    <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company">
+                    {{-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                        alt="Your Company"> --}}
                 </div>
                 <div class="mt-5 h-0 flex-1 overflow-y-auto">
                     <nav class="space-y-1 px-2">
