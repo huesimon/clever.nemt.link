@@ -38,6 +38,10 @@ class Index extends Component
             },
         ]);
 
+        $query->leftJoin('chargers', 'locations.external_id', '=', 'chargers.location_external_id')
+            ->groupBy('locations.external_id')
+            ->orderBy('chargers.updated_at', 'desc');
+
         return view('livewire.location.index', [
             'locations' => $query->paginate(15),
         ]);
