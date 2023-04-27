@@ -6,6 +6,7 @@ use App\Models\Location;
 use App\Http\Requests\StoreLocationRequest;
 use App\Http\Requests\UpdateLocationRequest;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class LocationController extends Controller
 {
@@ -15,7 +16,10 @@ class LocationController extends Controller
      */
     public function index()
     {
-        return Location::without('chargers')->get();
+        Log::info('LocationController@index');
+        return Cache::remember('locations', now()->addHours(1), function () {
+            return Location::without('chargers')->get();
+        });
     }
 
     /**
@@ -47,6 +51,7 @@ class LocationController extends Controller
      */
     public function show(Location $location)
     {
+        Log::info('LocationController@show');
         return $location->load('chargers');
     }
 
