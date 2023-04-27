@@ -124,7 +124,7 @@ class Location extends Model
 
         $query->when($filters['kwhRange'] ?? null, function ($query, $kwhRange) {
             $query->whereHas('chargers', function ($query) use ($kwhRange) {
-                $query->whereBetween('kwh', $kwhRange);
+                $query->whereBetween('max_power_kw', $kwhRange);
             });
         });
     }
