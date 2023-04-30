@@ -52,7 +52,7 @@ class LocationController extends Controller
     public function show(Location $location)
     {
         Log::info('LocationController@show');
-        return $location->load('chargers');
+        return $location->load(['address', 'chargers']);
     }
 
     /**
