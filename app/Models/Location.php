@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasAddress;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -17,6 +18,7 @@ class Location extends Model
 
     protected $with = ['chargers'];
 
+    use HasAddress;
     use HasFactory;
 
     public function chargers()
@@ -111,13 +113,21 @@ class Location extends Model
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $search = explode(' ', $search);
+            $search = array_filter($search, function ($value) {
+                return !empty($value);
+            });
+
             $query->where(function ($query) use ($search) {
                 foreach ($search as $searchTerm) {
-                    $query->where('name', 'like', '%' . $searchTerm . '%');
+                    $query->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhereHas('address', function ($query) use ($searchTerm) {
+                        $query->where('address', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('city', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('postal_code', 'like', '%' . $searchTerm . '%');
+                    });
                 }
             });
         });
-
         $query->when($filters['favoriteBy'] ?? null, function ($query, $user) {
             $query->favorited($user);
         });

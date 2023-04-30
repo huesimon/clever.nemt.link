@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Address;
 use App\Models\Charger;
 use App\Models\Company;
 use App\Models\Location;
@@ -54,24 +55,40 @@ class LoadCleverLocationsV2Command extends Command
 
         $cleverCollection->map(function ($chunk) {
                 return [
-                    'external_id' => $chunk->locationId,
-                    'name' => $chunk->name,
-                    'company_id' => '1',
-                    'origin' => 'clever',
-                    'is_roaming_allowed' => $chunk->publicAccess->isRoamingAllowed,
-                    'is_public_visible' => $chunk->publicAccess->visibility,
-                    'coordinates' => $chunk->coordinates->lat . ',' . $chunk->coordinates->lng,
+                    'location' => [
+                        'external_id' => $chunk->locationId,
+                        'name' => $chunk->name,
+                        'company_id' => '1',
+                        'origin' => 'clever',
+                        'is_roaming_allowed' => $chunk->publicAccess->isRoamingAllowed,
+                        'is_public_visible' => $chunk->publicAccess->visibility,
+                        'coordinates' => $chunk->coordinates->lat . ',' . $chunk->coordinates->lng,
+                    ],
+                    'address' => [
+                        'addressable_id' => Location::where('external_id', $chunk->locationId)->first()->id,
+                        'addressable_type' => Location::class,
+                        'address' => $chunk->address->address,
+                        'city' => $chunk->address->city,
+                        'country_code' => $chunk->address->countryCode,
+                        'postal_code' => $chunk->address->postalCode,
+                        // 'location' => $chunk->coordinates->lat . ',' . $chunk->coordinates->lng,
+                        'lat' => $chunk->coordinates->lat,
+                        'lng' => $chunk->coordinates->lng,
+                    ]
                 ];
             })
             ->chunk(1000)
             ->each(function ($chunk) use ($cleverOperator, $bar) {
                 Location::upsert(
-                    $chunk->toArray(),
+                    $chunk->pluck('location')->toArray(),
                     ['external_id'],
                     ['name', 'company_id']);
-                // $bar->advance();
+
+                Address::upsert(
+                    $chunk->pluck('address')->toArray(),
+                    ['addressable_id', 'addressable_type'],
+                    ['address', 'city', 'country_code', 'postal_code']);
             });
-        // $bar->finish();
 
         $chargersFromClever = [];
 
