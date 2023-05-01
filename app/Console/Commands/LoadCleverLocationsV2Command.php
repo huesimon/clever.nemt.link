@@ -65,7 +65,7 @@ class LoadCleverLocationsV2Command extends Command
                         'coordinates' => $chunk->coordinates->lat . ',' . $chunk->coordinates->lng,
                     ],
                     'address' => [
-                        'addressable_id' => Location::where('external_id', $chunk->locationId)->first()->external_id,
+                        'addressable_id' => $chunk->locationId,
                         'addressable_type' => Location::class,
                         'address' => $chunk->address->address,
                         'city' => $chunk->address->city,
