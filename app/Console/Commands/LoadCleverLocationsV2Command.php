@@ -84,10 +84,10 @@ class LoadCleverLocationsV2Command extends Command
                     ['external_id'],
                     ['name', 'company_id']);
 
-                // Address::upsert(
-                //     $chunk->pluck('address')->toArray(),
-                //     ['addressable_id', 'addressable_type'],
-                //     ['address', 'city', 'country_code', 'postal_code']);
+                Address::upsert(
+                    $chunk->pluck('address')->toArray(),
+                    ['addressable_id', 'addressable_type'],
+                    ['address', 'city', 'country_code', 'postal_code']);
             });
 
         $chargersFromClever = [];
