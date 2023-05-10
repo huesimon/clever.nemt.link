@@ -38,10 +38,13 @@ class Index extends Component
             },
         ]);
 
-        $query->orderByDesc(Charger::select('updated_at')
+
+        $query->when(!$this->user, function ($query) {
+            $query->orderByDesc(Charger::select('updated_at')
             ->whereColumn('location_external_id', 'locations.external_id')
             ->orderByDesc('updated_at')
             ->limit(1));
+        });
 
         return view('livewire.location.index', [
             'locations' => $query->paginate(15),
