@@ -71,6 +71,11 @@ class Location extends Model
         return $this->hasMany(LocationHistory::class, 'location_id', 'external_id');
     }
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     /**
      * Is ->sum the correct function to use?
      */

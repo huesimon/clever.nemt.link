@@ -65,6 +65,22 @@ class User extends Authenticatable
         return $this->belongsToMany(Location::class);
     }
 
+    public function radius()
+    {
+        return $this->hasMany(LocationRadius::class);
+    }
+
+    public function locationsWithinRadii()
+    {
+        $locations = collect();
+
+        $this->radius()->each(function ($radius) use ($locations) {
+            $locations->add($radius->locations());
+        });
+
+        return $locations->flatten();
+    }
+
     public function toggleFavorite(Location $location)
     {
         if ($this->locations->contains($location)) {
