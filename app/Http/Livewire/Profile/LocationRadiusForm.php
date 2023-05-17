@@ -25,12 +25,15 @@ class LocationRadiusForm extends Component
         auth()->user()->radius()->create([
             'lat' => $this->lat,
             'lng' => $this->lng,
+            'radius' => $this->radius,
             'name' => $this->name,
         ]);
 
-        $this->reset(['lat', 'lng', 'name']);
+        $this->reset(['lat', 'lng', 'name', 'radius']);
 
         Session::flash('success', 'Location radius saved.');
+
+        $this->radii = auth()->user()->radius;
     }
 
 

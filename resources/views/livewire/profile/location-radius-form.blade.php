@@ -87,9 +87,6 @@
                                 @endif
                             </div>
                         @endif
-                        <x-jet-button wire:click='save' class="mt-8 sm:col-span-2 sm:col-start-5">
-                            {{ __('Save') }}
-                        </x-jet-button>
                     @empty
                         empty
                         {{-- Input field and save button --}}
@@ -98,6 +95,9 @@
                             <x-jet-input id="radius" type="text" class="mt-1 block w-full" wire:model.defer="radiusCollection.0.radius" autocomplete="radius" />
                         </div>
                     @endforelse
+                        <x-jet-button wire:click='save' class="mt-8 sm:col-span-2 sm:col-start-5">
+                            {{ __('Save') }}
+                        </x-jet-button>
         </div>
     </x-slot>
 </x-jet-action-section>
