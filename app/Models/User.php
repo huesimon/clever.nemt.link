@@ -70,12 +70,11 @@ class User extends Authenticatable
         return $this->hasMany(LocationRadius::class);
     }
 
-    public function locationsWithinRadii()
+    public function locationsWithinRadii($createdAfter = null)
     {
         $locations = collect();
-
-        $this->radius()->each(function ($radius) use ($locations) {
-            $locations->add($radius->locations());
+        $this->radius()->each(function ($radius) use ($locations, $createdAfter) {
+            $locations->add($radius->locations($createdAfter));
         });
 
         return $locations->flatten();
@@ -88,5 +87,11 @@ class User extends Authenticatable
         } else {
             $this->locations()->attach($location);
         }
+    }
+
+    public function scopeNotifyAboutNewLocations($query)
+    {
+        return $query->where('email', '!=', null)
+            ->where('notify_locations', true);
     }
 }

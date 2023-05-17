@@ -16,12 +16,26 @@ class LocationRadius extends Model
 
     public function locations($createdAfter = null)
     {
-        return Location::whereHas('address', function ($query) {
-            $query->whereRaw("ST_Distance_Sphere(POINT(?, ?), POINT(addresses.lng, addresses.lat)) <= ?", [$this->lng, $this->lat, $this->radius]);
+
+        return Location::with('address')->whereHas('address', function ($query) {
+            $boundingBox = $this->getBoundingBox();
+            $query->whereRaw("ST_Distance_Sphere(POINT(?, ?), POINT(addresses.lng, addresses.lat)) <= ?", [$this->lng, $this->lat, $this->radius])
+            ->whereBetween('lat', [$boundingBox['minLat'], $boundingBox['maxLat']])
+            ->whereBetween('lng', [$boundingBox['minLng'], $boundingBox['maxLng']]);
         })
         ->when($createdAfter, function ($query) use ($createdAfter) {
             $query->where('locations.created_at', '>=', $createdAfter);
         })->get();
+    }
+
+    public function getBoundingBox()
+    {
+        return [
+            'minLat' => $this->lat - $this->radius,
+            'maxLat' => $this->lat + $this->radius,
+            'minLng' => $this->lng - $this->radius,
+            'maxLng' => $this->lng + $this->radius,
+        ];
     }
 
     public function getRadiusForHumansAttribute()
