@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('artisan app:email-users-about-new-locations')->dailyAt('12:00');
 
         $schedule->command('clever:locations')->dailyAt('08:00');
         $schedule->command('clever:locations')->dailyAt('18:00');
