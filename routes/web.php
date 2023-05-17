@@ -22,10 +22,6 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', function () {
-    $user = User::first();
-
-    return $user->locationsWithinRadii(now()->subDay());
-
     return view('dashboard');
 })->name('home');
 
