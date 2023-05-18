@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Charger;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -40,8 +41,11 @@ class NewLocationsNotification extends Notification
             ->line("There have been created {$this->locations->count()} new locations in your area.");
         $this->locations->each(function ($location) use ($message) {
             $address = $location->address;
-            $message->line("{$location->name} at {$address->address}")
-            ->line("https://www.google.dk/maps/@{$address->lat},{$address->lng},17z");
+            $message->line("{$location->name} at {$address->address} {$address->postalCode} {$address->city}")
+            ->line("Total number of chargers: {$location->chargers->count()}")
+            ->lineIf($location->chargers()->plugType(Charger::TYPE_2)->count(), "Type2: " . $location->chargers()->plugType(Charger::TYPE_2)->count())
+            ->lineIf($location->chargers()->plugType(Charger::CCS)->count() ,"CCS: " . $location->chargers()->plugType(Charger::CCS)->count())
+            ->lineIf($location->chargers()->plugType(Charger::CHADEMO)->count() ,"CHAdeMO: " . $location->chargers()->plugType(Charger::CHADEMO)->count());
         });
 
         return $message;
