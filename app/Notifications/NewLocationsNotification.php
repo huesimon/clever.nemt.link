@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class NewLocationsNotification extends Notification
 {
@@ -18,7 +19,7 @@ class NewLocationsNotification extends Notification
      */
     public function __construct(public Collection $locations)
     {
-        dump('NewLocationsNotification::__construct()');
+
     }
 
     /**
@@ -36,6 +37,8 @@ class NewLocationsNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        Log::info("Sending mail to {$notifiable->email}");
+
         $message = (new MailMessage)
             ->subject('New Locations')
             ->line("There have been created {$this->locations->count()} new locations in your area.");
