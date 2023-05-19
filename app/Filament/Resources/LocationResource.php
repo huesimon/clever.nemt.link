@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\LocationResource\Pages;
 use App\Filament\Resources\LocationResource\RelationManagers;
+use App\Filament\Resources\LocationResource\RelationManagers\AddressRelationManager;
 use App\Models\Location;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -11,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LocationResource extends Resource
@@ -77,6 +79,7 @@ class LocationResource extends Resource
     {
         return [
             RelationManagers\ChargersRelationManager::class,
+            AddressRelationManager::class,
         ];
     }
 
