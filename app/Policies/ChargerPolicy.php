@@ -18,7 +18,7 @@ class ChargerPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class ChargerPolicy
      */
     public function view(User $user, Charger $charger)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +41,7 @@ class ChargerPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class ChargerPolicy
      */
     public function update(User $user, Charger $charger)
     {
-        //
+        return true;
     }
 
     /**
@@ -65,7 +65,7 @@ class ChargerPolicy
      */
     public function delete(User $user, Charger $charger)
     {
-        //
+        return true;
     }
 
     /**
@@ -77,7 +77,7 @@ class ChargerPolicy
      */
     public function restore(User $user, Charger $charger)
     {
-        //
+        return true;
     }
 
     /**
@@ -89,6 +89,6 @@ class ChargerPolicy
      */
     public function forceDelete(User $user, Charger $charger)
     {
-        //
+        return true;
     }
 }

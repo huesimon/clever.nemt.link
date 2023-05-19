@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Filament\Resources\ChargerResource\Pages;
+
+use App\Filament\Resources\ChargerResource;
+use Filament\Pages\Actions;
+use Filament\Resources\Pages\EditRecord;
+
+class EditCharger extends EditRecord
+{
+    protected static string $resource = ChargerResource::class;
+
+    protected function getActions(): array
+    {
+        return [
+            Actions\DeleteAction::make(),
+        ];
+    }
+}
