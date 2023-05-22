@@ -53,15 +53,17 @@ class LocationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('external_id'),
                 Tables\Columns\TextColumn::make('company_id'),
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')->sortable(),
                 Tables\Columns\TextColumn::make('origin'),
                 Tables\Columns\IconColumn::make('is_roaming_allowed')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('is_public_visible'),
                 Tables\Columns\TextColumn::make('coordinates'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->sortable()
                     ->dateTime(),
             ])
             ->filters([
