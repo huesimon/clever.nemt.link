@@ -99,7 +99,7 @@
                                     @foreach ($location->chargers as $charger)
                                         {{-- display id and how long the charging_session is --}}
                                         <p class="text-sm">
-                                            {{ $charger->readable_id }} - <span class="inline-flex items-center rounded-full {{$charger->session_color}} px-2.5 py-0.5 text-xs font-medium text-indigo-800">
+                                            @if ($charger->has_star) <span> ⭐ </span> @endif {{ $charger->readable_id }} - <span class="inline-flex items-center rounded-full {{$charger->session_color}} px-2.5 py-0.5 text-xs font-medium text-indigo-800">
                                                 <svg class="-ml-0.5 mr-1.5 h-2 w-2 text-indigo-400" fill="currentColor" viewBox="0 0 8 8">
                                                   <circle cx="4" cy="4" r="3" />
                                                 </svg>
