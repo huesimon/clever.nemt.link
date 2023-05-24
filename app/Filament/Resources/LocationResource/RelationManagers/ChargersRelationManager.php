@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\LocationResource\RelationManagers;
 
+use App\Filament\Resources\ChargerResource;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -18,12 +19,7 @@ class ChargersRelationManager extends RelationManager
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('evse_id')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+        return ChargerResource::form($form);
     }
 
     public static function table(Table $table): Table
@@ -45,5 +41,5 @@ class ChargersRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }    
+    }
 }
