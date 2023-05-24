@@ -53,7 +53,7 @@ class LocationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('external_id'),
                 Tables\Columns\TextColumn::make('company_id'),
-                Tables\Columns\TextColumn::make('name')->sortable(),
+                Tables\Columns\TextColumn::make('name')->sortable()->searchable(isGlobal: true),
                 Tables\Columns\TextColumn::make('origin'),
                 Tables\Columns\IconColumn::make('is_roaming_allowed')
                     ->boolean(),
