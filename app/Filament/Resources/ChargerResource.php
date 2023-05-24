@@ -26,8 +26,8 @@ class ChargerResource extends Resource
                 Forms\Components\TextInput::make('evse_id')
                     ->required()
                     ->maxLength(255),
-                Tables\Columns\IconColumn::make('has_star')
-                    ->boolean(),
+                Forms\Components\Toggle::make('has_star')
+                    ->required(),
                 Forms\Components\TextInput::make('location_external_id')
                     ->required()
                     ->maxLength(255),
@@ -55,6 +55,8 @@ class ChargerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('evse_id'),
+                Tables\Columns\IconColumn::make('has_star')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('location_external_id'),
                 Tables\Columns\TextColumn::make('evse_connector_id'),
                 Tables\Columns\TextColumn::make('status'),
