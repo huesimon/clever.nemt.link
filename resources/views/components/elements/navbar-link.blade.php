@@ -24,6 +24,9 @@
             @case('chart-bar')
                 <x-icons.chart-bar />
                 @break
+            @case('globe')
+                <x-icons.globe />
+                @break
             @default
 
         @endswitch
