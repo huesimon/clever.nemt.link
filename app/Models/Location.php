@@ -182,4 +182,9 @@ class Location extends Model
     {
         return $query->where('is_public_visible', 'Always');
     }
+
+    public function scopeIsPrivate($query)
+    {
+        return $query->where('is_public_visible', 'InProximity');
+    }
 }

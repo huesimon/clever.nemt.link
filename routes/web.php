@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Location;
 use App\Models\LocationUser;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -37,7 +38,8 @@ Route::get('chart/{location}', function (Location $location) {
 
 Route::get('map', function () {
     return view('map',[
-        'locations' => Location::with('address')->isPublic()->get(),
+        'locations' => Location::with('address')->isPrivate()->get(),
+        'publicLocations' => Location::with('address')->isPublic()->get(),
     ]);
 })->name('map');
 
