@@ -35,6 +35,12 @@ Route::get('chart/{location}', function (Location $location) {
     ]);
 })->name('location.chart');
 
+Route::get('map', function () {
+    return view('map',[
+        'locations' => Location::with('address')->isPublic()->get(),
+    ]);
+})->name('map');
+
 
 Route::get('log/{filename}', function ($filename) {
     return json_decode(Storage::disk('local')->get('clever/' . $filename));

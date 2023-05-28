@@ -177,4 +177,9 @@ class Location extends Model
     {
         return $query->orderBy('updated_at', 'desc');
     }
+
+    public function scopeIsPublic($query)
+    {
+        return $query->where('is_public_visible', 'Always');
+    }
 }
