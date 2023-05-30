@@ -41,12 +41,12 @@ Route::get('map', function () {
         'locations' => Location::with('address')
             ->without('chargers')
             ->isPrivate()
-            // ->limit(10)
+            ->limit(10)
             ->get(),
         'publicLocations' => Location::with('address')
             ->without('chargers')
             ->isPublic()
-            // ->limit(10)
+            ->limit(10)
             ->get(),
     ]);
 })->name('map');
