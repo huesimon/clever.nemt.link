@@ -15,7 +15,7 @@
     }).addTo(map);
 
     @foreach ($publicLocations as $location)
-    L.circle([{{ $location->address?->lat ?? 00.00000 }}, {{ $location->address?->lng ?? 00.00000 }}], {
+    L.circle([{{ $location->address?->lat ?? 54.789314 }}, {{ $location->address?->lng ?? 14.924348 }}], {
         color: 'blue',
         fillColor: '#03f',
         fillOpacity: 0.5,
@@ -24,7 +24,7 @@
     @endforeach
 
     @foreach ($locations as $location)
-    L.circle([{{ $location->address?->lat ?? 00.00000 }}, {{ $location->address?->lng ?? 00.00000 }}], {
+    L.circle([{{ $location->address?->lat ?? 54.789314 }}, {{ $location->address?->lng ?? 14.924348 }}], {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
