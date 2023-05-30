@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('locations', function (Blueprint $table) {
             $table->string('virtual_name')
                 ->after('name')
-                ->virtualAs("regexp_replace(name, '([^ 0-9A-zæøåÆØÅ()-/])', '')");
+                ->virtualAs("regexp_replace(name, '([^ 0-9A-zÀ-ÿ()-/])', '')");
         });
     }
 
