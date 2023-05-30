@@ -38,8 +38,16 @@ Route::get('chart/{location}', function (Location $location) {
 
 Route::get('map', function () {
     return view('map',[
-        'locations' => Location::with('address')->isPrivate()->get(),
-        'publicLocations' => Location::with('address')->isPublic()->get(),
+        'locations' => Location::with('address')
+            ->without('chargers')
+            ->isPrivate()
+            // ->limit(10)
+            ->get(),
+        'publicLocations' => Location::with('address')
+            ->without('chargers')
+            ->isPublic()
+            // ->limit(10)
+            ->get(),
     ]);
 })->name('map');
 
