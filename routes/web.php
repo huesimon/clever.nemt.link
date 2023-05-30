@@ -39,10 +39,12 @@ Route::get('chart/{location}', function (Location $location) {
 Route::get('map', function () {
     return view('map',[
         'locations' => Location::with('address')
+            ->whereHas('address')
             ->without('chargers')
             ->isPrivate()
             ->get(),
         'publicLocations' => Location::with('address')
+            ->whereHas('address')
             ->without('chargers')
             ->isPublic()
             ->get(),

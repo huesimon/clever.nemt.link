@@ -15,21 +15,21 @@
     }).addTo(map);
 
     @foreach ($publicLocations as $location)
-    L.circle([{{ $location->address?->lat ?? 54.789314 + "0.000" . $loop->index }}, {{ $location->address?->lng ?? 14.924348 }}], {
+    L.circle([{{ $location->address->lat }}, {{ $location->address->lng }}], {
         color: 'blue',
         fillColor: '#03f',
         fillOpacity: 0.5,
         radius: 50
-    }).addTo(map).bindPopup('{{$location->external_id}}');
+    }).addTo(map).bindPopup('{{ $location->virtual_name }}');
     @endforeach
 
     @foreach ($locations as $location)
-    L.circle([{{ $location->address?->lat ?? 54.789314 + "0.000" . $loop->index}}, {{ $location->address?->lng ?? 14.924348 }}], {
+    L.circle([{{ $location->address->lat}}, {{ $location->address->lng }}], {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
         radius: 50
-    }).addTo(map).bindPopup('{{$location->external_id}}');
+    }).addTo(map).bindPopup('{{ $location->virtual_name }}');
     @endforeach
     "
     class="h-[680px]" id="map"></div>
