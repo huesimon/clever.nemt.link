@@ -14,6 +14,9 @@
                 <x-elements.navbar-link :link="route('radius')" icon="globe" :active="route('radius') == url()->current()">
                     Radius
                 </x-elements.navbar-link>
+                <x-elements.navbar-link :link="route('radius')" icon="inbox" :active="route('radius') == url()->current()">
+                    Feedback
+                </x-elements.navbar-link>
 
                 {{-- <a href="#"
                     class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">

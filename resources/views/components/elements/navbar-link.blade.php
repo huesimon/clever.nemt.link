@@ -27,6 +27,9 @@
             @case('globe')
                 <x-icons.globe />
                 @break
+            @case('inbox')
+                <x-icons.inbox />
+                @break
             @default
 
         @endswitch
