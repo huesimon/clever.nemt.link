@@ -24,6 +24,20 @@ class ChargerFactory extends Factory
                 'Occupied',
                 'Unknown',
             ]),
+            'connector_id' => 1,
+            'max_current_amp' => $this->faker->randomElement([
+                16,
+            ]),
+            'max_power_kw' => $this->faker->randomElement([
+                11,
+                22,
+            ]),
+            'plug_type' => $this->faker->randomElement([
+                'Type 2',
+            ]),
+            'speed' => $this->faker->randomElement([
+                'Standard',
+            ]),
         ];
     }
 }

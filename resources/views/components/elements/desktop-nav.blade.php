@@ -14,6 +14,12 @@
                 <x-elements.navbar-link :link="route('radius')" icon="globe" :active="route('radius') == url()->current()">
                     Radius
                 </x-elements.navbar-link>
+                <x-elements.navbar-link :link="route('map')" icon="map" :active="route('map') == url()->current()">
+                    Map
+                </x-elements.navbar-link>
+                <x-elements.navbar-link :link="route('feedback')" icon="inbox" :active="route('feedback') == url()->current()">
+                    Feedback
+                </x-elements.navbar-link>
 
                 {{-- <a href="#"
                     class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">

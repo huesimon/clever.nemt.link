@@ -5,6 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Company;
+use App\Models\Feedback;
+use App\Models\Location;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -25,9 +27,15 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        Company::factory()->create([
+        $companyClever = Company::factory()->create([
             'name' => 'Clever',
         ]);
+
+
+        Location::factory()->for($companyClever)->count(100)->hasChargers(4)->create();
+
+        Feedback::factory()->count(3)->create();
+        Feedback::factory()->count(3)->published()->responded()->create();
 
         // $this->call(CompanySeeder::class);
         // $this->call(LocationSeeder::class);
