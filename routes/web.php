@@ -30,6 +30,10 @@ Route::get('radius', function () {
     return view('components.radius');
 })->name('radius')->middleware('auth');
 
+Route::get('feedback', function () {
+    return view('feedback');
+})->name('feedback');
+
 Route::get('chart/{location}', function (Location $location) {
     return view('chart', [
         'location' => $location,

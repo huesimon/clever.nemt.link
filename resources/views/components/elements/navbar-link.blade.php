@@ -30,6 +30,9 @@
             @case('inbox')
                 <x-icons.inbox />
                 @break
+            @case('map')
+                <x-icons.map />
+                @break
             @default
 
         @endswitch
