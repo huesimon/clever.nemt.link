@@ -57,9 +57,8 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate(): void
     {
-        $adminEmails = Arr::wrap(config('nemt.admin_emails'));
-        Gate::define('viewTelescope', function ($user) use ($adminEmails) {
-            return in_array($user->email, $adminEmails);
+        Gate::define('viewTelescope', function ($user) {
+            return $user->is_admin;
         });
     }
 }
