@@ -44,6 +44,7 @@ class LoadCleverLocationsV2Command extends Command
         ]);
 
         if ($response->failed()) {
+            $this->error($response->body());
             Log::error('Clever api failed to load');
             $this->error('Failed to load locations from Clever endpoint');
             return;
