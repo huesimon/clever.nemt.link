@@ -46,6 +46,9 @@ class LoadCleverChargersV2Command extends Command
 
         if ($response->failed()) {
             $this->error('Failed to load chargers from Clever endpoint');
+            Log::error('Chargers failed load');
+            Log::error($response->body());
+
             return Command::FAILURE;
         }
 
