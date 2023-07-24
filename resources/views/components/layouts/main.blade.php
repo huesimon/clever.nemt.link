@@ -16,6 +16,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
     @stack('scripts')
+    <!-- Fathom - beautiful, simple website analytics -->
+    <script src="https://cdn.usefathom.com/script.js" data-site="TLREBIPE" defer></script>
+    <!-- / Fathom -->
 
     <!-- Styles -->
     @livewireStyles
