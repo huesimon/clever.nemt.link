@@ -45,6 +45,7 @@
             'label' => 'Blocked'
         ]
     ]"
+    :showLegend="true"
     >
 </x-chart>
 

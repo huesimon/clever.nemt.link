@@ -3,6 +3,8 @@
     'datasets' => [],
     'title' => 'Chart',
     'chartType' => 'line',
+    'showLegend' => false,
+    'legendPosition' => 'bottom'
 ])
 {{-- incase of multiple charts on 1 page, once will prevent the js from being added multiple times --}}
 @once
@@ -31,7 +33,10 @@ x-data="{
                     }
                 },
                 plugins: {
-                    legend: { display: false },
+                    legend: {
+                        display: {{ $showLegend ? 'true' : 'false' }},
+                        'position': '{{ $legendPosition }}',
+                    },
                     tooltip: {
                         displayColors: false,
                         callbacks: {
