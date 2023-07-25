@@ -61,6 +61,11 @@ x-data="{
                 }
             }
         })
+        this.$watch('values', () => {
+            chart.data.labels = this.labels
+            chart.data.datasets = this.datasets
+            chart.update()
+        })
     }
 }"
 class="w-full"
