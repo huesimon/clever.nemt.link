@@ -83,27 +83,21 @@ class Location extends Model
     {
         $from = $from ?? now()->subDays(3);
         $to = $to ?? now();
-
-        return Cache::remember('location-history-timestamped-' .
-            $from->format('Y-m-d') . '-' . $to->format('Y-m-d') . '-' .
-            $this->external_id, now()->addMinutes(15), function () use ($from, $to) {
-            Log::info('Fetching location history for ' . $this->external_id . ' from ' . $from->format('Y-m-d') . ' to ' . $to->format('Y-m-d'));
-            return $this->history()
-                ->whereBetween('created_at', [$from, $to])
-                ->get()
-                ->groupBy(function ($item, $key) {
-                return $item->created_at_eu->format('Y-m-d H:i');
-            })->map(function ($item, $key) {
-                return [
-                    'occupied' => $item->sum('occupied'),
-                    'available' => $item->sum('available'),
-                    'out_of_order' => $item->sum('out_of_order'),
-                    'inoperative' => $item->sum('inoperative'),
-                    'planned' => $item->sum('planned'),
-                    'unknown' => $item->sum('unknown'),
-                    'blocked' => $item->sum('blocked'),
-                ];
-            });
+        return $this->history()
+        ->whereBetween('created_at', [$from, $to])
+        ->get()
+        ->groupBy(function ($item, $key) {
+            return $item->created_at_eu->format('Y-m-d H:i');
+        })->map(function ($item, $key) {
+            return [
+                'occupied' => $item->sum('occupied'),
+                'available' => $item->sum('available'),
+                'out_of_order' => $item->sum('out_of_order'),
+                'inoperative' => $item->sum('inoperative'),
+                'planned' => $item->sum('planned'),
+                'unknown' => $item->sum('unknown'),
+                'blocked' => $item->sum('blocked'),
+            ];
         });
     }
 
