@@ -45,12 +45,19 @@ Route::get('map', function () {
         'locations' => Location::with('address')
             ->whereHas('address')
             ->without('chargers')
+            ->clever()
             ->isPrivate()
             ->get(),
         'publicLocations' => Location::with('address')
             ->whereHas('address')
+            ->clever()
             ->without('chargers')
             ->isPublic()
+            ->get(),
+        'hubject' => Location::with('address')
+            ->whereHas('address')
+            ->hubject()
+            ->without('chargers')
             ->get(),
     ]);
 })->name('map');

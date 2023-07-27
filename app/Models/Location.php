@@ -167,6 +167,16 @@ class Location extends Model
         return $this->chargers()->max('updated_at');
     }
 
+    public function scopeClever($query)
+    {
+        return $query->where('origin', 'clever');
+    }
+
+    public function scopeHubject($query)
+    {
+        return $query->where('origin', 'hubject');
+    }
+
     public function scopeRecent($query)
     {
         return $query->orderBy('updated_at', 'desc');
