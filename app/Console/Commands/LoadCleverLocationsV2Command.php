@@ -51,95 +51,102 @@ class LoadCleverLocationsV2Command extends Command
         }
 
         $cleverOperator = Company::firstOrCreate(['name' => 'Clever']);
-        $bar = $this->output->createProgressBar(sizeof($response->json()['clever']));
         $cleverCollection = collect($response->object()->clever);
-
-        $cleverCollection->map(function ($chunk) {
-                return [
-                    'location' => [
-                        'external_id' => $chunk->locationId,
-                        'name' => $chunk->name,
-                        'company_id' => '1',
-                        'origin' => 'clever',
-                        'is_roaming_allowed' => $chunk->publicAccess->isRoamingAllowed,
-                        'is_public_visible' => $chunk->publicAccess->visibility,
-                        'coordinates' => $chunk->coordinates->lat . ',' . $chunk->coordinates->lng,
-                    ],
-                    'address' => [
-                        'addressable_id' => $chunk->locationId,
-                        'addressable_type' => Location::class,
-                        'address' => $chunk->address->address,
-                        'city' => $chunk->address->city,
-                        'country_code' => $chunk->address->countryCode,
-                        'postal_code' => $chunk->address->postalCode,
-                        // 'location' => $chunk->coordinates->lat . ',' . $chunk->coordinates->lng,
-                        'lat' => $chunk->coordinates->lat,
-                        'lng' => $chunk->coordinates->lng,
-                    ]
-                ];
-            })
-            ->chunk(1000)
-            ->each(function ($chunk) use ($cleverOperator, $bar) {
-                Location::upsert(
-                    $chunk->pluck('location')->toArray(),
-                    ['external_id'],
-                    ['name', 'company_id']);
-
-                Address::upsert(
-                    $chunk->pluck('address')->toArray(),
-                    ['addressable_id', 'addressable_type'],
-                    ['address', 'city', 'country_code', 'postal_code']);
-            });
-
-        $chargersFromClever = [];
-
-        $cleverCollection->each(function ($location) use (&$chargersFromClever) {
-            collect($location->evses)->each(function ($evse) use ($location, &$chargersFromClever) {
-                $evseId = $evse->evseId;
-                collect($evse->connectors)->each(function ($connector) use ($location, &$chargersFromClever, $evseId) {
-                    $chargersFromClever[] = [
-                        'evse_id' => $evseId, // okay chargers endpoint uses evseId, not sure how that works when its not unique
-                        'evse_connector_id' => $connector->evseConnectorId,
-                        'connector_id' => $connector->connectorId,
-                        'max_current_amp' => $connector->maxCurrentAmp ?? 0,
-                        'max_power_kw' => $connector->maxPowerKw,
-                        'plug_type' => $connector->plugType,
-                        'speed' => $connector->speed,
-                        'location_external_id' => $location->locationId,
-                    ];
-                });
-            });
-        });
-
-        $chargersInDb = Charger::select([
-            'evse_id',
-            'evse_connector_id',
-            'connector_id',
-            'max_current_amp',
-            'max_power_kw',
-            'plug_type',
-            'speed',
-            'location_external_id',
-        ])->get()->keyBy('evse_id');
-        $chargersFromClever = collect($chargersFromClever);
-
-        $chargersThatNeedsToBeCreated = collect();
-
-
-        $chargersFromClever->each(function ($charger) use ($chargersInDb, &$chargersThatNeedsToBeCreated) {
-            // $chargerInDb = $chargersInDb->firstWhere('evse_id', $charger['evse_id']);
-            if (!$chargersInDb->has($charger['evse_id'])) {
-                $chargersThatNeedsToBeCreated->push($charger);
-            }
-        });
-
-        $chargersThatNeedsToBeCreated->chunk(5)->each(function ($chunk) {
-            Charger::upsert($chunk->toArray(), ['evse_id']);
-        });
+        $hubjectCollection = collect($response->object()->hubject);
+        $this->handleCollection($cleverCollection, $cleverOperator, sizeof($response->json()['clever']), 'clever');
+        $this->handleCollection($hubjectCollection, $cleverOperator, sizeof($response->json()['hubject']), 'hubject');
 
 
         $this->info("LoadCleanLocationsV2Command took " . (microtime(true) - $start) . " seconds");
         $this->info('Done!');
         return Command::SUCCESS;
+    }
+
+    private function handleCollection($cleverCollection, $cleverOperator, $barSize, $origin) {
+        $bar = $this->output->createProgressBar($barSize);
+        $cleverCollection->map(function ($chunk) use ($origin) {
+            return [
+                'location' => [
+                    'external_id' => $chunk->locationId,
+                    'name' => $chunk->name,
+                    'company_id' => '1',
+                    'origin' => $origin,
+                    'is_roaming_allowed' => $chunk->publicAccess->isRoamingAllowed,
+                    'is_public_visible' => $chunk->publicAccess->visibility,
+                    'coordinates' => $chunk->coordinates->lat . ',' . $chunk->coordinates->lng,
+                ],
+                'address' => [
+                    'addressable_id' => $chunk->locationId,
+                    'addressable_type' => Location::class,
+                    'address' => $chunk->address->address,
+                    'city' => $chunk->address->city,
+                    'country_code' => $chunk->address->countryCode,
+                    'postal_code' => $chunk->address->postalCode,
+                    // 'location' => $chunk->coordinates->lat . ',' . $chunk->coordinates->lng,
+                    'lat' => $chunk->coordinates->lat,
+                    'lng' => $chunk->coordinates->lng,
+                ]
+            ];
+        })
+        ->chunk(1000)
+        ->each(function ($chunk) use ($cleverOperator, $bar) {
+            Location::upsert(
+                $chunk->pluck('location')->toArray(),
+                ['external_id'],
+                ['name', 'company_id']);
+
+            Address::upsert(
+                $chunk->pluck('address')->toArray(),
+                ['addressable_id', 'addressable_type'],
+                ['address', 'city', 'country_code', 'postal_code']);
+
+            $bar->advance();
+        });
+
+    $chargersFromClever = [];
+
+    $cleverCollection->each(function ($location) use (&$chargersFromClever) {
+        collect($location->evses)->each(function ($evse) use ($location, &$chargersFromClever) {
+            $evseId = $evse->evseId;
+            collect($evse->connectors)->each(function ($connector) use ($location, &$chargersFromClever, $evseId) {
+                $chargersFromClever[] = [
+                    'evse_id' => $evseId, // okay chargers endpoint uses evseId, not sure how that works when its not unique
+                    'evse_connector_id' => $connector->evseConnectorId,
+                    'connector_id' => $connector->connectorId,
+                    'max_current_amp' => $connector->maxCurrentAmp ?? 0,
+                    'max_power_kw' => $connector->maxPowerKw,
+                    'plug_type' => $connector->plugType,
+                    'speed' => $connector->speed,
+                    'location_external_id' => $location->locationId,
+                ];
+            });
+        });
+    });
+
+    $chargersInDb = Charger::select([
+        'evse_id',
+        'evse_connector_id',
+        'connector_id',
+        'max_current_amp',
+        'max_power_kw',
+        'plug_type',
+        'speed',
+        'location_external_id',
+    ])->get()->keyBy('evse_id');
+    $chargersFromClever = collect($chargersFromClever);
+
+    $chargersThatNeedsToBeCreated = collect();
+
+
+    $chargersFromClever->each(function ($charger) use ($chargersInDb, &$chargersThatNeedsToBeCreated) {
+        // $chargerInDb = $chargersInDb->firstWhere('evse_id', $charger['evse_id']);
+        if (!$chargersInDb->has($charger['evse_id'])) {
+            $chargersThatNeedsToBeCreated->push($charger);
+        }
+    });
+
+    $chargersThatNeedsToBeCreated->chunk(5)->each(function ($chunk) {
+        Charger::upsert($chunk->toArray(), ['evse_id']);
+    });
     }
 }
