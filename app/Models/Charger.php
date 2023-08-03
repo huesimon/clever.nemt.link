@@ -95,6 +95,21 @@ class Charger extends Model
         return $query->where('plug_type', $value);
     }
 
+    public function scopeCcs($query)
+    {
+        return $query->plugType(self::CCS);
+    }
+
+    public function scopeChademo($query)
+    {
+        return $query->plugType(self::CHADEMO);
+    }
+
+    public function scopeType2($query)
+    {
+        return $query->plugType(self::TYPE_2);
+    }
+
     public function getCurrentSessionAttribute()
     {
         return match ($this->attributes['status']){

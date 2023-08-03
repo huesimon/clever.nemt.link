@@ -91,12 +91,33 @@ class Location extends Model
         })->map(function ($item, $key) {
             return [
                 'occupied' => $item->sum('occupied'),
+                'occupied_ccs' => $item->sum('occupied_ccs'),
+                'occupied_chademo' => $item->sum('occupied_chademo'),
+                'occupied_type2' => $item->sum('occupied_type2'),
                 'available' => $item->sum('available'),
+                'available_ccs' => $item->sum('available_ccs'),
+                'available_chademo' => $item->sum('available_chademo'),
+                'available_type2' => $item->sum('available_type2'),
                 'out_of_order' => $item->sum('out_of_order'),
+                'out_of_order_ccs' => $item->sum('out_of_order_ccs'),
+                'out_of_order_chademo' => $item->sum('out_of_order_chademo'),
+                'out_of_order_type2' => $item->sum('out_of_order_type2'),
                 'inoperative' => $item->sum('inoperative'),
+                'inoperative_ccs' => $item->sum('inoperative_ccs'),
+                'inoperative_chademo' => $item->sum('inoperative_chademo'),
+                'inoperative_type2' => $item->sum('inoperative_type2'),
                 'planned' => $item->sum('planned'),
+                'planned_ccs' => $item->sum('planned_ccs'),
+                'planned_chademo' => $item->sum('planned_chademo'),
+                'planned_type2' => $item->sum('planned_type2'),
                 'unknown' => $item->sum('unknown'),
+                'unknown_ccs' => $item->sum('unknown_ccs'),
+                'unknown_chademo' => $item->sum('unknown_chademo'),
+                'unknown_type2' => $item->sum('unknown_type2'),
                 'blocked' => $item->sum('blocked'),
+                'blocked_ccs' => $item->sum('blocked_ccs'),
+                'blocked_chademo' => $item->sum('blocked_chademo'),
+                'blocked_type2' => $item->sum('blocked_type2'),
             ];
         });
     }
