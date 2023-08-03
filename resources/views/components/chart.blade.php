@@ -15,14 +15,16 @@
 @endpush
 @endonce
 
-<div
+<div class="min-w-[520px]  mx-auto"
 x-data="{
+    datasets: {{ Js::from($datasets) }},
+    labels: {{ Js::from($labels) }},
     init() {
         let chart = new Chart(this.$refs.canvas.getContext('2d'), {
             type: '{{ $chartType }}',
             data: {
-                labels: {{ Js::from($labels) }},
-                datasets: {{ Js::from($datasets) }},
+                labels: this.labels,
+                datasets: this.datasets
             },
             options: {
                 interaction: { intersect: false },
@@ -61,14 +63,13 @@ x-data="{
                 }
             }
         })
-        this.$watch('values', () => {
+        this.$watch('datasets', () => {
             chart.data.labels = this.labels
             chart.data.datasets = this.datasets
             chart.update()
         })
     }
 }"
-class="w-full"
 >
 
 <div class="flex flex-col space-y-5">
@@ -76,5 +77,5 @@ class="w-full"
         <h2 class="text-2xl font-bold">{{ $title }}</h2>
     </div>
 </div>
-<canvas x-ref="canvas" class="rounded-lg bg-white p-8"></canvas>
+<canvas x-ref="canvas" class="rounded-lg bg-white p-8 block"></canvas>
 </div>
