@@ -38,7 +38,7 @@ class LoadCleverLocationsV2Command extends Command
         $start = microtime(true);
         $this->info('Loading locations from Clever endpoint...');
 
-        $url = 'https://clever-app-prod.firebaseio.com/prod/locations/V1.json';
+        $url = 'https://clever-app-prod.firebaseio.com/prod/locations/V2.json';
         $response = Http::get($url, [
             'ac' => Company::firstWhere('name', 'Clever')->app_check_token
         ]);
@@ -52,7 +52,7 @@ class LoadCleverLocationsV2Command extends Command
 
         $cleverOperator = Company::firstOrCreate(['name' => 'Clever']);
         $bar = $this->output->createProgressBar(sizeof($response->json()['clever']));
-        $cleverCollection = collect($response->object()->clever);
+        $cleverCollection = collect($response->object()->all);
 
         $cleverCollection->map(function ($chunk) {
                 return [
@@ -94,6 +94,9 @@ class LoadCleverLocationsV2Command extends Command
         $chargersFromClever = [];
 
         $cleverCollection->each(function ($location) use (&$chargersFromClever) {
+            if (!isset($location->evses)) {
+                return;
+            }
             collect($location->evses)->each(function ($evse) use ($location, &$chargersFromClever) {
                 $evseId = $evse->evseId;
                 collect($evse->connectors)->each(function ($connector) use ($location, &$chargersFromClever, $evseId) {
@@ -138,7 +141,7 @@ class LoadCleverLocationsV2Command extends Command
         });
 
 
-        $this->info("LoadCleanLocationsV2Command took " . (microtime(true) - $start) . " seconds");
+        $this->info("LoadCleverLocationsV2Command took " . (microtime(true) - $start) . " seconds");
         $this->info('Done!');
         return Command::SUCCESS;
     }
