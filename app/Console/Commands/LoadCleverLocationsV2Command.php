@@ -57,7 +57,7 @@ class LoadCleverLocationsV2Command extends Command
 
         $cleverCollection->map(function ($chunk) {
                 return [
-                    'location' => [
+                        'location' => [
                         'external_id' => $chunk['locationId'],
                         'name' => $chunk['name'],
                         'company_id' => '1',
@@ -93,21 +93,21 @@ class LoadCleverLocationsV2Command extends Command
 
         $chargersFromClever = [];
         $cleverCollection->each(function ($location) use (&$chargersFromClever) {
-            if (!isset($location->evses)) {
+            if (!isset($location['evses'])) {
                 return;
             }
-            collect($location->evses)->each(function ($evse) use ($location, &$chargersFromClever) {
-                $evseId = $evse->evseId;
-                collect($evse->connectors)->each(function ($connector) use ($location, &$chargersFromClever, $evseId) {
+            collect($location['evses'])->each(function ($evse) use ($location, &$chargersFromClever) {
+                $evseId = $evse['evseId'];
+                collect($evse['connectors'])->each(function ($connector) use ($location, &$chargersFromClever, $evseId) {
                     $chargersFromClever[] = [
                         'evse_id' => $evseId, // okay chargers endpoint uses evseId, not sure how that works when its not unique
-                        'evse_connector_id' => $connector->evseConnectorId,
-                        'connector_id' => $connector->connectorId,
-                        'max_current_amp' => $connector->maxCurrentAmp ?? 0,
-                        'max_power_kw' => $connector->maxPowerKw,
-                        'plug_type' => $connector->plugType,
-                        'speed' => $connector->speed,
-                        'location_external_id' => $location->locationId,
+                        'evse_connector_id' => $connector['evseConnectorId'],
+                        'connector_id' => $connector['connectorId'],
+                        'max_current_amp' => $connector['maxCurrentAmp'] ?? 0,
+                        'max_power_kw' => $connector['maxPowerKw'],
+                        'plug_type' => $connector['plugType'],
+                        'speed' => $connector['speed'],
+                        'location_external_id' => $location['locationId'],
                     ];
                 });
             });
