@@ -35,6 +35,7 @@ class LoadCleverLocationsV2Command extends Command
      */
     public function handle()
     {
+
         $start = microtime(true);
         $this->info('Loading locations from Clever endpoint...');
 
@@ -52,29 +53,28 @@ class LoadCleverLocationsV2Command extends Command
 
         $cleverOperator = Company::firstOrCreate(['name' => 'Clever']);
         $bar = $this->output->createProgressBar(sizeof($response->json()['clever']));
-        $cleverCollection = collect($response->object()->all);
+        $cleverCollection = collect($response->json()['all']);
 
         $cleverCollection->map(function ($chunk) {
                 return [
                     'location' => [
-                        'external_id' => $chunk->locationId,
-                        'name' => $chunk->name,
+                        'external_id' => $chunk['locationId'],
+                        'name' => $chunk['name'],
                         'company_id' => '1',
                         'origin' => 'clever',
-                        'is_roaming_allowed' => $chunk->publicAccess->isRoamingAllowed,
-                        'is_public_visible' => $chunk->publicAccess->visibility,
-                        'coordinates' => $chunk->coordinates->lat . ',' . $chunk->coordinates->lng,
+                        'is_roaming_allowed' => $chunk['publicAccess']['isRoamingAllowed'],
+                        'is_public_visible' => $chunk['publicAccess']['visibility'],
+                        'coordinates' => $chunk['coordinates']['lat'] . ',' . $chunk['coordinates']['lng'],
                     ],
                     'address' => [
-                        'addressable_id' => $chunk->locationId,
+                        'addressable_id' => $chunk['locationId'],
                         'addressable_type' => Location::class,
-                        'address' => $chunk->address->address,
-                        'city' => $chunk->address->city,
-                        'country_code' => $chunk->address->countryCode,
-                        'postal_code' => $chunk->address->postalCode,
-                        // 'location' => $chunk->coordinates->lat . ',' . $chunk->coordinates->lng,
-                        'lat' => $chunk->coordinates->lat,
-                        'lng' => $chunk->coordinates->lng,
+                        'address' => $chunk['address']['address'],
+                        'city' => $chunk['address']['city'],
+                        'country_code' => $chunk['address']['countryCode'],
+                        'postal_code' => $chunk['address']['postalCode'],
+                        'lat' => $chunk['coordinates']['lat'],
+                        'lng' => $chunk['coordinates']['lng'],
                     ]
                 ];
             })
@@ -92,7 +92,6 @@ class LoadCleverLocationsV2Command extends Command
             });
 
         $chargersFromClever = [];
-
         $cleverCollection->each(function ($location) use (&$chargersFromClever) {
             if (!isset($location->evses)) {
                 return;
