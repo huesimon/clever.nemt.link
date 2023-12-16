@@ -159,9 +159,10 @@ Route::get('ljson', function () {
 
 Route::post('/app-check', function () {
     $clever = Company::where('name', 'Clever')->first();
-    $clever->update([
-        'app_check_token' => request('ac'),
+    $validated = request()->validate([
+        'app_check_token' => 'min:200'
     ]);
+    $clever->update($validated);
 
     return response()->json([
         'message' => 'Token updated',
