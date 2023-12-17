@@ -160,7 +160,7 @@ Route::get('ljson', function () {
 Route::post('/app-check', function () {
     $clever = Company::where('name', 'Clever')->first();
     $validated = request()->validate([
-        'app_check_token' => 'min:200'
+        'app_check_token' => ['required', 'string', 'min:100']
     ]);
     $clever->update($validated);
 
