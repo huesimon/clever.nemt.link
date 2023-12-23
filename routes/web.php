@@ -51,6 +51,13 @@ Route::get('map', function () {
             ->whereHas('address')
             ->without('chargers')
             ->isPublic()
+            ->origin('Clever')
+            ->get(),
+        'otherNetworkLocations' => Location::with('address')
+            ->whereHas('address')
+            ->without('chargers')
+            ->isPublic()
+            ->origin('Hubject')
             ->get(),
     ]);
 })->name('map');

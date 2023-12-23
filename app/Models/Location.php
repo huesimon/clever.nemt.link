@@ -202,4 +202,9 @@ class Location extends Model
     {
         return $query->where('is_public_visible', 'InProximity');
     }
+
+    public function scopeOrigin($query, $origin)
+    {
+        return $query->where('origin', $origin);
+    }
 }

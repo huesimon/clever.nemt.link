@@ -31,6 +31,15 @@
         radius: 50
     }).addTo(map).bindPopup('{{ $location->virtual_name }}');
     @endforeach
+
+    @foreach ($otherNetworkLocations as $location)
+    L.circle([{{ $location->address->lat }}, {{ $location->address->lng }}], {
+        color: 'gray',
+        fillColor: '#ccc',
+        fillOpacity: 0.5,
+        radius: 50
+    }).addTo(map).bindPopup('{{ 'Roaming: ' . $location->virtual_name }}');
+    @endforeach
     "
     class="h-[680px]" id="map"></div>
 

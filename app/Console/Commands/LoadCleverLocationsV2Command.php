@@ -61,7 +61,7 @@ class LoadCleverLocationsV2Command extends Command
                         'external_id' => $chunk['locationId'],
                         'name' => $chunk['name'],
                         'company_id' => '1',
-                        'origin' => 'clever',
+                        'origin' => $chunk['origin'],
                         'is_roaming_allowed' => $chunk['publicAccess']['isRoamingAllowed'],
                         'state' => $chunk['state'],
                         'is_public_visible' => $chunk['publicAccess']['visibility'],
