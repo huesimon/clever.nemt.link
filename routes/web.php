@@ -46,17 +46,26 @@ Route::get('map', function () {
             ->whereHas('address')
             ->without('chargers')
             ->isPrivate()
+            ->when(request()->has('planned'), function ($query) {
+                return $query->isPlanned();
+            })
             ->get(),
         'publicLocations' => Location::with('address')
             ->whereHas('address')
             ->without('chargers')
             ->isPublic()
+            ->when(request()->has('planned'), function ($query) {
+                return $query->isPlanned();
+            })
             ->origin('Clever')
             ->get(),
         'otherNetworkLocations' => Location::with('address')
             ->whereHas('address')
             ->without('chargers')
             ->isPublic()
+            ->when(request()->has('planned'), function ($query) {
+                return $query->isPlanned();
+            })
             ->origin('Hubject')
             ->get(),
     ]);
