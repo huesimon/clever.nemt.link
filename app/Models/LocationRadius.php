@@ -16,7 +16,7 @@ class LocationRadius extends Model
 
     public function locations($createdAfter = null)
     {
-        return Location::with('address')->whereHas('address', function ($query) {
+        return Location::with('address')->origin('Clever')->whereHas('address', function ($query) {
             $boundingBox = $this->getBoundingBox();
             $query->validRange()->whereRaw("ST_Distance_Sphere(POINT(?, ?), POINT(addresses.lng, addresses.lat)) <= ?", [$this->lng, $this->lat, $this->radius])
             ->whereBetween('lat', [$boundingBox['minLat'], $boundingBox['maxLat']])
