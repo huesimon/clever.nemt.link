@@ -98,7 +98,7 @@
                                 <div class="flex flex-col space-y-2 mt-2">
                                     @foreach ($location->chargers as $charger)
                                         {{-- display id and how long the charging_session is --}}
-                                        <p class="text-sm">
+                                        <div class="flex flex-row items-center gap-4 text-sm">
                                             @if ($charger->has_star) <span> ⭐ </span> @endif {{ $charger->readable_id }} - <span class="inline-flex items-center rounded-full {{$charger->session_color}} px-2.5 py-0.5 text-xs font-medium text-indigo-800">
                                                 <svg class="-ml-0.5 mr-1.5 h-2 w-2 text-indigo-400" fill="currentColor" viewBox="0 0 8 8">
                                                   <circle cx="4" cy="4" r="3" />
@@ -109,7 +109,12 @@
                                               <span class="inline-flex items-center rounded-full {{ $charger->kw_color }} px-2.5 py-0.5 text-xs font-medium text-indigo-800">
                                                 {{ $charger->plug_type }}: {{ $charger->kw }} kW
                                               </span>
-                                        </p>
+                                              @if ($charger->mightBeOutOfOrder)
+                                                  <span class="inline-flex items-center">
+                                                        <x-icons.exclamation-triangle class="w-6 h-6 text-red-500"/>
+                                                  </span>
+                                              @endif
+                                        </div>
                                     @endforeach
                                 </div>
                             </div>
