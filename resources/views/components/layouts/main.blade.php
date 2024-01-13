@@ -71,7 +71,7 @@
                     <div class="flex flex-1">
                     </div>
                     <div class="ml-4 flex items-center md:ml-6">
-                        @auth
+                        {{-- @auth
                             <button type="button"
                                 class="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                 <span class="sr-only">View notifications</span>
@@ -83,7 +83,7 @@
                                 </svg>
                             </button>
                             <x-elements.dropdown/>
-                        @endauth
+                        @endauth --}}
                     </div>
                 </div>
             </div>
