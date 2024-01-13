@@ -13,4 +13,9 @@ class Address extends Model
     {
         return $this->morphTo();
     }
+
+    public function scopeValidRange($query)
+    {
+        return $query->whereBetween('lat', [-90, 90])->whereBetween('lng', [-180, 180]);
+    }
 }

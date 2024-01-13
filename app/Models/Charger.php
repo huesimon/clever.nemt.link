@@ -162,4 +162,23 @@ class Charger extends Model
     {
          return $this->attributes['status'] === self::OCCUPIED;
     }
+
+    public function getMightBeOutOfOrderAttribute()
+    {
+         return $this->attributes['updated_at'] < now()->subMinutes(100)
+            && $this->attributes['status'] === self::OCCUPIED
+            && $this->attributes['max_power_kw'] > 40;
+    }
+
+    public function scopeMightBeOutOfOrder($query)
+    {
+        return $query->where('updated_at', '<', now()->subMinutes(100))
+            ->where('status', self::OCCUPIED)
+            ->where('max_power_kw', '>', 40);
+    }
+
+    public function getIsHighPowerChargerAttribute()
+    {
+         return $this->attributes['max_power_kw'] > 40;
+    }
 }

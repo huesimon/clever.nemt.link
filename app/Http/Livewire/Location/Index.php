@@ -14,8 +14,8 @@ class Index extends Component
     use WithPagination;
     public $search;
     public $kwh; // slow, fast, hyper
-    protected $queryString = ['search', 'kwh'];
-
+    public $possibleOutOfOrder = false;
+    protected $queryString = ['search', 'kwh', 'possibleOutOfOrder'];
 
     public $user = null;
 
@@ -23,6 +23,11 @@ class Index extends Component
     {
         $query = Location::query();
 
+        $query->when($this->possibleOutOfOrder, function ($query) {
+            $query->whereHas('chargers', function ($query) {
+                $query->mightBeOutOfOrder();
+            });
+        });
 
         $query->filter(['search' => $this->search]);
 
