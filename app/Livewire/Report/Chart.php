@@ -22,6 +22,10 @@ class Chart extends Component
             ->tap(function ($query) {
                 $this->filters->apply($query);
             })
+            ->whereBetween('created_at', [
+                now()->subDays(30)->startOfDay(),
+                now()->endOfDay(),
+            ])
             ->groupBy('increment')
             ->orderBy('increment')
             ->get();
