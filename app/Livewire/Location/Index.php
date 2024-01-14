@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Location;
+namespace App\Livewire\Location;
 
 use App\Models\Charger;
 use App\Models\Location;
@@ -50,7 +50,6 @@ class Index extends Component
             ->orderByDesc('updated_at')
             ->limit(1));
         });
-
         return view('livewire.location.index', [
             'locations' => $query->paginate(15),
         ]);

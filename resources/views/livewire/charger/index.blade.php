@@ -93,7 +93,7 @@
                     <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                         {{-- options --}}
                         <div class="">
-                            <select wire:model='filterByStatus' name="location" id="location" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <select wire:model.live='filterByStatus' name="location" id="location" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 @foreach ($statuses as  $status)
                                     <option value="{{ $status }}">{{ $status }}</option>
                                 @endforeach

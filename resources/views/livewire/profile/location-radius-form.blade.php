@@ -46,7 +46,7 @@
                         <div class="sm:col-span-2 sm:col-start-1">
                             <label for="lat" class="block text-sm font-medium leading-6 text-gray-900">{{ __('Latitude') }}</label>
                             <div class="mt-2">
-                                <input wire:model='lat' type="text" name="lat" id="lat" autocomplete="address-level2"
+                                <input wire:model.live='lat' type="text" name="lat" id="lat" autocomplete="address-level2"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     @error('lat')
                                         <p class="mt-2 text-sm text-red-600" id="email-error">{{ $message }}</p>
@@ -57,7 +57,7 @@
                         <div class="sm:col-span-2">
                             <label for="longitude" class="block text-sm font-medium leading-6 text-gray-900">Longitude</label>
                             <div class="mt-2">
-                                <input wire:model='lng' type="text" name="longitude" id="longitude" autocomplete="address-level1"
+                                <input wire:model.live='lng' type="text" name="longitude" id="longitude" autocomplete="address-level1"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     @error('lng')
                                         <p class="mt-2 text-sm text-red-600" id="email-error">{{ $message }}</p>
@@ -68,7 +68,7 @@
                         <div class="sm:col-span-2">
                             <label for="radius" class="block text-sm font-medium leading-6 text-gray-900">Radius in meters</label>
                             <div class="mt-2">
-                                <input wire:model='radius' type="text" name="radius" id="longitude" autocomplete="address-level1"
+                                <input wire:model.live='radius' type="text" name="radius" id="longitude" autocomplete="address-level1"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     @error('radius')
                                         <p class="mt-2 text-sm text-red-600" id="email-error">{{ $message }}</p>
@@ -79,7 +79,7 @@
                         <div class="sm:col-span-2">
                             <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                             <div class="mt-2">
-                                <input wire:model='name' type="text" name="name" id="name" autocomplete="name" placeholder="Home or work"
+                                <input wire:model.live='name' type="text" name="name" id="name" autocomplete="name" placeholder="Home or work"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     @error('name')
                                         <p class="mt-2 text-sm text-red-600" id="email-error">{{ $message }}</p>
