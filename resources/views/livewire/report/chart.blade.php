@@ -52,7 +52,7 @@
                         labels: labels,
                         datasets: [{
                             tension: 0.1,
-                            label: 'Order amount',
+                            label: 'Chargers created',
                             data: values,
                             fill: {
                                 target: 'origin',
