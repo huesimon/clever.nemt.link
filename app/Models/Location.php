@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\Island;
 use App\Traits\HasAddress;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Location extends Model
 {
@@ -211,5 +212,19 @@ class Location extends Model
     public function scopeOrigin($query, $origin)
     {
         return $query->where('origin', $origin);
+    }
+
+    public function scopeInsidePolygon($query, Island $island)
+    {
+        if ($island === Island::All) {
+            return $query;
+        }
+
+        return $query->whereHas('address', function ($query) use ($island) {
+            $query->whereRaw("ST_Contains(
+                ST_GeomFromText('POLYGON((". $island->polygon() ."))'),
+                ST_GeomFromText(CONCAT('POINT(', lng, ' ', lat, ')'))
+            )");
+        });
     }
 }
