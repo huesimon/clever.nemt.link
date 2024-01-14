@@ -5,11 +5,16 @@ namespace App\Livewire\Forms\Report;
 use Livewire\Form;
 use App\Enums\Island;
 use App\Models\Location;
+use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 
 class Filters extends Form
 {
-    public string $island;
+
+    #[Url()]
+    public Island $island = Island::All;
+
+    public string $search;
 
     public function islands()
     {
@@ -24,6 +29,23 @@ class Filters extends Form
 
     public function init()
     {
-        $this->island = 'Zealand';
+        // $this->island = Island::Zealand;
+    }
+
+    public function apply($query)
+    {
+        $query = $this->applyIsland($query);
+        // $query->where('name', 'like', '%vording%');
+
+        return $query;
+    }
+
+
+
+    public function applyIsland($query)
+    {
+        return $this->island === Island::All
+            ? $query
+            : $query->insidePolygon($this->island);
     }
 }

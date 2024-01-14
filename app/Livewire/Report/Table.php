@@ -2,10 +2,11 @@
 
 namespace App\Livewire\Report;
 
+use Livewire\Component;
 use App\Models\Location;
 use Livewire\Attributes\Url;
-use Livewire\Component;
 use Livewire\WithPagination;
+use App\Livewire\Forms\Report\Filters;
 
 class Table extends Component
 {
@@ -15,12 +16,14 @@ class Table extends Component
     #[Url()]
     public $search;
 
+    public Filters $filters;
+
     public function updatedSearch()
     {
         $this->resetPage();
     }
 
-    protected function applySearch($query)
+    public function applySearch($query)
     {
         return $this->search === ''
             ? $query
@@ -32,8 +35,8 @@ class Table extends Component
     {
         $query = Location::with('address');
 
-        $this->applySearch($query);
-
+        $query = $this->filters->apply($query);
+        $query = $this->applySearch($query);
 
         return view('livewire.report.table', [
             'locations' => $query->paginate(10),
