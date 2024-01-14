@@ -4,16 +4,15 @@ namespace App\Livewire\Report;
 
 use Livewire\Component;
 use App\Models\Location;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use WithPagination;
+    public Location $location;
 
     public function render()
     {
-        return view('livewire.report.page', [
-            'locations' => Location::with('address')->paginate(10),
-        ]);
+        return view('livewire.report.page');
     }
 }
