@@ -18,12 +18,12 @@
 
     <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
         @foreach ($filters->islands() as $island)
-            <button wire:click="$set('filters.island', '{{$island['value']}}')" class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+            <button class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
                 <dt class="truncate text-sm font-medium text-gray-500"> {{ $island['label'] }} </dt>
                 <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"> {{ $island['count'] }} </dd>
             </button>
         @endforeach
     </dl>
-    <livewire:report.chart :$query :filters=$filters lazy />
-    <livewire:report.table :$query :filters=$filters lazy />
+    <livewire:report.chart :filters=$filters lazy />
+    <livewire:report.table :filters=$filters lazy />
 </div>

@@ -16,6 +16,7 @@ class Filters extends Form
 
     public string $search;
 
+
     public function islands()
     {
         return collect(Island::cases())->map(function ($island) {
@@ -29,13 +30,11 @@ class Filters extends Form
 
     public function init()
     {
-        // $this->island = Island::Zealand;
     }
 
     public function apply($query)
     {
         $query = $this->applyIsland($query);
-        // $query->where('name', 'like', '%vording%');
 
         return $query;
     }

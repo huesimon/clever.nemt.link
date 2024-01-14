@@ -12,14 +12,10 @@ use Livewire\WithPagination;
 class Page extends Component
 {
     public Filters $filters;
-    public Island $selectedIsland = Island::All;
-
-    public $query;
-
 
     public function mount()
     {
-        $this->filters->init($this->query);
+        $this->filters->init();
     }
 
     public function render()
