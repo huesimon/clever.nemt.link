@@ -6,7 +6,7 @@
                     <div class="w-2/3">
                         <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
                         <div class="mt-1">
-                            <input wire:model='search' type="search" name="search" id="search"
+                            <input wire:model.live='search' type="search" name="search" id="search"
                                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 placeholder="Copenhagen">
                         </div>
@@ -14,7 +14,7 @@
                     {{-- select with options for slow, fast, hyper --}}
                     <div class="mt-1 w-1/3">
                         <label for="kwh" class="block text-sm font-medium text-gray-700">Speed</label>
-                        <select wire:model='kwh' id="kwh" name="kwh"
+                        <select wire:model.live='kwh' id="kwh" name="kwh"
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                             <option value="null">All</option>
                             <option value="slow">Slow</option>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Jobs\SleepJob;
+use App\Livewire\Report\Page;
 use App\Models\Charger;
 use App\Models\Company;
 use App\Models\Location;
@@ -80,9 +81,7 @@ Route::get('logs', function () {
     return Storage::disk('local')->files('clever');
 });
 
-Route::get('/reports', function () {
-    return view('reports');
-})->name('reports');
+Route::get('/reports', Page::class)->name('reports');
 
 Route::get('/ajson', function () {
     return [

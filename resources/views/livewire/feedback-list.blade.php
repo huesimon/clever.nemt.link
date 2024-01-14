@@ -2,7 +2,7 @@
     <div class="">
         <div class="flex flex-row space-x-4">
             <textarea
-            wire:model="message"
+            wire:model.live="message"
             class="border border-gray-200 rounded-md p-4 m-2 w-full"
             placeholder="Enter your feedback here..."
             ></textarea>

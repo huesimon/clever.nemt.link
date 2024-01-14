@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Charger;
+namespace App\Livewire\Charger;
 
 use App\Models\Charger;
 use Livewire\Component;

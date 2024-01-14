@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Profile;
+namespace App\Livewire\Profile;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
