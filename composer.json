@@ -13,6 +13,7 @@
         "laravel-notification-channels/telegram": "^4.0",
         "laravel/framework": "^10.11",
         "laravel/jetstream": "^2.16.2",
+        "laravel/pulse": "^1.0@beta",
         "laravel/sanctum": "^3.2.5",
         "laravel/telescope": "^4.15",
         "laravel/tinker": "^2.8.1",
@@ -72,6 +73,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "prefer-stable": true
 }
