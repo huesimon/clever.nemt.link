@@ -12,7 +12,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
         $schedule->command('app:email-users-about-new-locations')->dailyAt('12:00');
 
         $schedule->command('clever:locations')->dailyAt('08:00');
@@ -20,20 +19,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('clever:chargers')->everyMinute();
 
         $schedule->command('location:history')->everyFifteenMinutes();
-        // $schedule->command('clever:chargers')
-        //     ->everyMinute()
-        //     ->timezone('Europe/Copenhagen')
-        //     ->between('09:30', '10:15');
-        // $schedule->command('clever:chargers')
-        //     ->everyMinute()
-        //     ->timezone('Europe/Copenhagen')
-        //     ->between('18:30', '19:15');
 
-        // $schedule->command('clever:chargers')
-        //     ->hourly()
-        //     ->timezone('Europe/Copenhagen')
-        //     ->unlessBetween('09:30', '10:15')
-        //     ->unlessBetween('18:30', '19:15');
+        $schedule->command('model:prune')->dailyAt('01:00');
     }
 
     /**
