@@ -20,6 +20,7 @@ class Leaflet extends Component
                 ->when(request()->has('planned'), function ($query) {
                     return $query->isPlanned();
                 })
+                ->take(1)
                 ->get();
             $this->publicLocations = Location::with('address')
                 ->whereHas('address')
@@ -29,6 +30,7 @@ class Leaflet extends Component
                     return $query->isPlanned();
                 })
                 ->origin('Clever')
+                ->take(1)
                 ->get();
             $this->otherNetworkLocations = Location::with('address')
                 ->whereHas('address')
@@ -38,6 +40,7 @@ class Leaflet extends Component
                     return $query->isPlanned();
                 })
                 ->origin('Hubject')
+                ->take(1)
                 ->get();
     }
 

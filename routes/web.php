@@ -42,7 +42,7 @@ Route::get('chart/{location}', function (Location $location) {
     ]);
 })->name('location.chart');
 
-Route::get('map', MapPage::class)->name('map');
+Route::get('map', MapPage::class)->name('map')->lazy();
 Route::get('map2', function () {
     return view('map',[
         'locations' => Location::with('address')
