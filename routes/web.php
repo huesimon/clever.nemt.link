@@ -1,6 +1,7 @@
 <?php
 
 use App\Jobs\SleepJob;
+use App\Livewire\Location\Map\Page as MapPage;
 use App\Livewire\Report\Page;
 use App\Models\Charger;
 use App\Models\Company;
@@ -41,7 +42,8 @@ Route::get('chart/{location}', function (Location $location) {
     ]);
 })->name('location.chart');
 
-Route::get('map', function () {
+Route::get('map', MapPage::class)->name('map');
+Route::get('map2', function () {
     return view('map',[
         'locations' => Location::with('address')
             ->whereHas('address')
