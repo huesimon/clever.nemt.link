@@ -11,30 +11,8 @@
     @endif
     >
         <!-- Heroicon name: outline/calendar -->
-        @switch($icon)
-            @case('house')
-                <x-icons.house />
-                @break
-            @case('heart')
-                <x-icons.heart />
-                @break
-            @case('calendar')
-                <x-icons.calendar />
-                @break
-            @case('chart-bar')
-                <x-icons.chart-bar />
-                @break
-            @case('globe')
-                <x-icons.globe />
-                @break
-            @case('inbox')
-                <x-icons.inbox />
-                @break
-            @case('map')
-                <x-icons.map />
-                @break
-            @default
-
-        @endswitch
+        @if ($icon)
+            <x-dynamic-component :component="'icons.' . $icon"/>
+        @endif
         {{ $slot }}
 </a>
