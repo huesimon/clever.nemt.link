@@ -3,21 +3,6 @@
         <div class="flex-1 truncate">
             <div class="flex items-center space-x-3">
                 <h3 class="truncate text-sm font-medium text-gray-900">{{ $location->name }}</h3>
-
-                @if(!$location->is_public)
-                    <span class="flex-shrink-0 inline-block px-2 py-0.5 text-yellow-800 text-xs font-medium bg-yellow-100 rounded-full">
-                        In Proximity
-                    </span>
-                @elseif ($location->is_occupied)
-                    <span class="flex-shrink-0 inline-block px-2 py-0.5 text-red-800 text-xs font-medium bg-red-100 rounded-full">
-                        Occupied
-                    </span>
-                @else
-                    <span class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
-                        Vacant
-                    </span>
-                @endif
-
                 @auth
                 {{-- favorite button --}}
                 <div class="flex-shrink-0">
@@ -50,9 +35,22 @@
                 @endif
             @endforeach --}}
         </div>
-        {{-- <img class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
-            alt=""> --}}
+        <div class="flex flex-col space-y-2">
+            @if(!$location->is_public)
+                <x-badges.flat-with-dot color="yellow" text="InProximity" />
+            @elseif ($location->is_occupied)
+                <x-badges.flat-with-dot color="red" text="Occupied" />
+            @else
+                <x-badges.flat-with-dot color="green" text="Available" />
+            @endif
+
+            @if ($location->isClever)
+                <x-badges.flat-with-dot color="blue" text="Clever" />
+            @else
+                <x-badges.flat-with-dot color="gray" text="Other Network" />
+            @endif
+
+        </div>
     </div>
     <div>
         <div class="-mt-px flex divide-x divide-gray-200">
@@ -67,18 +65,6 @@
                     <span class="ml-3">Directions</span>
                 </a>
             </div>
-            {{-- <div class="-ml-px flex w-0 flex-1">
-                <a href="#"
-                    class="relative inline-flex w-0 flex-1 items-center justify-center rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
-                    <svg class="h-5 w-5 text-gray-400" x-description="Heroicon name: mini/phone"
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd"
-                            d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 006.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 011.767-1.052l3.223.716A1.5 1.5 0 0118 15.352V16.5a1.5 1.5 0 01-1.5 1.5H15c-1.149 0-2.263-.15-3.326-.43A13.022 13.022 0 012.43 8.326 13.019 13.019 0 012 5V3.5z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="ml-3">Call</span>
-                </a>
-            </div> --}}
             <x-elements.modal :title="$location->name">
                 <x-slot:button>
                     <button type="submit"

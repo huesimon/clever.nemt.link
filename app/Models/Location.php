@@ -214,6 +214,11 @@ class Location extends Model
         return $query->where('origin', $origin);
     }
 
+    public function getIsCleverAttribute()
+    {
+         return $this->origin == 'Clever';
+    }
+
     public function scopeInsidePolygon($query, Island $island)
     {
         if ($island === Island::All) {
