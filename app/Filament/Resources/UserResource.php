@@ -65,8 +65,6 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(isIndividual: true, isGlobal: true),
                 Tables\Columns\TextColumn::make('email')->searchable(isIndividual: true, isGlobal: true),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime(),
                 Tables\Columns\IconColumn::make('notify_locations')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('last_logged_in_at')
