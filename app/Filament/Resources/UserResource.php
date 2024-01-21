@@ -69,16 +69,17 @@ class UserResource extends Resource
                     ->dateTime(),
                 Tables\Columns\IconColumn::make('notify_locations')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('last_logged_in_at')
                     ->sortable()
                     ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
+                Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->dateTime(),
             ])
             ->filters([
                 //
             ])
+            ->defaultSort('last_logged_in_at', 'desc')
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
