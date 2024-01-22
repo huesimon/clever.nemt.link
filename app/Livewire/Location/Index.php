@@ -42,7 +42,6 @@ class Index extends Component
 
         $query->filter(['kwhRange' => $this->getKwhRange($this->kwh)]);
         $query->filter(['parkingType' => $this->parkingType]);
-        // $query->filter(['onlyClever' => $this->onlyClever]);
         $query->when($this->onlyClever, function ($query) {
             $query->origin('Clever');
         });
