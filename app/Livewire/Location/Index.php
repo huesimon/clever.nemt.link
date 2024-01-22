@@ -22,6 +22,8 @@ class Index extends Component
     public $possibleOutOfOrder = false;
     #[Url()]
     public $parkingType;
+    #[Url()]
+    public $cleverOnly = false;
     public $user = null;
 
     public function render()
@@ -40,6 +42,10 @@ class Index extends Component
 
         $query->filter(['kwhRange' => $this->getKwhRange($this->kwh)]);
         $query->filter(['parkingType' => $this->parkingType]);
+        // $query->filter(['cleverOnly' => $this->cleverOnly]);
+        $query->when($this->cleverOnly, function ($query) {
+            $query->origin('Clever');
+        });
 
         $query->withCount([
             'chargers as available_chargers_count' => function ($query) {
