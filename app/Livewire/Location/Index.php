@@ -23,7 +23,7 @@ class Index extends Component
     #[Url()]
     public $parkingType;
     #[Url()]
-    public $cleverOnly = false;
+    public $onlyClever = false;
     public $user = null;
 
     public function render()
@@ -42,8 +42,8 @@ class Index extends Component
 
         $query->filter(['kwhRange' => $this->getKwhRange($this->kwh)]);
         $query->filter(['parkingType' => $this->parkingType]);
-        // $query->filter(['cleverOnly' => $this->cleverOnly]);
-        $query->when($this->cleverOnly, function ($query) {
+        // $query->filter(['onlyClever' => $this->onlyClever]);
+        $query->when($this->onlyClever, function ($query) {
             $query->origin('Clever');
         });
 

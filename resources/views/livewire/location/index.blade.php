@@ -39,7 +39,7 @@
                     </div>
                     <!-- Toggle -->
                         <div
-                        x-data="{ value: $wire.get('cleverOnly') }"
+                        x-data="{ value: $wire.get('onlyClever') }"
                         class="flex items-center justify-center"
                         x-id="['toggle-label']"
                         >
@@ -60,7 +60,7 @@
                             @click="value = ! value"
                             type="button"
                             role="switch"
-                            wire:click="$toggle('cleverOnly')"
+                            wire:click="$toggle('onlyClever')"
                             :aria-checked="value"
                             :aria-labelledby="$id('toggle-label')"
                             :class="value ? 'bg-slate-400' : 'bg-slate-300'"
