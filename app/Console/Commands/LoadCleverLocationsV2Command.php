@@ -64,6 +64,8 @@ class LoadCleverLocationsV2Command extends Command
                         'origin' => $chunk['origin'],
                         'is_roaming_allowed' => $chunk['publicAccess']['isRoamingAllowed'],
                         'state' => $chunk['state'],
+                        'parking_type' => isset($chunk['parkingType']) ? $chunk['parkingType'] : null,
+                        'partner_status' => isset($chunk['partnerStatus']) ? $chunk['partnerStatus'] : null,
                         'is_public_visible' => $chunk['publicAccess']['visibility'],
                         'coordinates' => $chunk['coordinates']['lat'] . ',' . $chunk['coordinates']['lng'],
                     ],
@@ -84,7 +86,7 @@ class LoadCleverLocationsV2Command extends Command
                 Location::upsert(
                     $chunk->pluck('location')->toArray(),
                     ['external_id'],
-                    ['name', 'company_id', 'origin', 'is_roaming_allowed', 'state', 'is_public_visible', 'coordinates']);
+                    ['name', 'company_id', 'origin', 'is_roaming_allowed', 'state', 'parking_type', 'partner_status',  'is_public_visible', 'coordinates']);
 
                 Address::upsert(
                     $chunk->pluck('address')->toArray(),

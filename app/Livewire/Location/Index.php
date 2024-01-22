@@ -2,21 +2,26 @@
 
 namespace App\Livewire\Location;
 
+use App\Enums\ParkingTypes;
 use App\Models\Charger;
 use App\Models\Location;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Artisan;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Index extends Component
 {
     use WithPagination;
+    #[Url()]
     public $search;
+    #[Url()]
     public $kwh; // slow, fast, hyper
+    #[Url()]
     public $possibleOutOfOrder = false;
-    protected $queryString = ['search', 'kwh', 'possibleOutOfOrder'];
-
+    #[Url()]
+    public $parkingType;
     public $user = null;
 
     public function render()
@@ -34,6 +39,7 @@ class Index extends Component
         $query->filter(['favoriteBy' => $this->user]);
 
         $query->filter(['kwhRange' => $this->getKwhRange($this->kwh)]);
+        $query->filter(['parkingType' => $this->parkingType]);
 
         $query->withCount([
             'chargers as available_chargers_count' => function ($query) {
@@ -42,7 +48,6 @@ class Index extends Component
             'chargers as total_chargers_count' => function ($query) {
             },
         ]);
-
 
         $query->when(!$this->user, function ($query) {
             $query->orderByDesc(Charger::select('updated_at')
@@ -53,6 +58,11 @@ class Index extends Component
         return view('livewire.location.index', [
             'locations' => $query->paginate(15),
         ]);
+    }
+
+    public function mount()
+    {
+
     }
 
     public function updatingSearch()

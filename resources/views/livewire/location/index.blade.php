@@ -23,6 +23,21 @@
                         </select>
                     </div>
                 </div>
+                {{--
+                    Dropdown for ParkingType
+                     --}}
+                <div class="flex flex-row space-x-4">
+                    <div class="mt-1 w-1/3">
+                        <label for="kwh" class="block text-sm font-medium text-gray-700">Parking Type</label>
+                        <select wire:model.live='parkingType' id="parkingType" name="parkingType"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <option value="">All</option>
+                            @foreach (\App\Enums\ParkingTypes::cases() as $parkingType)
+                                <option value="{{ $parkingType }}">{{ $parkingType }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
             <ul wire:poll.10s role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($locations as $location)

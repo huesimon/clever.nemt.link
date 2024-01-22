@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\Island;
+use App\Enums\ParkingTypes;
+use App\Enums\PartnerStatus;
 use App\Traits\HasAddress;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
@@ -11,6 +13,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Location extends Model
 {
+    use HasAddress;
+    use HasFactory;
 
     protected $primaryKey = 'external_id';
     protected $keyType = 'string';
@@ -19,8 +23,10 @@ class Location extends Model
 
     protected $with = ['chargers'];
 
-    use HasAddress;
-    use HasFactory;
+    protected $casts = [
+        'parking_type' => ParkingTypes::class,
+        'partner_status' => PartnerStatus::class,
+    ];
 
     public function chargers()
     {
@@ -157,6 +163,10 @@ class Location extends Model
             $query->whereHas('chargers', function ($query) use ($kwhRange) {
                 $query->whereBetween('max_power_kw', $kwhRange);
             });
+        });
+
+        $query->when($filters['parkingType'] ?? null, function ($query, $parkingType) {
+            $query->where('parking_type', $parkingType);
         });
     }
 
