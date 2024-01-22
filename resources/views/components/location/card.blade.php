@@ -50,6 +50,10 @@
                 <x-badges.flat-with-dot color="gray" text="Other Network" />
             @endif
 
+            @if ($location->partner_status?->isIncluded())
+                <x-badges.flat-with-dot color="emerald" text="Included" />
+            @endif
+
         </div>
     </div>
     <div>
