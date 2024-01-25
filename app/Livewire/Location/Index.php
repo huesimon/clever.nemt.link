@@ -47,6 +47,15 @@ class Index extends Component
         });
 
         $query->withCount([
+            'chargers as available_css_count' => function ($query) {
+                $query->available();
+            },
+            'chargers as available_type2_count' => function ($query) {
+                $query->available();
+            },
+            'chargers as available_chademo_count' => function ($query) {
+                $query->available();
+            },
             'chargers as available_chargers_count' => function ($query) {
                 $query->available();
             },
