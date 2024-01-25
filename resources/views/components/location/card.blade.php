@@ -27,7 +27,21 @@
                 </div>
                 @endauth
             </div>
-            <p class="mt-1 truncate text-sm text-gray-500"> {{$location->available_chargers_count}} / {{$location->total_chargers_count}} </p>
+            <div class="flex flex-col">
+                <div class="flex flex-row">
+                    <x-icons.chargers.ccs />
+                    <p class="mt-1 truncate text-sm text-gray-500"> {{$location->available_chargers_count}} / {{$location->total_chargers_count}} </p>
+                </div>
+                <div class="flex flex-row">
+                    <x-icons.chargers.type2 />
+                    <p class="mt-1 truncate text-sm text-gray-500"> {{$location->available_chargers_count}} / {{$location->total_chargers_count}} </p>
+                </div>
+                <div class="flex flex-row">
+                    <x-icons.chargers.chademo />
+                    <p class="mt-1 truncate text-sm text-gray-500"> {{$location->available_chargers_count}} / {{$location->total_chargers_count}} </p>
+                </div>
+                {{-- <p class="mt-1 truncate text-sm text-gray-500"> {{$location->available_chargers_count}} / {{$location->total_chargers_count}} </p> --}}
+            </div>
             {{-- @foreach ($location->chargers as $charger)
             @if ($charger->is_occupied)
             <p class="mt-1 truncate text-sm text-gray-500"> #{{$loop->index}}: {{$charger->status}} </p>

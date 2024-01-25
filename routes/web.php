@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', function () {
+    // return Location::find('00428677-cb43-ed11-bba3-0022489b4650')->parking_type->label();
     return view('dashboard');
 })->name('home');
 
