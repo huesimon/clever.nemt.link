@@ -21,10 +21,17 @@ class Index extends Component
     #[Url()]
     public $possibleOutOfOrder = false;
     #[Url()]
-    public $parkingType;
+    public ?ParkingTypes $parkingType = null;
     #[Url()]
     public $onlyClever = false;
     public $user = null;
+
+    private function parkingFilter($query)
+    {
+        return $this->parkingType === null
+            ? $query
+            : $query->where('parking_type', $this->parkingType);
+    }
 
     public function render()
     {
@@ -39,9 +46,9 @@ class Index extends Component
         $query->filter(['search' => $this->search]);
 
         $query->filter(['favoriteBy' => $this->user]);
+        $query = $this->parkingFilter($query);
 
         $query->filter(['kwhRange' => $this->getKwhRange($this->kwh)]);
-        $query->filter(['parkingType' => $this->parkingType]);
         $query->when($this->onlyClever, function ($query) {
             $query->origin('Clever');
         });
@@ -78,6 +85,11 @@ class Index extends Component
     public function updatingKwh()
     {
         $this->resetPage();
+    }
+
+    public function selectParkingType($type)
+    {
+
     }
 
     public function getKwhRange($kwh)

@@ -22,6 +22,21 @@
                             <option value="hyper">Hyper</option>
                         </select>
                     </div>
+                    <div class="mt-1 w-1/3">
+                        <label for="kwh" class="block text-sm font-medium text-gray-700">Parking Type</label>
+                        <x-dropdown id="1">
+                            @foreach (\App\Enums\ParkingTypes::cases() as $type)
+                            <x-dropdown-item :active="$type === $parkingType">
+                                <button
+                                    {{-- wire click and parse enunm --}}
+                                    wire:click="$set('parkingType', '{{ $type }}')"
+                                >
+                                    {{ $type }}
+                                </button>
+                            </x-dropdown-item>
+                            @endforeach
+                        </x-dropdown>
+                    </div>
                 </div>
                 {{--
                     Dropdown for ParkingType
