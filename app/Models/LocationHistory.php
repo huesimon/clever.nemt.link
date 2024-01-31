@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\MassPrunable;
 
 class LocationHistory extends Model
 {
     use HasFactory;
-    use Prunable;
+    use MassPrunable;
 
     /*
     * TODO: Better name for this attribute
