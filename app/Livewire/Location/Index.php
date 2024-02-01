@@ -2,14 +2,15 @@
 
 namespace App\Livewire\Location;
 
-use App\Enums\ParkingTypes;
 use App\Models\Charger;
-use App\Models\Location;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Artisan;
-use Livewire\Attributes\Url;
 use Livewire\Component;
+use App\Models\Location;
+use App\Enums\ChargeSpeed;
+use App\Enums\ParkingTypes;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Database\Eloquent\Collection;
 
 class Index extends Component
 {
@@ -17,14 +18,30 @@ class Index extends Component
     #[Url()]
     public $search;
     #[Url()]
-    public $kwh; // slow, fast, hyper
+    public ?ChargeSpeed $kwh = null; // slow, fast, hyper
     #[Url()]
     public $possibleOutOfOrder = false;
     #[Url()]
-    public $parkingType;
+    public ?ParkingTypes $parkingType = null;
     #[Url()]
     public $onlyClever = false;
     public $user = null;
+
+    private function parkingFilter($query)
+    {
+        return $this->parkingType === null
+            ? $query
+            : $query->where('parking_type', $this->parkingType);
+    }
+
+    private function speedFilter($query)
+    {
+        return $this->kwh === null
+            ? $query
+            : $query->whereHas('chargers', function ($query) {
+                $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
+            });
+    }
 
     public function render()
     {
@@ -39,9 +56,8 @@ class Index extends Component
         $query->filter(['search' => $this->search]);
 
         $query->filter(['favoriteBy' => $this->user]);
-
-        $query->filter(['kwhRange' => $this->getKwhRange($this->kwh)]);
-        $query->filter(['parkingType' => $this->parkingType]);
+        $query = $this->parkingFilter($query);
+        $query = $this->speedFilter($query);
         $query->when($this->onlyClever, function ($query) {
             $query->origin('Clever');
         });
@@ -78,6 +94,11 @@ class Index extends Component
     public function updatingKwh()
     {
         $this->resetPage();
+    }
+
+    public function selectParkingType($type)
+    {
+
     }
 
     public function getKwhRange($kwh)
