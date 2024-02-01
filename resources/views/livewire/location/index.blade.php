@@ -12,6 +12,9 @@
                         </div>
                     </div>
 
+
+                </div>
+                <div class="flex flex-row space-x-4">
                     <div class="mt-1 w-1/3">
                         <label for="kwh" class="block text-sm font-medium text-gray-700">Speed</label>
                         <x-dropdown id="1" :selectText="$kwh?->label()">
@@ -59,11 +62,6 @@
                             @endforeach
                         </x-dropdown>
                     </div>
-                </div>
-                {{--
-                    Dropdown for ParkingType
-                     --}}
-                <div class="flex flex-row space-x-4">
                     <!-- Toggle -->
                         <div
                         x-data="{ value: $wire.get('onlyClever') }"
