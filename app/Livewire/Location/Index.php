@@ -25,6 +25,7 @@ class Index extends Component
     public ?ParkingTypes $parkingType = null;
     #[Url()]
     public $onlyClever = false;
+    public $showInProximity = false;
     public $user = null;
 
     private function parkingFilter($query)
@@ -38,9 +39,18 @@ class Index extends Component
     {
         return $this->kwh === null
             ? $query->with('chargers')
-            : $query->with(['chargers' => function ($query) {
+            : $query->whereHas('chargers', function ($query) {
+                $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
+            })->with(['chargers' => function ($query) {
                 $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
             }]);
+    }
+
+    private function filterInProximity($query)
+    {
+        return $this->showInProximity
+            ? $query
+            : $query->isPublic();
     }
 
     public function render()
@@ -58,10 +68,12 @@ class Index extends Component
         $query->filter(['favoriteBy' => $this->user]);
         $query = $this->parkingFilter($query);
         $query = $this->speedFilter($query);
+        $query = $this->filterInProximity($query);
 
         $query->when($this->onlyClever, function ($query) {
             $query->origin('Clever');
         });
+
 
 
         $query->withCount([
@@ -80,10 +92,10 @@ class Index extends Component
 
         $query->when(!$this->user, function ($query) {
             $query->orderByDesc(Charger::select('updated_at')
-            ->whereColumn('location_external_id', 'locations.external_id')
-            ->when($this->kwh, function ($query) {
-                $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
-            })
+                ->whereColumn('location_external_id', 'locations.external_id')
+                ->when($this->kwh, function ($query) {
+                    $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
+                })
             ->orderByDesc('updated_at')
             ->limit(1));
         });

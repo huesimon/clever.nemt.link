@@ -63,7 +63,7 @@
                         </x-dropdown>
                     </div>
                     <!-- Toggle -->
-                        <div
+                    <div
                         x-data="{ value: $wire.get('onlyClever') }"
                         class="flex items-center justify-center"
                         x-id="['toggle-label']"
@@ -86,6 +86,42 @@
                             type="button"
                             role="switch"
                             wire:click="$toggle('onlyClever')"
+                            :aria-checked="value"
+                            :aria-labelledby="$id('toggle-label')"
+                            :class="value ? 'bg-slate-400' : 'bg-slate-300'"
+                            class="relative ml-4 inline-flex w-14 rounded-full py-1 transition"
+                        >
+                            <span
+                                :class="value ? 'translate-x-7' : 'translate-x-1'"
+                                class="bg-white h-6 w-6 rounded-full transition shadow-md"
+                                aria-hidden="true"
+                            ></span>
+                        </button>
+                    </div>
+                    {{-- Show InProximity --}}
+                    <div
+                    x-data="{ value: $wire.get('showInProximity') }"
+                    class="flex items-center justify-center"
+                    x-id="['toggle-label']"
+                    >
+                        <input type="hidden" name="sendNotifications" :value="value">
+
+                        <!-- Label -->
+                        <label
+                            @click="$refs.toggle.click(); $refs.toggle.focus()"
+                            :id="$id('toggle-label')"
+                            class="text-gray-900 font-medium"
+                        >
+                            Show InProximity
+                        </label>
+
+                        <!-- Button -->
+                        <button
+                            x-ref="toggle"
+                            @click="value = ! value"
+                            type="button"
+                            role="switch"
+                            wire:click="$toggle('showInProximity')"
                             :aria-checked="value"
                             :aria-labelledby="$id('toggle-label')"
                             :class="value ? 'bg-slate-400' : 'bg-slate-300'"
