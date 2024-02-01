@@ -21,7 +21,6 @@ class Index extends Component
     public ?ChargeSpeed $kwh = null; // slow, fast, hyper
     #[Url()]
     public $possibleOutOfOrder = false;
-    // ignore if null
     #[Url(except: null)]
     public ?ParkingTypes $parkingType = null;
     #[Url()]
