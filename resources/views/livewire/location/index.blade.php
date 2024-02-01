@@ -2,7 +2,7 @@
     <div class="bg-gray-100">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="pb-6">
-                <div class="flex flex-row space-x-4">
+                <div class="flex flex-row space-x-4 mb-4">
                     <div class="w-2/3">
                         <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
                         <div class="mt-1">
@@ -14,8 +14,8 @@
 
 
                 </div>
-                <div class="flex flex-row space-x-4">
-                    <div class="mt-1 w-1/3">
+                <div class="flex flex-col md:flex-row md:space-x-4">
+                    <div class="mt-1 w-full md:w-1/3">
                         <label for="kwh" class="block text-sm font-medium text-gray-700">Speed</label>
                         <x-dropdown id="1" :selectText="$kwh?->label()">
                             <x-dropdown-item :active="!$kwh">
@@ -39,7 +39,7 @@
                             @endforeach
                         </x-dropdown>
                     </div>
-                    <div class="mt-1 w-1/3">
+                    <div class="mt-1 w-full md:w-1/3">
                         <label for="kwh" class="block text-sm font-medium text-gray-700">Parking Type</label>
                         <x-dropdown id="2"  :selectText="$parkingType?->label()">
                             <x-dropdown-item :active="!$parkingType">
@@ -65,7 +65,7 @@
                     <!-- Toggle -->
                     <div
                         x-data="{ value: $wire.get('onlyClever') }"
-                        class="flex items-center justify-center"
+                        class="flex items-center"
                         x-id="['toggle-label']"
                         >
                         <input type="hidden" name="sendNotifications" :value="value">
@@ -101,7 +101,7 @@
                     {{-- Show InProximity --}}
                     <div
                     x-data="{ value: $wire.get('showInProximity') }"
-                    class="flex items-center justify-center"
+                    class="flex items-center"
                     x-id="['toggle-label']"
                     >
                         <input type="hidden" name="sendNotifications" :value="value">
