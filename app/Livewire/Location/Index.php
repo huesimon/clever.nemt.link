@@ -37,10 +37,10 @@ class Index extends Component
     private function speedFilter($query)
     {
         return $this->kwh === null
-            ? $query
-            : $query->whereHas('chargers', function ($query) {
+            ? $query->with('chargers')
+            : $query->with(['chargers' => function ($query) {
                 $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
-            });
+            }]);
     }
 
     public function render()
@@ -58,21 +58,32 @@ class Index extends Component
         $query->filter(['favoriteBy' => $this->user]);
         $query = $this->parkingFilter($query);
         $query = $this->speedFilter($query);
+
         $query->when($this->onlyClever, function ($query) {
             $query->origin('Clever');
         });
 
+
         $query->withCount([
             'chargers as available_chargers_count' => function ($query) {
                 $query->available();
+                $query->when($this->kwh, function ($query) {
+                    $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
+                });
             },
             'chargers as total_chargers_count' => function ($query) {
+                $query->when($this->kwh, function ($query) {
+                    $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
+                });
             },
         ]);
 
         $query->when(!$this->user, function ($query) {
             $query->orderByDesc(Charger::select('updated_at')
             ->whereColumn('location_external_id', 'locations.external_id')
+            ->when($this->kwh, function ($query) {
+                $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
+            })
             ->orderByDesc('updated_at')
             ->limit(1));
         });

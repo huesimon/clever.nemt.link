@@ -21,8 +21,6 @@ class Location extends Model
 
     public $incrementing = false;
 
-    protected $with = ['chargers'];
-
     protected $casts = [
         'parking_type' => ParkingTypes::class,
         'partner_status' => PartnerStatus::class,
