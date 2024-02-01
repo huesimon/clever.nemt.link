@@ -2,14 +2,15 @@
 
 namespace App\Livewire\Location;
 
-use App\Enums\ParkingTypes;
 use App\Models\Charger;
-use App\Models\Location;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Artisan;
-use Livewire\Attributes\Url;
 use Livewire\Component;
+use App\Models\Location;
+use App\Enums\ChargeSpeed;
+use App\Enums\ParkingTypes;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Database\Eloquent\Collection;
 
 class Index extends Component
 {
@@ -17,7 +18,7 @@ class Index extends Component
     #[Url()]
     public $search;
     #[Url()]
-    public $kwh; // slow, fast, hyper
+    public ?ChargeSpeed $kwh = null; // slow, fast, hyper
     #[Url()]
     public $possibleOutOfOrder = false;
     #[Url()]
@@ -31,6 +32,15 @@ class Index extends Component
         return $this->parkingType === null
             ? $query
             : $query->where('parking_type', $this->parkingType);
+    }
+
+    private function speedFilter($query)
+    {
+        return $this->kwh === null
+            ? $query
+            : $query->whereHas('chargers', function ($query) {
+                $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
+            });
     }
 
     public function render()
@@ -47,8 +57,7 @@ class Index extends Component
 
         $query->filter(['favoriteBy' => $this->user]);
         $query = $this->parkingFilter($query);
-
-        $query->filter(['kwhRange' => $this->getKwhRange($this->kwh)]);
+        $query = $this->speedFilter($query);
         $query->when($this->onlyClever, function ($query) {
             $query->origin('Clever');
         });
