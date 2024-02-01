@@ -17,11 +17,12 @@ class Index extends Component
     use WithPagination;
     #[Url()]
     public $search;
-    #[Url()]
+    #[Url(except: null)]
     public ?ChargeSpeed $kwh = null; // slow, fast, hyper
     #[Url()]
     public $possibleOutOfOrder = false;
-    #[Url()]
+    // ignore if null
+    #[Url(except: null)]
     public ?ParkingTypes $parkingType = null;
     #[Url()]
     public $onlyClever = false;

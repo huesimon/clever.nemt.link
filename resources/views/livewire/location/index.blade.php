@@ -15,6 +15,14 @@
                     <div class="mt-1 w-1/3">
                         <label for="kwh" class="block text-sm font-medium text-gray-700">Speed</label>
                         <x-dropdown id="1" :selectText="$kwh?->label()">
+                            <x-dropdown-item :active="!$kwh">
+                                <button
+                                    {{-- wire click and parse enunm --}}
+                                    wire:click="$set('kwh', null)"
+                                >
+                                    All
+                                </button>
+                            </x-dropdown-item>
                             @foreach (\App\Enums\ChargeSpeed::cases() as $speed)
                             {{-- @dump($speed, $kwh) --}}
                             <x-dropdown-item :active="$speed === $kwh">
@@ -30,7 +38,15 @@
                     </div>
                     <div class="mt-1 w-1/3">
                         <label for="kwh" class="block text-sm font-medium text-gray-700">Parking Type</label>
-                        <x-dropdown id="2">
+                        <x-dropdown id="2"  :selectText="$parkingType?->label()">
+                            <x-dropdown-item :active="!$parkingType">
+                                <button
+                                    {{-- wire click and parse enunm --}}
+                                    wire:click="$set('parkingType', null)"
+                                >
+                                    All
+                                </button>
+                            </x-dropdown-item>
                             @foreach (\App\Enums\ParkingTypes::cases() as $type)
                             <x-dropdown-item :active="$type === $parkingType">
                                 <button
