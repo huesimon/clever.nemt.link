@@ -18,23 +18,13 @@
                     <div class="mt-1 w-full md:w-1/3">
                         <label for="kwh" class="block text-sm font-medium text-gray-700">Speed</label>
                         <x-dropdown id="1" :selectText="$kwh?->label()">
-                            <x-dropdown-item :active="!$kwh">
-                                <button
-                                    {{-- wire click and parse enunm --}}
-                                    wire:click="$set('kwh', null)"
-                                >
-                                    All
-                                </button>
+                            <x-dropdown-item :active="!$kwh" wire:click="$set('kwh', null)">
+                                All
                             </x-dropdown-item>
                             @foreach (\App\Enums\ChargeSpeed::cases() as $speed)
                             {{-- @dump($speed, $kwh) --}}
-                            <x-dropdown-item :active="$speed === $kwh">
-                                <button
-                                    {{-- wire click and parse enunm --}}
-                                    wire:click="$set('kwh', '{{ $speed }}')"
-                                >
-                                    {{ $speed->label() }}
-                                </button>
+                            <x-dropdown-item :active="$speed === $kwh" wire:click="$set('kwh', '{{ $speed }}')">
+                                {{ $speed->label() }}
                             </x-dropdown-item>
                             @endforeach
                         </x-dropdown>
@@ -42,22 +32,15 @@
                     <div class="mt-1 w-full md:w-1/3">
                         <label for="kwh" class="block text-sm font-medium text-gray-700">Parking Type</label>
                         <x-dropdown id="2"  :selectText="$parkingType?->label()">
-                            <x-dropdown-item :active="!$parkingType">
-                                <button
-                                    {{-- wire click and parse enunm --}}
-                                    wire:click="$set('parkingType', null)"
-                                >
-                                    All
-                                </button>
+                            <x-dropdown-item
+                                :active="!$parkingType"
+                                wire:click="$set('parkingType', null)"
+                            >
+                                All
                             </x-dropdown-item>
                             @foreach (\App\Enums\ParkingTypes::cases() as $type)
-                            <x-dropdown-item :active="$type === $parkingType">
-                                <button
-                                    {{-- wire click and parse enunm --}}
-                                    wire:click="$set('parkingType', '{{ $type }}')"
-                                >
-                                    {{ $type }}
-                                </button>
+                            <x-dropdown-item wire:click="$set('parkingType', '{{ $type }}')" :active="$type === $parkingType">
+                                {{ $type->label() }}
                             </x-dropdown-item>
                             @endforeach
                         </x-dropdown>
