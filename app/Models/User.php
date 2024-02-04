@@ -73,11 +73,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(LocationRadius::class);
     }
 
-    public function locationsWithinRadii($createdAfter = null)
+    public function locationsWithinRadii($createdAfter = null, $createdBefore = null)
     {
         $locations = collect();
-        $this->radius()->each(function ($radius) use ($locations, $createdAfter) {
-            $locations->add($radius->locations($createdAfter));
+        $this->radius()->each(function ($radius) use ($locations, $createdAfter, $createdBefore) {
+            $locations->add($radius->locations($createdAfter, $createdBefore));
         });
 
         return $locations->flatten();

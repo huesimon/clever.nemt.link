@@ -14,7 +14,7 @@ class LocationRadius extends Model
         'lng' => 'float',
     ];
 
-    public function locations($createdAfter = null)
+    public function locations($createdAfter = null, $createdBefore = null)
     {
         return Location::with('address')->origin('Clever')->whereHas('address', function ($query) {
             $boundingBox = $this->getBoundingBox();
@@ -24,6 +24,8 @@ class LocationRadius extends Model
         })
         ->when($createdAfter, function ($query) use ($createdAfter) {
             $query->where('locations.created_at', '>=', $createdAfter);
+        })->when($createdBefore, function ($query) use ($createdBefore) {
+            $query->where('locations.created_at', '<=', $createdBefore);
         })->get();
     }
 
