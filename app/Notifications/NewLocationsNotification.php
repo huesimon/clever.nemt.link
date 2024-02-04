@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
-class NewLocationsNotification extends Notification
+class NewLocationsNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
