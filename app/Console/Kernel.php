@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('location:history')->everyFifteenMinutes();
 
-        $schedule->command('model:prune')->dailyAt('01:00');
+        $schedule->command('model:prune')->hourlyAt(11)
     }
 
     /**
