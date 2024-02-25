@@ -18,7 +18,7 @@ class CompanyPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +41,7 @@ class CompanyPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class CompanyPolicy
      */
     public function update(User $user, Company $company)
     {
-        //
+        return true;
     }
 
     /**
