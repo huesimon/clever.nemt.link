@@ -51,9 +51,9 @@
         <x-elements.mobile-nav />
 
         <x-elements.desktop-nav />
-        <div class="flex items-center gap-x-6 bg-red-600 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
+        <div class="flex items-center gap-x-6 bg-yellow-500 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
             <p class="text-sm leading-6 text-white">
-                Der er lige pt problemer med at hente data... skriv en mail til simon@nemt.link hvis du vil have en opdatering når det virker igen.
+                Har muligvis fixet fejlen, data burde blive opdateret nu.
             </p>
             <div class="flex flex-1 justify-end">
                 <button type="button" class="-m-3 p-3 focus-visible:outline-offset-[-4px]">
