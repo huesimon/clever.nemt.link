@@ -17,7 +17,8 @@
         "laravel/sanctum": "^3.2.5",
         "laravel/telescope": "^4.15",
         "laravel/tinker": "^2.8.1",
-        "livewire/livewire": "^3.0.0"
+        "livewire/livewire": "^3.0.0",
+        "sentry/sentry-laravel": "^4.2"
     },
     "require-dev": {
         "doctrine/dbal": "^3.6.2",
