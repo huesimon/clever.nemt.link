@@ -1,16 +1,20 @@
 <?php
 
+use App\Models\User;
+use App\Livewire\Map;
 use App\Jobs\SleepJob;
-use App\Livewire\Report\Page;
 use App\Models\Charger;
 use App\Models\Company;
 use App\Models\Location;
 use App\Models\LocationUser;
-use App\Models\User;
-use Illuminate\Support\Facades\Cache;
+use App\Livewire\Report\Page;
+use App\Livewire\FeedbackList;
+use App\Livewire\Location\Index;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use App\Livewire\Profile\LocationRadiusForm;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,17 +27,14 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
-})->name('home');
+Route::get('/', Index::class)->name('home');
 
-Route::get('radius', function () {
-    return view('components.radius');
-})->name('radius')->middleware('auth');
+Route::get('radius', LocationRadiusForm::class)
+    ->name('radius')
+    ->middleware('auth');
 
-Route::get('feedback', function () {
-    return view('feedback');
-})->name('feedback');
+Route::get('feedback', FeedbackList::class)
+    ->name('feedback');
 
 Route::get('chart/{location}', function (Location $location) {
     return view('chart', [
@@ -42,36 +43,8 @@ Route::get('chart/{location}', function (Location $location) {
 })->name('location.chart');
 
 Route::get('map', function () {
-    return view('map',[
-        'locations' => Location::with('address')
-            ->whereHas('address')
-            ->without('chargers')
-            ->isPrivate()
-            ->when(request()->has('planned'), function ($query) {
-                return $query->isPlanned();
-            })
-            ->get(),
-        'publicLocations' => Location::with('address')
-            ->whereHas('address')
-            ->without('chargers')
-            ->isPublic()
-            ->when(request()->has('planned'), function ($query) {
-                return $query->isPlanned();
-            })
-            ->origin('Clever')
-            ->get(),
-        'otherNetworkLocations' => Location::with('address')
-            ->whereHas('address')
-            ->without('chargers')
-            ->isPublic()
-            ->when(request()->has('planned'), function ($query) {
-                return $query->isPlanned();
-            })
-            ->origin('Hubject')
-            ->get(),
-    ]);
+    return view('map');
 })->name('map');
-
 
 Route::get('log/{filename}', function ($filename) {
     return json_decode(Storage::disk('local')->get('clever/' . $filename));
@@ -185,12 +158,8 @@ Route::post('/app-check', function () {
 })->name('app-check');
 
 
-Route::get('/user/{user}/favorites/', function (User $user) {
-    return view('user.favorites', [
-        'user' => $user,
-        'locations' => $user->locations,
-    ]);
-})->name('user.favorites');
+Route::get('/user/{user}/favorites/', Index::class)
+    ->name('user.favorites');
 
 Route::middleware([
     'auth:sanctum',

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title> @yield('title', config('app.name')) </title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -16,10 +16,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
     @stack('scripts')
-    <!-- Fathom - beautiful, simple website analytics -->
-    <script src="https://cdn.usefathom.com/script.js" data-site="TLREBIPE" defer></script>
-    <!-- / Fathom -->
-
     <!-- Styles -->
     @livewireStyles
 </head>

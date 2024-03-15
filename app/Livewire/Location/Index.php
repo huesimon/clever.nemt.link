@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Location;
 
+use App\Models\User;
 use App\Models\Charger;
 use Livewire\Component;
 use App\Models\Location;
@@ -26,7 +27,7 @@ class Index extends Component
     #[Url()]
     public $onlyClever = false;
     public $showInProximity = false;
-    public $user = null;
+    public ?User $user = null;
 
     private function parkingFilter($query)
     {

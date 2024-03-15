@@ -1,4 +1,5 @@
-<x-layouts.main>
+<x-layouts.app>
+    @section('title', 'Favourites - clever.nemt.link')
     @php
         // This is done to prevent calling the function multiple times
         $timestamps = $location->historyTimestamped();
@@ -34,4 +35,4 @@
         :chartType="request()->get('chartType')"
         >
     </x-location-history-chart>
-</x-layouts.main>
+</x-layouts.app>

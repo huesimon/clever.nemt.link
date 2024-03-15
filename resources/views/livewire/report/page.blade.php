@@ -1,3 +1,4 @@
+@section('title', 'Reports - clever.nemt.link')
 <div class="px-4 sm:px-6 lg:px-8">
 
     {{-- <x-radio-group class="hidden sm:grid grid-cols-4 gap-2" wire:model.live="filters.island">

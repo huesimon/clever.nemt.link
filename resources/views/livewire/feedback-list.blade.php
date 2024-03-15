@@ -1,3 +1,4 @@
+@section('title', 'Feedback - clever.nemt.link')
 <div>
     <div class="">
         <div class="flex flex-row space-x-4">

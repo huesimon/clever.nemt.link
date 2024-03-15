@@ -1,3 +1,4 @@
+@section('title', 'Radius - clever.nemt.link')
 <x-jet-action-section submit="updateRadiusInformation">
     <x-slot name="title">
         {{ __('Location Radius') }}
