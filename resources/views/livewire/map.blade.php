@@ -1,66 +1,58 @@
 <div>
-    <div x-data="
+    <div x-data="{
+        init() {
+            let map = new L.map('map', {
+                center: [56.0394039, 11.5787184],
+                zoom: 7
+            });
+            let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+            map.addLayer(layer);
+            @foreach ($publicLocations as $location)
+                L.circle([{{ $location->address->lat }}, {{ $location->address->lng }}], {
 
-    map = L.map('map').setView([56.0394039, 11.5787184], 7);
+                    color: 'blue',
 
-    map.preferCanvas = true;
+                    fillColor: '#03f',
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    fillOpacity: 0.5,
 
-        maxZoom: 19,
+                    radius: 50
 
-    }).addTo(map);
+                }).addTo(map).bindPopup('{{ $location->virtual_name }}');
+            @endforeach
 
+            @foreach ($locations as $location)
 
-    @foreach ($publicLocations as $location)
+            L.circle([{{ $location->address->lat}}, {{ $location->address->lng }}], {
 
-    L.circle([{{ $location->address->lat }}, {{ $location->address->lng }}], {
+                color: 'red',
 
-        color: 'blue',
+                fillColor: '#f03',
 
-        fillColor: '#03f',
+                fillOpacity: 0.5,
 
-        fillOpacity: 0.5,
+                radius: 50
 
-        radius: 50
+            }).addTo(map).bindPopup('{{ $location->virtual_name }}');
 
-    }).addTo(map).bindPopup('{{ $location->virtual_name }}');
+            @endforeach
+            @foreach ($otherNetworkLocations as $location)
 
-    @endforeach
+            L.circle([{{ $location->address->lat }}, {{ $location->address->lng }}], {
 
+                color: 'gray',
 
-    @foreach ($locations as $location)
+                fillColor: '#ccc',
 
-    L.circle([{{ $location->address->lat}}, {{ $location->address->lng }}], {
+                fillOpacity: 0.5,
 
-        color: 'red',
+                radius: 50
 
-        fillColor: '#f03',
+            }).addTo(map).bindPopup('{{ 'Roaming: ' . $location->virtual_name }}');
 
-        fillOpacity: 0.5,
-
-        radius: 50
-
-    }).addTo(map).bindPopup('{{ $location->virtual_name }}');
-
-    @endforeach
+            @endforeach
 
 
-    @foreach ($otherNetworkLocations as $location)
-
-    L.circle([{{ $location->address->lat }}, {{ $location->address->lng }}], {
-
-        color: 'gray',
-
-        fillColor: '#ccc',
-
-        fillOpacity: 0.5,
-
-        radius: 50
-
-    }).addTo(map).bindPopup('{{ 'Roaming: ' . $location->virtual_name }}');
-
-    @endforeach
-
-    " class="h-[680px]" id="map"></div>
+        }
+    }" class="h-[680px]" id="map"></div>
 </div>
