@@ -3,7 +3,8 @@
         init() {
             let map = new L.map('map', {
                 center: [56.0394039, 11.5787184],
-                zoom: 7
+                zoom: 7,
+                renderer: L.canvas()
             });
             let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
             map.addLayer(layer);
