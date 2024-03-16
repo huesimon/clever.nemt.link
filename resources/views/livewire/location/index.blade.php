@@ -18,7 +18,7 @@
                 <div class="flex flex-col md:flex-row md:space-x-4">
                     <div class="mt-1 w-full md:w-1/3">
                         <label for="kwh" class="block text-sm font-medium text-gray-700">Speed</label>
-                        <x-dropdown id="1" :selectText="$kwh?->label()">
+                        <x-dropdown-menu id="1" :selectText="$kwh?->label()">
                             <x-dropdown-item :active="!$kwh" wire:click="$set('kwh', null)">
                                 All
                             </x-dropdown-item>
@@ -28,11 +28,11 @@
                                 {{ $speed->label() }}
                             </x-dropdown-item>
                             @endforeach
-                        </x-dropdown>
+                        </x-dropdown-menu>
                     </div>
                     <div class="mt-1 w-full md:w-1/3">
                         <label for="kwh" class="block text-sm font-medium text-gray-700">Parking Type</label>
-                        <x-dropdown id="2"  :selectText="$parkingType?->label()">
+                        <x-dropdown-menu id="2"  :selectText="$parkingType?->label()">
                             <x-dropdown-item
                                 :active="!$parkingType"
                                 wire:click="$set('parkingType', null)"
@@ -44,7 +44,7 @@
                                 {{ $type->label() }}
                             </x-dropdown-item>
                             @endforeach
-                        </x-dropdown>
+                        </x-dropdown-menu>
                     </div>
                     <!-- Toggle -->
                     <div

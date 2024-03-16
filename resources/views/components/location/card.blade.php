@@ -112,13 +112,13 @@
                     </div>
                 </x-slot:content>
                 <x-slot:buttons>
-                    <x-button x-on:click="open = false" :link="route('location.chart', $location)">
+                    <x-old_button x-on:click="open = false" :link="route('location.chart', $location)">
                         View Chart
-                    </x-button>
+                    </x-old_button>
 
-                    <x-button x-on:click="open = false">
+                    <x-old_button x-on:click="open = false">
                         Cancel
-                    </x-button>
+                    </x-old_button>
                 </x-slot:buttons>
             </x-elements.modal>
         </div>

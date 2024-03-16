@@ -1,5 +1,5 @@
 @section('title', 'Radius - clever.nemt.link')
-<x-jet-action-section submit="updateRadiusInformation">
+<x-action-section submit="updateRadiusInformation">
     <x-slot name="title">
         {{ __('Location Radius') }}
     </x-slot>
@@ -91,7 +91,7 @@
                             <span class="mt-2 text-sm text-green-600" id="success">{{ session()->get('success') }}</span>
                         @endif
                     </div>
-                        <x-jet-button wire:click='save' class="mt-8 sm:col-span-2 sm:col-start-5">
+                        <x-button wire:click='save' class="mt-8 sm:col-span-2 sm:col-start-5">
                             {{ __('Save') }}
                         </x-jet-button>
         </div>
