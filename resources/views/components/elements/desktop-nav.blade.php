@@ -1,78 +1,120 @@
-<!-- Static sidebar for desktop -->
-<div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
+<div class="hidden md:fixed md:inset-y-0 md:z-50 md:flex md:w-72 md:flex-col">
     <!-- Sidebar component, swap this element with another sidebar if you like -->
-    <div class="flex min-h-0 flex-1 flex-col bg-gray-800">
-        <div class="flex h-16 flex-shrink-0 items-center bg-gray-900 px-4">
-            {{-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt="Your Company"> --}}
+    <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
+        <div class="flex h-16 shrink-0 items-center">
+            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&amp;shade=500"
+                alt="Your Company">
         </div>
-        <div class="flex flex-1 flex-col overflow-y-auto">
-            <nav class="flex-1 space-y-1 px-2 py-4">
-                <x-elements.navbar-link :link="route('home')" icon="house" :active="route('home') == url()->current()">
-                    Dashboard
-                </x-elements.navbar-link>
-                <x-elements.navbar-link :link="route('radius')" icon="globe" :active="route('radius') == url()->current()">
-                    Radius
-                </x-elements.navbar-link>
-                <x-elements.navbar-link :link="route('map')" icon="map" :active="route('map') == url()->current()">
-                    Map
-                </x-elements.navbar-link>
-                <x-elements.navbar-link :link="route('feedback')" icon="inbox" :active="route('feedback') == url()->current()">
-                    Feedback
-                </x-elements.navbar-link>
+        <nav class="flex flex-1 flex-col">
+            <ul role="list" class="flex flex-1 flex-col gap-y-7">
+                <li>
+                    <ul role="list" class="-mx-2 space-y-1">
+                        <li>
+                            <x-elements.navbar-link :link="route('home')" icon="house"
+                                :active="route('home') == url()->current()">
+                                Dashboard
+                            </x-elements.navbar-link>
+                        </li>
+                        <li>
+                            <x-elements.navbar-link :link="route('radius')" icon="globe"
+                                :active="route('radius') == url()->current()">
+                                Radius
+                            </x-elements.navbar-link>
+                        </li>
+                        <li>
+                            <x-elements.navbar-link :link="route('map')" icon="map"
+                                :active="route('map') == url()->current()">
+                                Map
+                            </x-elements.navbar-link>
+                        </li>
+                        <li>
+                            <x-elements.navbar-link :link="route('feedback')" icon="inbox"
+                                :active="route('feedback') == url()->current()">
+                                Feedback
+                            </x-elements.navbar-link>
+                        </li>
+                        @auth
+                        <li>
+                            <x-elements.navbar-link :link="route('user.favorites', ['user' => auth()->user()->id ])"
+                                icon="heart"
+                                :active="route('user.favorites', ['user' => auth()->user()->id ]) == url()->current()">
+                                Favorites
+                            </x-elements.navbar-link>
+                        </li>
+                        @endauth
+                        <li>
+                            <x-elements.navbar-link :link="route('reports')" icon="chart-bar"
+                                :active="route('reports') == url()->current()">
+                                Reports
+                            </x-elements.navbar-link>
+                        </li>
 
-                @auth
-                    <x-elements.navbar-link
-                        :link="route('user.favorites', ['user' => auth()->user()->id ])"
-                        icon="heart"
-                        :active="route('user.favorites', ['user' => auth()->user()->id ]) == url()->current()">
-                        Favorites
-                    </x-elements.navbar-link>
-                @endauth
+                    </ul>
+                </li>
+                <li>
+                    <div class="text-xs font-semibold leading-6 text-gray-400">Quick links</div>
+                    <ul role="list" class="-mx-2 mt-2 space-y-1">
+                        <li>
+                            <a href="https://github.com/huesimon/clever.nemt.link"
+                                class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                x-state:on="Current" x-state:off="Default"
+                                x-state-description="Current: &quot;bg-gray-800 text-white&quot;, Default: &quot;text-gray-400 hover:text-white hover:bg-gray-800&quot;">
+                                <span
+                                    class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">G</span>
+                                <span class="truncate">Github Repo</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/+Q8PG4iyfPVg5NzBk"
+                                class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                x-state-description="undefined: &quot;bg-gray-800 text-white&quot;, undefined: &quot;text-gray-400 hover:text-white hover:bg-gray-800&quot;">
+                                <span
+                                    class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">T</span>
+                                <span class="truncate">Telegram Channel</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/users/huesimon/projects/5"
+                                class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                x-state-description="undefined: &quot;bg-gray-800 text-white&quot;, undefined: &quot;text-gray-400 hover:text-white hover:bg-gray-800&quot;">
+                                <span
+                                    class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">P</span>
+                                <span class="truncate">Project Board</span>
+                            </a>
+                        </li>
 
-                <x-elements.navbar-link :link="route('reports')" icon="chart-bar" :active="route('reports') == url()->current()">
-                    Reports
-                </x-elements.navbar-link>
-
+                    </ul>
+                </li>
+            </ul>
+            <ul class="mt-auto">
                 @guest
-                <a href="{{route('register')}}"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                    <svg class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    Register
-                </a>
-
-                <a href="{{route('login')}}"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                    <svg class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    Login
-                </a>
+                <li>
+                    <a href="{{ route('login') }}"
+                        class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        Login
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('register') }}"
+                        class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        Register
+                    </a>
+                </li>
                 @endguest
-
                 @auth
-                    <form method="POST" action=" {{ route('logout')}} "
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <svg class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                        <button type="submit">Logout</button>
+                        <a href="{{ route('logout') }}"
+                            class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
+                            onclick="event.preventDefault();
+                            this.closest('form').submit();">
+                            Logout
+                        </a>
                     </form>
+                </li>
                 @endauth
-
-            </nav>
-        </div>
+            </ul>
+        </nav>
     </div>
 </div>

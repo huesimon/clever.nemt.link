@@ -1,4 +1,4 @@
-<svg class="text-gray-300 mr-3 flex-shrink-0 h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5"
+<svg class="mr-3 flex-shrink-0 h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5"
     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
     <path stroke-linecap="round" stroke-linejoin="round"
