@@ -87,6 +87,7 @@
                 </li>
             </ul>
             <ul class="mt-auto">
+                <livewire:emoji-panel />
                 @guest
                 <li>
                     <a href="{{ route('login') }}"
