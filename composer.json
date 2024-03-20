@@ -14,10 +14,12 @@
         "laravel/framework": "^11.0",
         "laravel/jetstream": "^5.0",
         "laravel/pulse": "^1.0@beta",
+        "laravel/reverb": "@beta",
         "laravel/sanctum": "^4.0",
         "laravel/telescope": "^5.0",
         "laravel/tinker": "^2.8.1",
         "livewire/livewire": "^3.0.0",
+        "pusher/pusher-php-server": "^7.2",
         "sentry/sentry-laravel": "^4.2"
     },
     "require-dev": {
