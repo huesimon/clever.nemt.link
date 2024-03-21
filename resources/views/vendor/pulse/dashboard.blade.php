@@ -1,9 +1,9 @@
 <x-pulse>
-    <livewire:reverb.connections cols="full" />
-
-    <livewire:reverb.messages cols="full" />
-
     <livewire:pulse.servers cols="full" />
+
+    <livewire:reverb.connections cols="4" />
+
+    <livewire:reverb.messages cols="4" />
 
     <livewire:pulse.usage cols="4" rows="2" />
 
