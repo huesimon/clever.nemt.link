@@ -4,6 +4,7 @@
     'icon' => false])
 
 <a href="{{ $link }}"
+    {{ $attributes }}
     @if ($active)
         class="bg-gray-800 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
     @else

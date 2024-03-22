@@ -10,32 +10,32 @@
                 <li>
                     <ul role="list" class="-mx-2 space-y-1">
                         <li>
-                            <x-elements.navbar-link :link="route('home')" icon="house"
+                            <x-elements.navbar-link wire:navigate :link="route('home')" icon="house"
                                 :active="route('home') == url()->current()">
                                 Dashboard
                             </x-elements.navbar-link>
                         </li>
                         <li>
-                            <x-elements.navbar-link :link="route('radius')" icon="globe"
+                            <x-elements.navbar-link wire:navigate :link="route('radius')" icon="globe"
                                 :active="route('radius') == url()->current()">
                                 Radius
                             </x-elements.navbar-link>
                         </li>
                         <li>
-                            <x-elements.navbar-link :link="route('map')" icon="map"
+                            <x-elements.navbar-link wire:navigate :link="route('map')" icon="map"
                                 :active="route('map') == url()->current()">
                                 Map
                             </x-elements.navbar-link>
                         </li>
                         <li>
-                            <x-elements.navbar-link :link="route('feedback')" icon="inbox"
+                            <x-elements.navbar-link wire:navigate :link="route('feedback')" icon="inbox"
                                 :active="route('feedback') == url()->current()">
                                 Feedback
                             </x-elements.navbar-link>
                         </li>
                         @auth
                         <li>
-                            <x-elements.navbar-link :link="route('user.favorites', ['user' => auth()->user()->id ])"
+                            <x-elements.navbar-link wire:navigate :link="route('user.favorites', ['user' => auth()->user()->id ])"
                                 icon="heart"
                                 :active="route('user.favorites', ['user' => auth()->user()->id ]) == url()->current()">
                                 Favorites
@@ -43,7 +43,7 @@
                         </li>
                         @endauth
                         <li>
-                            <x-elements.navbar-link :link="route('reports')" icon="chart-bar"
+                            <x-elements.navbar-link wire:navigate :link="route('reports')" icon="chart-bar"
                                 :active="route('reports') == url()->current()">
                                 Reports
                             </x-elements.navbar-link>
