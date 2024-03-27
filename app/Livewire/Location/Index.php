@@ -12,6 +12,7 @@ use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 
 class Index extends Component
 {
@@ -28,6 +29,8 @@ class Index extends Component
     public $onlyClever = false;
     public $showInProximity = false;
     public ?User $user = null;
+    #[Url()]
+    public ?int $minAmountOfChargers = null;
 
     private function parkingFilter($query)
     {
@@ -36,7 +39,19 @@ class Index extends Component
             : $query->where('parking_type', $this->parkingType);
     }
 
-    private function speedFilter($query)
+    private function filterMinAmountOfChargers($query)
+    {
+        return $this->minAmountOfChargers === null
+            ? $query
+            : $query->whereHas('chargers', function ($query) {
+                $query = $this->speedFilter($query);
+                $query->groupBy('external_id')
+                ->havingRaw('COUNT(*) >= ?', [$this->minAmountOfChargers])
+                ->select('external_id');
+            });
+    }
+
+    private function applySpeedFilter($query)
     {
         return $this->kwh === null
             ? $query->with('chargers')
@@ -47,6 +62,13 @@ class Index extends Component
             }]);
     }
 
+    private function speedFilter($query)
+    {
+        return $query->when($this->kwh, function ($query) {
+            $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
+        });
+    }
+
     private function filterInProximity($query)
     {
         return $this->showInProximity
@@ -54,39 +76,38 @@ class Index extends Component
             : $query->isPublic();
     }
 
-    public function render()
+    private function applyFilters($query)
     {
-        $query = Location::query();
-
         $query->when($this->possibleOutOfOrder, function ($query) {
             $query->whereHas('chargers', function ($query) {
                 $query->mightBeOutOfOrder();
             });
         });
 
-        $query->filter(['search' => $this->search]);
+        $query = $this->applySearch($query);
+
 
         $query->filter(['favoriteBy' => $this->user]);
         $query = $this->parkingFilter($query);
-        $query = $this->speedFilter($query);
+
+        $query = $this->applySpeedFilter($query);
         $query = $this->filterInProximity($query);
+        $query = $this->filterMinAmountOfChargers($query);
 
         $query->when($this->onlyClever, function ($query) {
             $query->origin('Clever');
         });
 
-
-
         $query->withCount([
             'chargers as available_chargers_count' => function ($query) {
                 $query->available();
                 $query->when($this->kwh, function ($query) {
-                    $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
+                    $this->speedFilter($query);
                 });
             },
             'chargers as total_chargers_count' => function ($query) {
                 $query->when($this->kwh, function ($query) {
-                    $query->whereBetween('max_power_kw', $this->kwh->kwhRange());
+                    $this->speedFilter($query);
                 });
             },
         ]);
@@ -100,6 +121,58 @@ class Index extends Component
             ->orderByDesc('updated_at')
             ->limit(1));
         });
+
+        return $query;
+    }
+
+    private function applyAdvancedSearch($query)
+    {
+        $searchTerms = explode(' ', $this->search);
+
+        foreach ($searchTerms as $key => $searchTerm) {
+            if (Arr::get($searchTerms, $key+1) === null) {
+                continue;
+            }
+
+            match ($searchTerm){
+                'city:' => $query->orWhereHas('address', function ($query) use ($key, $searchTerm, $searchTerms) {
+                    $query->where('city', 'like', '%' . $searchTerms[$key+1] . '%');
+                }),
+                'zip:' => $query->orWhereHas('address', function ($query) use ($key, $searchTerm, $searchTerms) {
+                    $query->where('postal_code', 'like', '%' . $searchTerms[$key+1] . '%');
+                }),
+                'address:' => $query->orWhereHas('address', function ($query) use ($key, $searchTerm, $searchTerms) {
+                    $query->where('address', 'like', '%' . $searchTerms[$key+1] . '%');
+                }),
+                default => null,
+            };
+        }
+
+        return $query;
+    }
+
+    private function applySearch($query)
+    {
+        if (str($this->search)->contains(':')) {
+            $query = $this->applyAdvancedSearch($query);
+        } else {
+            $query = $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhereHas('address', function ($query) {
+                    $query->where('address', 'like', '%' . $this->search . '%')
+                        ->orWhere('city', 'like', '%' . $this->search . '%')
+                        ->orWhere('postal_code', 'like', '%' . $this->search . '%');
+                });
+        }
+
+        return $query;
+    }
+
+    public function render()
+    {
+        $query = Location::query();
+
+        $query = $this->applyFilters($query);
+
         return view('livewire.location.index', [
             'locations' => $query->paginate(15),
         ]);
