@@ -20,9 +20,9 @@ enum ChargeSpeed: string
     public function kwhRange(): array
     {
         return match ($this) {
-            self::slow => [0, 22],
-            self::fast => [22, 50],
-            self::hyper => [50, 1000],
+            self::slow => [0, 35],
+            self::fast => [35, 100],
+            self::hyper => [100, 1000],
         };
     }
 }

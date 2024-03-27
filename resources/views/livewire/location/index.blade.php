@@ -9,7 +9,7 @@
                         <div class="mt-1">
                             <input wire:model.live='search' type="search" name="search" id="search"
                                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                placeholder="Copenhagen">
+                                placeholder="Search... Advanced filters (city: Copenhagen, or zip: 2100)">
                         </div>
                     </div>
 
@@ -117,6 +117,21 @@
                                 aria-hidden="true"
                             ></span>
                         </button>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row md:space-x-4">
+                    <div class="mt-1 w-full md:w-1/3">
+                        <label for="minAmountChargers" class="block text-sm font-medium text-gray-700">Min amount of chargers</label>
+                        <x-dropdown-menu id="1" :selectText="$minAmountOfChargers ?? 'Any'">
+                            <x-dropdown-item :active="!$minAmountOfChargers" wire:click="$set('minAmountOfChargers', null)">
+                                Any
+                            </x-dropdown-item>
+                            @foreach (range(1, 10) as $amount)
+                            <x-dropdown-item :active="$amount === $minAmountOfChargers" wire:click="$set('minAmountOfChargers', '{{ $amount }}')">
+                                {{ $amount }}
+                            </x-dropdown-item>
+                            @endforeach
+                        </x-dropdown-menu>
                     </div>
                 </div>
             </div>
