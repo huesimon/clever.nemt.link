@@ -3,7 +3,6 @@
         <div class="flex-1 truncate">
             <div class="flex items-center space-x-3">
                 <h3 class="truncate text-sm font-medium text-gray-900">{{ $location->name }}</h3>
-                @auth
                 {{-- favorite button --}}
                 <div class="flex-shrink-0">
                     <button type="button"
@@ -25,7 +24,6 @@
                           </svg>
                     </button>
                 </div>
-                @endauth
             </div>
             <p class="mt-1 truncate text-sm text-gray-500"> {{$location->available_chargers_count}} / {{$location->total_chargers_count}} </p>
             {{-- @foreach ($location->chargers as $charger)

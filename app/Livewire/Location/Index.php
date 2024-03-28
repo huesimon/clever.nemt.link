@@ -222,6 +222,8 @@ class Index extends Component
      */
     public function toggleFavorite(Location $location)
     {
-        auth()->user()->toggleFavorite($location);
+        auth()->user() ?
+            auth()->user()->toggleFavorite($location) :
+            redirect()->route('login');
     }
 }
