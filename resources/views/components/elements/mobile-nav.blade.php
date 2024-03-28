@@ -107,17 +107,25 @@
                         <x-mobile-nav-item :link="route('home')" icon="house" :active="route('home') == url()->current()">
                             Dashboard
                         </x-mobile-nav-item>
+                        <x-mobile-nav-item :link="route('radius')" icon="globe" :active="route('radius') == url()->current()">
+                            Radius
+                        </x-mobile-nav-item>
+                        <x-mobile-nav-item :link="route('map')" icon="map" :active="route('map') == url()->current()">
+                            Map
+                        </x-mobile-nav-item>
                         <x-mobile-nav-item
                             :link="auth()->user() ? route('user.favorites', ['user' => auth()->user()->id ]) : route('login') "
                             icon="heart"
                             :active="auth()->user() ? route('user.favorites', ['user' => auth()->user()->id ]) == url()->current() : false">
                             Favorites
                         </x-mobile-nav-item>
+
+                        <x-mobile-nav-item :link="route('feedback')" icon="inbox" :active="route('feedback') == url()->current()">
+                            Feedback
+                        </x-mobile-nav-item>
+
                         <x-mobile-nav-item :link="route('reports')" icon="chart-bar" :active="route('reports') == url()->current()">
                             Reports
-                        </x-mobile-nav-item>
-                        <x-mobile-nav-item :link="route('radius')" icon="globe" :active="route('radius') == url()->current()">
-                            Radius
                         </x-mobile-nav-item>
                         @guest
                             <x-mobile-nav-item :link="route('register')" :active="route('register') == url()->current()">
