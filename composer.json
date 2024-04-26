@@ -12,6 +12,7 @@
         "itsgoingd/clockwork": "^5.1.12",
         "laravel-notification-channels/telegram": "^5.0",
         "laravel/framework": "^11.0",
+        "laravel/horizon": "^5.24",
         "laravel/jetstream": "^5.0",
         "laravel/pulse": "^1.0@beta",
         "laravel/reverb": "@beta",
