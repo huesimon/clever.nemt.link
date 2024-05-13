@@ -36,7 +36,7 @@ class CreateNewDropletCommand extends Command
         $snapshots = DigitalOcean::snapshot()->getAll();
         $snapshot = $snapshots[0];
         DigitalOcean::droplet()->create(
-            names: 'New Cron Droplet',
+            names: 'New-Cron-Droplet',
             region: Arr::random($snapshot->regions),
             size: 's-1vcpu-1gb',
             image: $snapshot->id,

@@ -29,7 +29,7 @@ class DeleteCronDroplet implements ShouldQueue
         $droplets = DigitalOcean::droplet()->getAll();
 
         foreach ($droplets as $droplet) {
-            if ($droplet->name === 'New Cron Droplet') {
+            if ($droplet->name === 'New-Cron-Droplet') {
                 DigitalOcean::droplet()->remove($droplet->id);
             }
         }
