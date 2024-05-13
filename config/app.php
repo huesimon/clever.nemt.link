@@ -203,6 +203,7 @@ return [
         App\Providers\JetstreamServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
+        GrahamCampbell\DigitalOcean\DigitalOceanServiceProvider::class,
 
     ],
 
@@ -219,6 +220,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'DigitalOcean' => GrahamCampbell\DigitalOcean\Facades\DigitalOcean::class,
     ])->toArray(),
 
 ];

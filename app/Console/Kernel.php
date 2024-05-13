@@ -19,6 +19,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('clever:locations')->dailyAt('18:05');
         $schedule->command('clever:chargers')->everyMinute();
 
+        $schedule->command('do:create-new-droplet')->everyTwoHours(offset: 15);
+
         $schedule->command('location:history')->everyFifteenMinutes();
 
         $schedule->command('model:prune')->hourlyAt(11);
