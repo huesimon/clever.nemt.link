@@ -40,6 +40,7 @@ class CreateNewDropletCommand extends Command
             region: Arr::random($snapshot->regions),
             size: 's-1vcpu-1gb',
             image: $snapshot->id,
+            sshKeys: ['3f:98:f1:a8:23:d9:7d:b6:3f:1f:89:ef:35:2d:f5:0d'],
         );
     }
 }
