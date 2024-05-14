@@ -29,7 +29,7 @@ class CreateNewDropletCommand extends Command
     {
         $currentDroplets = DigitalOcean::droplet()->getAll();
 
-        if (count($currentDroplets) > 2) {
+        if (count($currentDroplets) >= 2) {
             $this->info('There are already too many droplets.');
         }
 
