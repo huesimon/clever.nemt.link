@@ -31,6 +31,7 @@ class CreateNewDropletCommand extends Command
 
         if (count($currentDroplets) >= 2) {
             $this->info('There are already too many droplets.');
+            return 1;
         }
 
         $snapshots = DigitalOcean::snapshot()->getAll();
@@ -42,5 +43,8 @@ class CreateNewDropletCommand extends Command
             image: $snapshot->id,
             sshKeys: ['3f:98:f1:a8:23:d9:7d:b6:3f:1f:89:ef:35:2d:f5:0d'],
         );
+
+        $this->info('Droplet created successfully.');
+        return 0;
     }
 }
