@@ -9,6 +9,7 @@ use App\Models\Location;
 use App\Models\LocationUser;
 use App\Livewire\Report\Page;
 use App\Livewire\FeedbackList;
+use App\Jobs\DeleteCronDroplet;
 use App\Livewire\Location\Index;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
@@ -151,6 +152,8 @@ Route::post('/app-check', function () {
         'app_check_token' => ['required', 'string', 'min:100']
     ]);
     $clever->update($validated);
+
+    DeleteCronDroplet::dispatch();
 
     return response()->json([
         'message' => 'Token updated',
