@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('clever:chargers')->everyMinute();
 
         $schedule->command('do:create-new-droplet')->everyTwoHours(offset: 15);
+        $schedule->command('do:delete-cron-droplet')->everyTwoHours(offset: 30);
 
         $schedule->command('location:history')->everyFifteenMinutes();
 

@@ -5,8 +5,6 @@ namespace App\Console\Commands;
 use App\Models\Charger;
 use App\Models\Company;
 use Illuminate\Console\Command;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -48,6 +46,8 @@ class LoadCleverChargersV2Command extends Command
             $this->error('Failed to load chargers from Clever endpoint');
             Log::error('Chargers failed load');
             Log::error($response->body());
+
+            $this->call('do:create-new-droplet');
 
             return Command::FAILURE;
         }
