@@ -34,25 +34,38 @@
 
                 radius: 50
 
-            }).addTo(map).bindPopup('{{ $location->virtual_name }}');
+            }).addTo(map).bindPopup('Hidden (Clever): {{ $location->virtual_name }}');
 
             @endforeach
-            @foreach ($otherNetworkLocations as $location)
+            @foreach ($hubjectLocations as $location)
 
             L.circle([{{ $location->address->lat }}, {{ $location->address->lng }}], {
 
-                color: 'gray',
+                color: 'green',
 
-                fillColor: '#ccc',
+                fillColor: '#0f3',
 
                 fillOpacity: 0.5,
 
                 radius: 50
 
-            }).addTo(map).bindPopup('{{ 'Roaming: ' . $location->virtual_name }}');
-
+            }).addTo(map).bindPopup('Hubject: {{ $location->virtual_name }}');
             @endforeach
 
+            @foreach ($ocpiLocations as $location)
+
+            L.circle([{{ $location->address->lat }}, {{ $location->address->lng }}], {
+
+                color: 'purple',
+
+                fillColor: '#ff3',
+
+                fillOpacity: 0.5,
+
+                radius: 50
+
+            }).addTo(map).bindPopup('OCPI: {{ $location->virtual_name }}');
+            @endforeach
 
         }
     }" class="h-[680px]" id="map"></div>

@@ -9,7 +9,8 @@ class Map extends Component
 {
     public $locations;
     public $publicLocations;
-    public $otherNetworkLocations;
+    public $hubjectLocations;
+    public $ocpiLocations;
 
     public function render()
     {
@@ -40,7 +41,7 @@ class Map extends Component
             })
             ->origin('Clever')
             ->get();
-        $this->otherNetworkLocations =  Location::with('address')
+        $this->hubjectLocations =  Location::with('address')
             ->whereHas('address')
             ->without('chargers')
             ->isPublic()
@@ -48,6 +49,16 @@ class Map extends Component
                 return $query->isPlanned();
             })
             ->origin('Hubject')
+            ->get();
+
+        $this->ocpiLocations =  Location::with('address')
+            ->whereHas('address')
+            ->without('chargers')
+            ->isPublic()
+            ->when(request()->has('planned'), function ($query) {
+                return $query->isPlanned();
+            })
+            ->origin('OCPI')
             ->get();
     }
 }

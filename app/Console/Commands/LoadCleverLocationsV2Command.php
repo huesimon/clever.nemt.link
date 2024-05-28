@@ -117,8 +117,13 @@ class LoadCleverLocationsV2Command extends Command
                 ) {
                     $locationsThatNeedsToBeUpdated[] = [
                         'external_id' => $locationExternalId,
+                        'name' => $location['name'],
+                        'company_id' => $cleverOperator->id,
+                        'origin' => $location['origin'],
                         'state' => $location['state'],
                         'is_public_visible' => $location['publicAccess']['visibility'],
+                        'is_roaming_allowed' => $location['publicAccess']['isRoamingAllowed'],
+                        'coordinates' => $location['coordinates']['lat'] . ',' . $location['coordinates']['lng'],
                     ];
                 }
             }
