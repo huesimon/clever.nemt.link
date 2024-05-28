@@ -40,8 +40,6 @@ class LoadCleverChargersV2Command extends Command
             'ac' => Company::firstWhere('name', 'Clever')->app_check_token
         ]);
 
-        // $this->saveResponseToFile($response);
-
         if ($response->failed()) {
             $this->error('Failed to load chargers from Clever endpoint');
             Log::error('Chargers failed load');
@@ -56,34 +54,42 @@ class LoadCleverChargersV2Command extends Command
 
         $bar = $this->output->createProgressBar(sizeof($response->json()));
 
-        $knownChargersWithStatus = Charger::all('evse_id', 'location_external_id', 'status')
-            ->mapWithKeys(function ($item) {
-                return [$item['evse_id'] => $item];
-            })->toArray();
-
+        $knownChargersWithStatus = Charger::select('evse_id', 'location_external_id', 'status', 'updated_at')
+            ->getQuery()
+            ->get()
+            ->keyBy('evse_id');
+        $chargersNeedsToBeCreated = [];
         $insert = [];
-        collect($response->json())
-            ->each(function ($location) use ($knownChargersWithStatus, &$insert) {
-                foreach ($location['evses'] as $charger) {
-                    $knownCharger = $knownChargersWithStatus[$charger['evseId']] ?? null;
-                    if ($knownCharger) {
-                        if ($knownCharger['status'] !== $charger['status']) {
-                            $insert[] = [
-                                'evse_id' => $charger['evseId'],
-                                'location_external_id' => $charger['locationId'],
-                                'status' => $charger['status'],
-                            ];
-                        }
+
+        foreach ($response->json() as $location) {
+            foreach ($location['evses'] as $charger) {
+                if ($knownChargersWithStatus->get($charger['evseId']) === null) {
+                    $chargersNeedsToBeCreated[] = [
+                        'evse_id' => $charger['evseId'],
+                        'location_external_id' => $charger['locationId'],
+                        'status' => $charger['status'],
+                    ];
+                } else {
+                    // check if values have changed
+                    if ($charger['status'] !== $knownChargersWithStatus->get($charger['evseId'])->status) {
+                        $insert[] = [
+                            'evse_id' => $charger['evseId'],
+                            'location_external_id' => $charger['locationId'],
+                            'status' => $charger['status'],
+                        ];
                     }
-                    Charger::upsert($insert, ['evse_id'], ['status', 'updated_at']);
-                    $insert = [];
                 }
-                return $insert;
-            });
+            }
+        }
 
+        collect($chargersNeedsToBeCreated)->chunk(1000)->each(function ($chunk) {
+            Charger::upsert($chunk->toArray(), ['evse_id'], ['status', 'updated_at']);
+        });
+
+        collect($insert)->chunk(1000)->each(function ($chunk) {
+            Charger::upsert($chunk->toArray(), ['evse_id'], ['status', 'updated_at']);
+        });
         $bar->finish();
-
-        //1.4 seconds with 20k iterations
         $this->info("LoadCleverChargersV2Command completed in " . (microtime(true) - $start) . " seconds.");
         Log::info('LoadCleverChargersV2Command took ' . (microtime(true) - $start) . ' seconds');
 
