@@ -30,6 +30,9 @@ class LocationResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('company_id')
                     ->required(),
+                Forms\Components\TextInput::make('views')
+                    ->required()
+                    ->default(0),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
@@ -53,6 +56,7 @@ class LocationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('external_id'),
                 Tables\Columns\TextColumn::make('company_id'),
+                Tables\Columns\TextColumn::make('views')->sortable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(isGlobal: true),
                 Tables\Columns\TextColumn::make('origin'),
                 Tables\Columns\IconColumn::make('is_roaming_allowed')
