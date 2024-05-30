@@ -10,6 +10,7 @@ class Map extends Component
     public $locations;
     public $publicLocations;
     public $otherNetworkLocations;
+    public $onlyDisplayPlanned = false;
 
     public function render()
     {
@@ -27,7 +28,7 @@ class Map extends Component
             ->whereHas('address')
             ->without('chargers')
             ->isPrivate()
-            ->when(request()->has('planned'), function ($query) {
+            ->when($this->onlyDisplayPlanned, function ($query) {
                 return $query->isPlanned();
             })
             ->get();
@@ -35,7 +36,7 @@ class Map extends Component
             ->whereHas('address')
             ->without('chargers')
             ->isPublic()
-            ->when(request()->has('planned'), function ($query) {
+            ->when($this->onlyDisplayPlanned, function ($query) {
                 return $query->isPlanned();
             })
             ->origin('Clever')
@@ -44,7 +45,7 @@ class Map extends Component
             ->whereHas('address')
             ->without('chargers')
             ->isPublic()
-            ->when(request()->has('planned'), function ($query) {
+            ->when($this->onlyDisplayPlanned, function ($query) {
                 return $query->isPlanned();
             })
             ->origin('Hubject')
