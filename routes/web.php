@@ -38,6 +38,8 @@ Route::get('feedback', FeedbackList::class)
     ->name('feedback');
 
 Route::get('chart/{location}', function (Location $location) {
+    $location->increment('views');
+
     return view('chart', [
         'location' => $location,
     ]);
