@@ -11,11 +11,14 @@ use App\Livewire\Report\Page;
 use App\Livewire\FeedbackList;
 use App\Jobs\DeleteCronDroplet;
 use App\Livewire\Location\Index;
+use Longman\TelegramBot\Request;
+use Longman\TelegramBot\Telegram;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use App\Livewire\Profile\LocationRadiusForm;
+use NotificationChannels\Telegram\TelegramChannel;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +30,33 @@ use App\Livewire\Profile\LocationRadiusForm;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('tinker', function () {
+    $botApiKey = env('TELEGRAM_BOT_TOKEN');
+    $botUserName = env('TELEGRAM_BOT_USERNAME');
+    $hookUrl = 'https://eos42yx8tp1m222.m.pipedream.net';
+
+    // try {
+    //     $telegram = new Telegram($botApiKey, $botUserName);
+
+    //     $telegram->setWebhook($hookUrl);
+    //     // dd($telegram);
+    // } catch (Exception $e) {
+    //     dd($e->getMessage());
+    // }
+
+    return Request::editForumTopic([
+        'chat_id' => -1001751254385,
+        'message_thread_id' => 31,
+        'name' => 'New topic name',
+    ]);
+
+
+    return Request::sendMessage([
+        'chat_id' => 151336314,
+        'text' => 'Hello world!',
+    ]);
+});
 
 Route::get('/', Index::class)->name('home');
 
