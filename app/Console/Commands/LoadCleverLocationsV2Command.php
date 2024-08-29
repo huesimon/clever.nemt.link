@@ -40,7 +40,7 @@ class LoadCleverLocationsV2Command extends Command
         $start = microtime(true);
         $this->info('Loading locations from Clever endpoint...');
 
-        $url = 'https://clever-app-prod.firebaseio.com/prod/locations/V2.json';
+        $url = 'https://clever-app-prod.firebaseio.com/prod/locations/V2/all.json';
         $response = Http::get($url, [
             'ac' => Company::firstWhere('name', 'Clever')->app_check_token
         ]);
@@ -53,8 +53,7 @@ class LoadCleverLocationsV2Command extends Command
         }
 
         $cleverOperator = Company::firstOrCreate(['name' => 'Clever']);
-        $bar = $this->output->createProgressBar(sizeof($response->json()['clever']));
-        $cleverCollection = collect($response->json()['all']);
+        $cleverCollection = collect($response->json());
 
         $locationsThatAlreadyExists = Location::select('external_id', 'state', 'is_public_visible', 'updated_at')->getQuery()->get()->keyBy('external_id');
         $chargersThatAlreadyExists = Charger::select('evse_id', 'location_external_id', 'status', 'updated_at')->getQuery()->get()->keyBy('evse_id');
