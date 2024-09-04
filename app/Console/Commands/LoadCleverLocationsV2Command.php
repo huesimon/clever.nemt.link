@@ -56,7 +56,7 @@ class LoadCleverLocationsV2Command extends Command
         $cleverCollection = collect($response->json());
 
         $locationsThatAlreadyExists = Location::select('external_id', 'state', 'is_public_visible', 'updated_at')->getQuery()->get()->keyBy('external_id');
-        $chargersThatAlreadyExists = Charger::select('evse_id', 'location_external_id', 'status', 'updated_at')->getQuery()->get()->keyBy('evse_id');
+        $chargersThatAlreadyExists = Charger::select('evse_id', 'location_external_id', 'status', 'plug_type', 'updated_at')->getQuery()->get()->keyBy('evse_id');
 
 
         $newLocations = [];
@@ -73,7 +73,7 @@ class LoadCleverLocationsV2Command extends Command
             }
             foreach ($location['evses'] as $cleverCharger) {
                 foreach ($cleverCharger['connectors'] as $connector) {
-                    if ($chargersThatAlreadyExists->get($cleverCharger['evseId']) === null) {
+                    if ($chargersThatAlreadyExists->get($cleverCharger['evseId']) === null || $chargersThatAlreadyExists->get($cleverCharger['evseId'])->plug_type !== $connector['plugType']){
                         $chargersThatNeedsToBeUpdated[] = [
                             'evse_id' => $cleverCharger['evseId'],
                             'location_external_id' => $locationExternalId,
