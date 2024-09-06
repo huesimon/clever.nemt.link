@@ -8,9 +8,9 @@ use App\Models\Company;
 use App\Models\Location;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use PDO;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class LoadCleverLocationsV2Command extends Command
 {
@@ -41,19 +41,23 @@ class LoadCleverLocationsV2Command extends Command
         $this->info('Loading locations from Clever endpoint...');
 
         $url = 'https://clever-app-prod.firebaseio.com/prod/locations/V2/all.json';
-        $response = Http::get($url, [
-            'ac' => Company::firstWhere('name', 'Clever')->app_check_token
-        ]);
+        // $response = Http::get($url, [
+        //     'ac' => Company::firstWhere('name', 'Clever')->app_check_token
+        // ]);
 
-        if ($response->failed()) {
-            $this->error($response->body());
-            Log::error('Clever api failed to load');
-            $this->error('Failed to load locations from Clever endpoint');
-            return;
-        }
+        // if ($response->failed()) {
+        //     $this->error($response->body());
+        //     Log::error('Clever api failed to load');
+        //     $this->error('Failed to load locations from Clever endpoint');
+        //     return;
+        // }
 
         $cleverOperator = Company::firstOrCreate(['name' => 'Clever']);
-        $cleverCollection = collect($response->json());
+        // $cleverCollection = collect($response->json());
+        $cleverCollection = collect(Storage::json('public-locations.json'));
+        // $cleverCollection = collect(Storage::json('clever-locations.json'));
+
+        // dd($cleverCollection);
 
         $locationsThatAlreadyExists = Location::select('external_id', 'state', 'is_public_visible', 'updated_at')->getQuery()->get()->keyBy('external_id');
         $chargersThatAlreadyExists = Charger::select('evse_id', 'location_external_id', 'status', 'plug_type', 'updated_at')->getQuery()->get()->keyBy('evse_id');
@@ -79,6 +83,7 @@ class LoadCleverLocationsV2Command extends Command
                             'location_external_id' => $locationExternalId,
                             'balance' => $connector['balance'],
                             'connector_id' => $connector['connectorId'],
+                            'evse_connector_id' => $connector['evseConnectorId'],
                             'max_power_Kw' => $connector['maxPowerKw'],
                             'plug_type' => $connector['plugType'],
                             'power_type' => isset($connector['powerType']) ? $connector['powerType'] : null,
