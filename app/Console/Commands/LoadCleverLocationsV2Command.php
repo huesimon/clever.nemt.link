@@ -40,24 +40,22 @@ class LoadCleverLocationsV2Command extends Command
         $start = microtime(true);
         $this->info('Loading locations from Clever endpoint...');
 
-        $url = 'https://clever-app-prod.firebaseio.com/prod/locations/V2/all.json';
-        // $response = Http::get($url, [
-        //     'ac' => Company::firstWhere('name', 'Clever')->app_check_token
-        // ]);
+        $url = 'https://raw.githubusercontent.com/huesimon/clever-firebase-json/master/clever-locations.json';
+        $response = Http::get($url, [
+            'ac' => Company::firstWhere('name', 'Clever')->app_check_token
+        ]);
 
-        // if ($response->failed()) {
-        //     $this->error($response->body());
-        //     Log::error('Clever api failed to load');
-        //     $this->error('Failed to load locations from Clever endpoint');
-        //     return;
-        // }
+        if ($response->failed()) {
+            $this->error($response->body());
+            Log::error('Clever api failed to load');
+            $this->error('Failed to load locations from Clever endpoint');
+            return;
+        }
 
         $cleverOperator = Company::firstOrCreate(['name' => 'Clever']);
-        // $cleverCollection = collect($response->json());
-        $cleverCollection = collect(Storage::json('public-locations.json'));
+        $cleverCollection = collect($response->json());
+        // $cleverCollection = collect(Storage::json('public-locations.json'));
         // $cleverCollection = collect(Storage::json('clever-locations.json'));
-
-        // dd($cleverCollection);
 
         $locationsThatAlreadyExists = Location::select('external_id', 'state', 'is_public_visible', 'updated_at')->getQuery()->get()->keyBy('external_id');
         $chargersThatAlreadyExists = Charger::select('evse_id', 'location_external_id', 'status', 'plug_type', 'updated_at')->getQuery()->get()->keyBy('evse_id');
