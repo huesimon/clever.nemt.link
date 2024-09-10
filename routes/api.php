@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\LocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\LocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('locations', [LocationController::class, 'index'])->name('locations.index');
 Route::get('locations/{location:external_id}', [LocationController::class, 'show'])->name('locations.show');
+
+Route::post('new-locations', function (Request $request) {
+    Artisan::call('clever:locations');
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
