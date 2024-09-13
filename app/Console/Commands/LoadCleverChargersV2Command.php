@@ -82,9 +82,9 @@ class LoadCleverChargersV2Command extends Command
             }
         }
 
-        collect($chargersNeedsToBeCreated)->chunk(1000)->each(function ($chunk) {
-            Charger::upsert($chunk->toArray(), ['evse_id'], ['status', 'updated_at']);
-        });
+        // collect($chargersNeedsToBeCreated)->chunk(1000)->each(function ($chunk) {
+        //     Charger::upsert($chunk->toArray(), ['evse_id'], ['status', 'updated_at']);
+        // });
 
         collect($insert)->chunk(1000)->each(function ($chunk) {
             Charger::upsert($chunk->toArray(), ['evse_id'], ['status', 'updated_at']);
