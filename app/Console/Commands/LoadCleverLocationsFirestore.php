@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\ProcessCleverFirestore;
 use App\Models\Address;
 use App\Models\Charger;
 use App\Models\Location;
@@ -178,7 +179,12 @@ class LoadCleverLocationsFirestore extends Command
         Charger::upsert($chargersToBeUpdated->toArray(), ['external_id'], ['location_external_id', 'evse_connector_id', 'balance', 'connector_id', 'plug_type', 'max_power_kw', 'power_type', 'max_current_amp', 'updated_at']);
 
         if ($nextPage) {
-            $this->call('clever:firestore', ['perPage' => $perPage, 'page' => $nextPage]);
+            // $this->call('clever:firestore', ['perPage' => $perPage, 'page' => $nextPage]);
+            // queue the next page
+            $this->info('Next page: ' . $nextPage);
+            ProcessCleverFirestore::dispatch($nextPage);
         }
+
+        return Command::SUCCESS;
     }
 }
