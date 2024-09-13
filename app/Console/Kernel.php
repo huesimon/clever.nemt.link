@@ -15,8 +15,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:email-users-about-new-locations')->dailyAt('12:00');
         $schedule->command('app:email-users-about-new-chargers')->dailyAt('13:00');
 
-        $schedule->command('clever:locations')->dailyAt('08:05');
-        $schedule->command('clever:locations')->dailyAt('18:05');
+        $schedule->command('clever:firestore 100')->dailyAt('08:05');
         $schedule->command('clever:chargers')->everyMinute();
 
         // $schedule->command('do:create-new-droplet')->everyThreeHours(offset: 15);

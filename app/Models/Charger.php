@@ -52,7 +52,7 @@ class Charger extends Model
 
     public function scopeValidConnector($query)
     {
-        return $query->whereNotNull('connector_id');
+        return $query->whereNotNull('status');
     }
 
     public function location()
