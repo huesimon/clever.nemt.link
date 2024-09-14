@@ -9,7 +9,6 @@ use Livewire\Attributes\Url;
 class Map extends Component
 {
     public $locations;
-    public $publicLocations;
     public $onlyDisplayPlanned = false;
     #[Url('origin')]
     public $origin = 'Clever';
@@ -29,15 +28,6 @@ class Map extends Component
         $this->locations = Location::with('address')
             ->whereHas('address')
             ->without('chargers')
-            ->isPrivate()
-            ->when($this->onlyDisplayPlanned, function ($query) {
-                return $query->isPlanned();
-            })
-            ->get();
-        $this->publicLocations = Location::with('address')
-            ->whereHas('address')
-            ->without('chargers')
-            ->isPublic()
             ->when($this->onlyDisplayPlanned, function ($query) {
                 return $query->isPlanned();
             })

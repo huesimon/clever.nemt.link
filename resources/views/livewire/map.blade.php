@@ -8,12 +8,16 @@
             });
             let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
             map.addLayer(layer);
-            @foreach ($publicLocations as $location)
+            @foreach ($locations as $location)
                 L.circle([{{ $location->address->lat }}, {{ $location->address->lng }}], {
 
-                    color: '{{ $location->origin->circleColor() }}',
+                    color: '{{ $location->origin === App\Enums\Origin::Clever ?
+                    $location->is_public_visible == 'Always' ? 'blue' : 'red'
+                    : $location->origin->circleColor() }}',
 
-                    fillColor: '#03f',
+                    fillColor: '{{ $location->origin === App\Enums\Origin::Clever ?
+                    $location->is_public_visible == 'Always' ? 'blue' : 'red'
+                    : $location->origin->circleColor() }}',
 
                     fillOpacity: 0.5,
 
@@ -21,23 +25,6 @@
 
                 }).addTo(map).bindPopup('{{ $location->virtual_name }}');
             @endforeach
-
-            @foreach ($locations as $location)
-
-            L.circle([{{ $location->address->lat}}, {{ $location->address->lng }}], {
-
-                color: 'red',
-
-                fillColor: '#f03',
-
-                fillOpacity: 0.5,
-
-                radius: 50
-
-            }).addTo(map).bindPopup('Hidden (Clever): {{ $location->virtual_name }}');
-
-            @endforeach
-
         }
     }" class="h-[680px]" id="map"></div>
     <div>
