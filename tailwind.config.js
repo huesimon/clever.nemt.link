@@ -9,10 +9,10 @@ module.exports = {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
-    safelist:[
+    safelist: [
         {
-            pattern: /bg-(gray|indigo|yellow|red|blue|emerald)-(100|200|300|400|500|600|700)/,
-          },
+            pattern: /bg-(gray|indigo|green|yellow|red|blue|emerald)-(100|200|300|400|500|600|700)/,
+        },
     ],
     theme: {
         extend: {
