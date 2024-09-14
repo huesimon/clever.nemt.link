@@ -54,7 +54,7 @@
 
             @foreach ($ocpiLocations as $location)
 
-            L.circle([{{ $location->address->lat }}, {{ $location->address->lng }}], {
+            L.circle([{{ $location->address?->lat }}, {{ $location->address?->lng }}], {
 
                 color: 'purple',
 
