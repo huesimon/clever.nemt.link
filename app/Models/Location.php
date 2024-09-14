@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Island;
+use App\Enums\Origin;
 use App\Enums\ParkingTypes;
 use App\Enums\PartnerStatus;
 use App\Traits\HasAddress;
@@ -24,6 +25,7 @@ class Location extends Model
     protected $casts = [
         'parking_type' => ParkingTypes::class,
         'partner_status' => PartnerStatus::class,
+        'origin' => Origin::class,
     ];
 
     public function chargers()

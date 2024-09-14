@@ -4,15 +4,15 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Location;
+use Livewire\Attributes\Url;
 
 class Map extends Component
 {
     public $locations;
     public $publicLocations;
-    public $otherNetworkLocations;
     public $onlyDisplayPlanned = false;
-    public $hubjectLocations;
-    public $ocpiLocations;
+    #[Url('origin')]
+    public $origin = 'Clever';
 
     public function render()
     {
@@ -41,26 +41,7 @@ class Map extends Component
             ->when($this->onlyDisplayPlanned, function ($query) {
                 return $query->isPlanned();
             })
-            ->origin('Clever')
-            ->get();
-        $this->hubjectLocations =  Location::with('address')
-            ->whereHas('address')
-            ->without('chargers')
-            ->isPublic()
-            ->when($this->onlyDisplayPlanned, function ($query) {
-                return $query->isPlanned();
-            })
-            ->origin('Hubject')
-            ->get();
-
-        $this->ocpiLocations =  Location::with('address')
-            ->whereHas('address')
-            ->without('chargers')
-            ->isPublic()
-            ->when(request()->has('planned'), function ($query) {
-                return $query->isPlanned();
-            })
-            ->origin('OCPI')
+            ->origin($this->origin)
             ->get();
     }
 }

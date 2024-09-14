@@ -24,6 +24,8 @@ enum PartnerStatus: string
         return match ($this) {
             self::None => false,
             self::BYH => true,
+            self::EWII => true,
+            self::PoweredBy => true,
         };
     }
 }
