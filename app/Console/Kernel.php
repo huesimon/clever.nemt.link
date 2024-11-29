@@ -21,6 +21,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('location:history')->everyFifteenMinutes();
 
         $schedule->command('model:prune')->hourlyAt(11);
+
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
 
     /**
