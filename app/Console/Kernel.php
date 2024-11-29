@@ -18,9 +18,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('clever:firestore 100')->dailyAt('08:05');
         $schedule->command('clever:chargers')->everyMinute();
 
-        // $schedule->command('do:create-new-droplet')->everyThreeHours(offset: 15);
-        $schedule->command('do:delete-cron-droplet')->hourlyAt(30);
-
         $schedule->command('location:history')->everyFifteenMinutes();
 
         $schedule->command('model:prune')->hourlyAt(11);
