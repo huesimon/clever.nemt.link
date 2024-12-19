@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Jobs\ProcessCleverFirestore;
 use App\Models\Address;
 use App\Models\Charger;
+use Illuminate\Support\Arr;
 use App\Models\Location;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
@@ -116,7 +117,7 @@ class LoadCleverLocationsFirestore extends Command
 
             // Create chargers
             foreach ($evses ?? [] as $key => $charger) {
-                foreach ($charger['mapValue']['fields']['connectors']['mapValue']['fields'] as $connector) {
+                foreach (Arr::get($charger, 'mapValue.fields.connectors.arrayValue.values', []) as $connector) {
                     $balance = data_get($connector, 'mapValue.fields.balance.string', 'None');
                     $connectionType = data_get($connector, 'mapValue.fields.connectionType.stringValue', 'None');
                     $connectorId = data_get($connector, 'mapValue.fields.connectorId.integerValue', 'None');

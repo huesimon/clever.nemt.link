@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:email-users-about-new-chargers')->dailyAt('13:00');
 
         $schedule->command('clever:firestore 100')->dailyAt('08:05');
-        $schedule->command('clever:chargers')->everyMinute();
+        $schedule->command('clever:chargers')->dailyAt('4:20');
 
         $schedule->command('location:history')->everyFifteenMinutes();
 

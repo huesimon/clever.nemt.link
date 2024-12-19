@@ -226,7 +226,7 @@ class Location extends Model
 
     public function getIsCleverAttribute()
     {
-         return $this->origin == 'Clever';
+        return $this->origin->value == 'Clever';
     }
 
     public function scopeInsidePolygon($query, Island $island)
