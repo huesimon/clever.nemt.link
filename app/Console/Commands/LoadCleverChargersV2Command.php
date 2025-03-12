@@ -34,7 +34,7 @@ class LoadCleverChargersV2Command extends Command
         $start = microtime(true);
 
         $this->info('Loading chargers from Clever endpoint...');
-        $url = 'https://clever-app-prod.firebaseio.com/prod/availability/V3.json';
+        $url = 'https://clever-app-prod.firebaseio.com/prod/availability/V4.json';
 
         $response = Http::get($url, [
             'ac' => Company::firstWhere('name', 'Clever')->app_check_token
@@ -82,9 +82,9 @@ class LoadCleverChargersV2Command extends Command
             }
         }
 
-        // collect($chargersNeedsToBeCreated)->chunk(1000)->each(function ($chunk) {
-        //     Charger::upsert($chunk->toArray(), ['evse_id'], ['status', 'updated_at']);
-        // });
+        collect($chargersNeedsToBeCreated)->chunk(1000)->each(function ($chunk) {
+            Charger::upsert($chunk->toArray(), ['evse_id'], ['status', 'updated_at']);
+        });
 
         collect($insert)->chunk(1000)->each(function ($chunk) {
             Charger::upsert($chunk->toArray(), ['evse_id'], ['status', 'updated_at']);
